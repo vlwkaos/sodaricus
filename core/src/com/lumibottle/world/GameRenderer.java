@@ -2,6 +2,7 @@ package com.lumibottle.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
@@ -12,6 +13,7 @@ public class GameRenderer {
 
 
     private GameWorld myWorld;
+    private OrthographicCamera cam;
 
     private int gameHeight;
 
@@ -23,7 +25,13 @@ public class GameRenderer {
         this.gameHeight = gameHeight;
         this.midPointY = midPointY;
 
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, 240, gameHeight);
+
         shapeRenderer = new ShapeRenderer();
+
+        //init asset
+        //init objects, pick objects from gameworld for quicker access
     }
 
     public void render(float runTime){
