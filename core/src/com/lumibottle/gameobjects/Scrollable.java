@@ -12,4 +12,18 @@ public abstract class Scrollable {
 
 	private int width,height;
 
+	public Scrollable(float x,float y, int width, int height, int velocity){
+		position = new Vector2(x,y);
+		this.width=width;
+		this.height=height;
+
+	}
+
+	public boolean isLeftofScreen(){
+		return (position.x + width < 0);
+	}
+
+	public void update(){};
+
+
 }

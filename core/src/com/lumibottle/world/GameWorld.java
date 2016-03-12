@@ -10,7 +10,6 @@ public class GameWorld {
 
     //for calc
     private float midPointY;
-    private float runTime;
 
 
     private Squirrel mySquirrel;
@@ -18,11 +17,20 @@ public class GameWorld {
 
     public GameWorld(float midPointY){
     this.midPointY = midPointY;
-    mySquirrel = new Squirrel(55, midPointY+5, 12,12);// size not yet
+    mySquirrel = new Squirrel(55, midPointY+5, 20,20);// size not yet
 
     }
 
     public void update(float delta){
-        runTime += delta;
+        if (delta > .15f) {
+            delta = .15f;
+        }
+
+        mySquirrel.update(delta);
+
+    }
+
+    public Squirrel getMySquirrel() {
+        return mySquirrel;
     }
 }

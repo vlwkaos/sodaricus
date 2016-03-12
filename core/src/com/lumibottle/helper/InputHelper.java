@@ -1,6 +1,7 @@
 package com.lumibottle.helper;
 
 import com.badlogic.gdx.InputProcessor;
+import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.world.GameWorld;
 
 /**
@@ -8,8 +9,10 @@ import com.lumibottle.world.GameWorld;
  */
 public class InputHelper implements InputProcessor{
 
-    public InputHelper(GameWorld myWorld){
+    private Squirrel mySquirrel;
 
+    public InputHelper(GameWorld myWorld){
+        mySquirrel = myWorld.getMySquirrel();
 
     }
 
@@ -30,7 +33,9 @@ public class InputHelper implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+        mySquirrel.onClick();
+
+        return true;
     }
 
     @Override
