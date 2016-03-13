@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
 
 /**
@@ -30,6 +31,7 @@ public class GameRenderer {
 
     //GO
     private Squirrel mySquirrel;
+	private Star[] myStars;
 
     //ASSET
     private TextureRegion squirrelDown;
@@ -75,14 +77,16 @@ public class GameRenderer {
 
         spriteBatch.begin();
         spriteBatch.draw(background,0,bgOffset);
-        Gdx.app.log("runTime",runTime+"");
+     //   Gdx.app.log("runTime",runTime+"");
+
+		//rendering order
 
 
 
-
-
+		drawStars();
 		drawBacon(runTime);
 		drawBullets();
+
         //draw main actor
         if (mySquirrel.isShooting()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
@@ -101,10 +105,13 @@ public class GameRenderer {
         spriteBatch.end();
 
     }
+	/*
+		INIT
+	 */
 
     private void initGameObjects(){
         mySquirrel = myWorld.getMySquirrel();
-
+		myStars = myWorld.getMyStars();
     }
 
     private void initAsset(){
@@ -121,8 +128,19 @@ public class GameRenderer {
     }
 
 	/*
-	Drawing methods
+		Drawing methods
 	 */
+	private void drawStars(){
+		for (Star s:myStars){
+			if (s.isBigStar()){
+				spriteBatch.draw(star1, s.getX(), s.getY());
+			} else {
+				spriteBatch.draw(star2, s.getX(), s.getY());
+			}
+
+		}
+	}
+
 	private void drawBacon(float runTime){
 		spriteBatch.draw(baconAnimation.getKeyFrame(runTime),
 				(mySquirrel.getX()-6), (mySquirrel.getY()-6),

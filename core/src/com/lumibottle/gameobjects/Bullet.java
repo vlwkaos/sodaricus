@@ -2,6 +2,8 @@ package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.math.GeometryUtils;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -21,8 +23,7 @@ public class Bullet {
 	private float theta;
 	private int width, height;//fixed?
 
-	private boolean fired;// check when to draw
-
+	private Polygon hitbox;
 
 	//load in gameworld first, the move
 
@@ -33,17 +34,22 @@ public class Bullet {
 		width = 16;
 		height = 16;
 		currentState = BulletState.READY;
+		hitbox = new Polygon(new float[]{0,0,width,0,width,height,0,height});
+		hitbox.setOrigin(position.x/2f,position.y/2f);
+
 	}
 
 	public void update(float delta) {
+		hitbox.setPosition(position.x,position.y);
+		hitbox.setRotation(theta);
+
 		if (isVISIBLE())
 			position.add(velocity.cpy().scl(delta));
 
 
 
-		if ((position.x + width) > 240 || position.y>256) {// out of screen only need to be known in this class
-			position.set(-50,0);
-			currentState = BulletState.READY;
+		if (isOutOfScreen()) {// out of screen only need to be known in this class
+			reset();
 		}
 	}
 
@@ -56,6 +62,14 @@ public class Bullet {
 		currentState=BulletState.VISIBLE;
 	}
 
+	private boolean isOutOfScreen(){
+		return (position.x + 32) > 240 || position.y>256;
+	}
+
+	public void reset(){
+		position.set(-50,0);
+		currentState = BulletState.READY;
+	}
 
 
 	/*
@@ -78,9 +92,6 @@ public class Bullet {
 		return position.y;
 	}
 
-	public boolean isFired() {
-		return fired;
-	}
 
 	public float getRotation() {
 		return theta;
@@ -92,5 +103,9 @@ public class Bullet {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public Polygon getHitbox() {
+		return hitbox;
 	}
 }

@@ -2,6 +2,7 @@ package com.lumibottle.world;
 
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.gameobjects.Star;
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -15,9 +16,16 @@ public class GameWorld {
 
     private Squirrel mySquirrel;
 
+    //
+    private Star[] myStars;
+
     public GameWorld(float midPointY){
     this.midPointY = midPointY;
     mySquirrel = new Squirrel(55, midPointY+5, 20,20);
+    myStars = new Star[10];
+        for (int i=0;i<myStars.length;i++)
+            myStars[i]= new Star();
+
 
     }
 
@@ -27,10 +35,13 @@ public class GameWorld {
         }
 
         mySquirrel.update(delta);
-
+        for (Star s:myStars)
+            s.update(delta);
     }
 
     public Squirrel getMySquirrel() {
         return mySquirrel;
     }
+
+    public Star[] getMyStars(){return myStars;}
 }

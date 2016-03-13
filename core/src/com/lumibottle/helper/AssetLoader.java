@@ -37,6 +37,8 @@ public class AssetLoader {
     public static TextureRegion[] explosion1;
     public static Animation explosionAnim1;
 
+    public static TextureRegion roadroller;
+
     public static void load(){
 
         loadTextures();
@@ -49,6 +51,8 @@ public class AssetLoader {
         sodaTexture.dispose();
         squirrelTexture.dispose();
         bacon.dispose();
+        enemyTexture.dispose();
+
 
     }
 
@@ -84,9 +88,11 @@ public class AssetLoader {
         bacon1 = new TextureRegion(bacon,0,0,32,32);
         bacon2 = new TextureRegion(bacon,32,0,32,32);
        TextureRegion[] bacons = {bacon1,bacon2};
-        baconAnimation = new Animation(1/4f,bacons);
+        baconAnimation = new Animation(1/8f,bacons);
         baconAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
+
+        roadroller = new TextureRegion(enemyTexture,0,8,20,12);
 
         greenBullet = new TextureRegion(sodaTexture,0,0,16,16);
 

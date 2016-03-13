@@ -15,6 +15,7 @@ public class GameScreen implements Screen{
 	private GameRenderer myRenderer;
 	private float runTime;
 
+
 	/*
     *  set screen size, set mid point,
     *  introduce GameWorld and GameRenderer, pass Gameworld to Renderer

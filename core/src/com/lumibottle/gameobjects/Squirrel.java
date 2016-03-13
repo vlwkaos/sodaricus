@@ -1,6 +1,8 @@
 package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
 
@@ -27,6 +29,8 @@ public class Squirrel {
 
 	private Bullet[] bullets;// hold for optimum performance
 
+	private Circle hitbox;
+
 
 	public Squirrel(float x, float y, int width, int height) {
 		this.width = width;
@@ -36,8 +40,10 @@ public class Squirrel {
 		rotation = 0;
 		acceleration = new Vector2(0, -460);
 		currentState=SquirrelState.IDLE;
-		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-65;// temporary
 
+		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
+
+		hitbox = new Circle();
 		/*
 		init bullet
 		 */
@@ -62,12 +68,12 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >1 && isIdle()){
-			runTime-=1;
+		if (runTime >1f && isIdle()){
+			runTime-=1f;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.shot(position.x,position.y,60,rotation);
+					b.shot(position.x,position.y,70,rotation);
 					break;
 				}
 			}
@@ -81,8 +87,8 @@ public class Squirrel {
 		/*
 		Position constraints
 		 */
-		if (velocity.y < -200) {
-			velocity.y = -200;
+		if (velocity.y < -150) {
+			velocity.y = -150;
 		} // maximum falling speed
 		if (position.y > ceiling) {
 			Gdx.app.log("heat ceiling!","yes");
@@ -101,8 +107,8 @@ public class Squirrel {
 		if (!isDead()) {
 			if (velocity.y >= 0) {
 				rotation += 700 * delta;
-				if (rotation > 50)
-					rotation = 50;
+				if (rotation > 40)
+					rotation = 40;
 			}
 			if (velocity.y < -50) {
 				rotation -= 380 * delta;
@@ -110,6 +116,12 @@ public class Squirrel {
 					rotation = -90;
 			}
 		}
+
+		/*
+			collision
+		 */
+		hitbox.set(position.x+10,position.y+10,10f);
+
 
 	}
 
