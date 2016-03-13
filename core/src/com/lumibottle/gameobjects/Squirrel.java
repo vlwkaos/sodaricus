@@ -23,8 +23,10 @@ public class Squirrel {
 	private int width, height;
 	private int ceiling;
 
-
 	private float rotation;
+
+	private Bullet[] bullets;// hold for optimum performance
+
 
 	public Squirrel(float x, float y, int width, int height) {
 		this.width = width;
@@ -36,60 +38,84 @@ public class Squirrel {
 		currentState=SquirrelState.IDLE;
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-65;// temporary
 
+		/*
+		init bullet
+		 */
+		bullets = new Bullet[7];
+		for (int i=0;i<bullets.length;i++)
+			bullets[i] = new Bullet();
+
+
 		runTime=0;
 	}
 
 
 	public void update(float delta){
-		if (isShooting()/*and not dead*/) {
-			Timer.schedule(new Timer.Task() {
-				@Override
-				public void run() {
-					currentState = SquirrelState.IDLE;
-				}
-			},0.3f);
-		}
-
-
-		//runtime to determine the frequency of shooting
-		if (delta > .15f) {
+		// constant delta
+		if (delta > .15f)
 			delta = .15f;
-		}
 		runTime+=delta;
 
-		if (runTime >1){
+		for (Bullet b: bullets)
+		b.update(delta);
+
+		/*
+		SHOOTING MECHANIC
+		 */
+		if (runTime >1 && isIdle()){
 			runTime-=1;
 			currentState=SquirrelState.SHOOTING;
+			for (Bullet b: bullets){
+				if (b.isREADY()){
+					b.shot(position.x,position.y,60,rotation);
+					break;
+				}
+			}
+			//shoot bullet
+		} else if (runTime >0.2f && isShooting()){
+			currentState=SquirrelState.IDLE;
 		}
 
-		//
+
+
+		/*
+		Position constraints
+		 */
 		if (velocity.y < -200) {
 			velocity.y = -200;
 		} // maximum falling speed
-
-		// CEILING CHECK
 		if (position.y > ceiling) {
 			Gdx.app.log("heat ceiling!","yes");
 			position.y = ceiling;
 			velocity.y = 0;
 		}
-		//add acc to velocity
-	//	velocity.add(acceleration.cpy().scl(delta));
-		//add velo to position
-	//	position.add(velocity.cpy().scl(delta));
 
+		/*
+		Physics
+		 */
+		velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
+		position.add(velocity.cpy().scl(delta));//add velo to position
 
-
+		//         _|_ angle
 		//rotation
-
-		//shoot
+		if (!isDead()) {
+			if (velocity.y >= 0) {
+				rotation += 700 * delta;
+				if (rotation > 50)
+					rotation = 50;
+			}
+			if (velocity.y < -50) {
+				rotation -= 380 * delta;
+				if (rotation < -90)
+					rotation = -90;
+			}
+		}
 
 	}
 
 	public void onClick(){
 		velocity.y=140;
 	}
-
 
 
 
@@ -117,6 +143,12 @@ public class Squirrel {
 		return rotation;
 	}
 
+	public Bullet[] getBullets(){
+		return bullets;
+	}
+
+
+
 	public boolean isDead(){
 		return currentState==SquirrelState.DEAD;
 	}
@@ -128,5 +160,5 @@ public class Squirrel {
 	public boolean isIdle(){
 		return currentState==SquirrelState.IDLE;
 	}
-}
+	}
 

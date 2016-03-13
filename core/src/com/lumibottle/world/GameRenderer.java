@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetLoader;
 
@@ -34,6 +35,7 @@ public class GameRenderer {
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
+    private TextureRegion gb;
 
 
     private TextureRegion star1,star2;
@@ -76,11 +78,11 @@ public class GameRenderer {
         Gdx.app.log("runTime",runTime+"");
 
 
-        spriteBatch.draw(baconAnimation.getKeyFrame(runTime), (mySquirrel.getX()-3),
-                (mySquirrel.getY()-3), (mySquirrel.getWidth()+12) / 2.0f,
-               (mySquirrel.getHeight()+12) / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
-                1, 1, mySquirrel.getRotation());
 
+
+
+		drawBacon(runTime);
+		drawBullets();
         //draw main actor
         if (mySquirrel.isShooting()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
@@ -93,6 +95,7 @@ public class GameRenderer {
                     mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
                     1, 1, mySquirrel.getRotation());
         }
+
 
 
         spriteBatch.end();
@@ -109,10 +112,33 @@ public class GameRenderer {
         squirrelAnimation = AssetLoader.sqAnimation;
         baconAnimation = AssetLoader.baconAnimation;
 
+        gb = AssetLoader.greenBullet;
+
         star1 = AssetLoader.star1;
         star2 = AssetLoader.star2;
         background = AssetLoader.spacebg;
 
     }
 
+	/*
+	Drawing methods
+	 */
+	private void drawBacon(float runTime){
+		spriteBatch.draw(baconAnimation.getKeyFrame(runTime),
+				(mySquirrel.getX()-6), (mySquirrel.getY()-6),
+				32 / 2.0f, 32 / 2.0f,
+				32, 32,
+				1, 1, mySquirrel.getRotation());
+	}
+
+	private void drawBullets(){
+		for (Bullet b:mySquirrel.getBullets()){
+			spriteBatch.draw(gb,
+					b.getX()+2, b.getY()+2,
+					b.getWidth() / 2.0f,b.getHeight() / 2.0f,
+					b.getWidth(), b.getHeight(),
+					1, 1, b.getRotation()-90);
+
+		}
+	}
 }

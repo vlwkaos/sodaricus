@@ -1,5 +1,6 @@
 package com.lumibottle.world;
 
+import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.Squirrel;
 
 /**
@@ -14,10 +15,9 @@ public class GameWorld {
 
     private Squirrel mySquirrel;
 
-
     public GameWorld(float midPointY){
     this.midPointY = midPointY;
-    mySquirrel = new Squirrel(55, midPointY+5, 20,20);// size not yet
+    mySquirrel = new Squirrel(55, midPointY+5, 20,20);
 
     }
 

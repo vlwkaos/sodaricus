@@ -80,7 +80,7 @@ public class AssetLoader {
 
         TextureRegion[] sqs = {squp,sqmid,sqdown};
         sqAnimation = new Animation(1/12f, sqs);
-        sqAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+        sqAnimation.setPlayMode(Animation.PlayMode.LOOP);
         bacon1 = new TextureRegion(bacon,0,0,32,32);
         bacon2 = new TextureRegion(bacon,32,0,32,32);
        TextureRegion[] bacons = {bacon1,bacon2};

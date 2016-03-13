@@ -3,7 +3,7 @@ package com.lumibottle.gameobjects;
 import com.badlogic.gdx.math.Vector2;
 
 /**
- * Created by MG-POW on 2016-03-10.
+ * This Scrollable class is applied to GameObjects that scrolls leftward
  */
 public abstract class Scrollable {
 
@@ -19,9 +19,9 @@ public abstract class Scrollable {
 
 	}
 
-	public boolean isLeftofScreen(){
+	public boolean isOOScreen(){
 		return (position.x + width < 0);
-	}
+	} // out of screen on the left side
 
 	public void update(){};
 
