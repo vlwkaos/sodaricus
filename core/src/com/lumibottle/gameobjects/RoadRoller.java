@@ -35,20 +35,21 @@ public class RoadRoller extends Scrollable {
 	public void collide(Squirrel squirrel){
 		for (Bullet b:squirrel.getBullets()){
 			if (Intersector.overlapConvexPolygons(b.getHitbox(),hitbox)){
+				b.kill();
 				kill();
-				
 			}
 		}
 
 		if (squirrel.getX()+squirrel.getWidth()> getX()){
 			if (Intersector.overlapConvexPolygons(squirrel.getHitbox(),hitbox))
 				squirrel.kill();
+				kill();
 		}
 
 	}
 
 	private void kill(){
-		Gdx.app.log("Roadroller","hits squirrel");
+		//Gdx.app.log("Roadroller","bottle");
 	}
 
 

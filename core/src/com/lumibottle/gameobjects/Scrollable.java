@@ -9,6 +9,13 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class Scrollable {
 
+
+	private enum ScrollableState{
+		READY, VISIBLE
+	}
+
+	private ScrollableState currentState;
+
 	private Vector2 position;
 	private Vector2 velocity;
 
@@ -57,5 +64,12 @@ public abstract class Scrollable {
 
 	public void setVelocity(float x, float y) {
 		this.velocity.set(x,y);
+	}
+
+	public boolean isREADY(){
+		return currentState==ScrollableState.READY;
+	}
+	public boolean isVISIBLE(){
+		return currentState==ScrollableState.VISIBLE;
 	}
 }

@@ -44,8 +44,8 @@ public class Squirrel {
 
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
 
-		hitbox = new Polygon(new float[] {0,0,width,0,width,height,0,height});
-		hitbox.setOrigin(width/2f,height/2f);
+		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
+		hitbox.setOrigin(width/2f,(height-5)/2f);
 
 		/*
 		init bullet
@@ -76,7 +76,7 @@ public class Squirrel {
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.shot(position.x,position.y,90,rotation);
+					b.shot(position.x,position.y,100,rotation);
 					break;
 				}
 			}
@@ -109,12 +109,12 @@ public class Squirrel {
 		//rotation
 		if (!isDead()) {
 			if (velocity.y >= 0) {
-				rotation += 700 * delta;
+				rotation += 600 * delta;
 				if (rotation > 40)
 					rotation = 40;
 			}
 			if (velocity.y < -50) {
-				rotation -= 380 * delta;
+				rotation -= 280 * delta;
 				if (rotation < -90)
 					rotation = -90;
 			}
@@ -129,11 +129,11 @@ public class Squirrel {
 	}
 
 	public void onClick(){
-		velocity.y=140;
+		velocity.y=160;
 	}
 
 	public void kill(){
-
+		Gdx.app.log("Roadroller","squirrel");
 	}
 
 

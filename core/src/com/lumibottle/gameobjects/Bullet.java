@@ -59,13 +59,13 @@ public class Bullet {
 	 */
 	public void shot(float x, float y, float speed, float theta) {
 		position.set(x,y);
-		this.theta=theta;
+		this.theta=theta+MathUtils.random(-20,20);
 		velocity.set(speed * MathUtils.cos(MathUtils.degreesToRadians*theta), speed * MathUtils.degreesToRadians*theta);
 		currentState=BulletState.VISIBLE;
 	}
 
 	private boolean isOutOfScreen(){
-		return position.x > 240 || position.y>256 || (position.y-height)<0;
+		return position.x > 240 || position.y>256 || (position.y+height)<0;
 	}
 
 	public void reset(){

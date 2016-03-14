@@ -27,6 +27,7 @@ public class ProgressHandler {
     }
 
     public void update(float delta){
+        runTime+=delta;
         for (RoadRoller r : roadRollers)
             r.update(delta,mySquirrel);
 
