@@ -1,6 +1,7 @@
 package com.lumibottle.world;
 
 import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 
@@ -15,6 +16,7 @@ public class GameWorld {
 
 
     private Squirrel mySquirrel;
+    private ProgressHandler myStage;
 
     //
     private Star[] myStars;
@@ -25,7 +27,7 @@ public class GameWorld {
     myStars = new Star[10];
         for (int i=0;i<myStars.length;i++)
             myStars[i]= new Star();
-
+    myStage = new ProgressHandler(mySquirrel);
 
     }
 
@@ -34,6 +36,7 @@ public class GameWorld {
             delta = .15f;
         }
 
+        myStage.update(delta);
         mySquirrel.update(delta);
         for (Star s:myStars)
             s.update(delta);
@@ -44,4 +47,8 @@ public class GameWorld {
     }
 
     public Star[] getMyStars(){return myStars;}
+
+    public ProgressHandler getMyStage() {
+        return myStage;
+    }
 }

@@ -1,6 +1,7 @@
 package com.lumibottle.gameobjects;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 
@@ -47,7 +48,7 @@ public class RoadRoller extends Scrollable {
 	}
 
 	private void kill(){
-
+		Gdx.app.log("Roadroller","hits squirrel");
 	}
 
 

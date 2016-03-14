@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.ProgressHandler;
+import com.lumibottle.gameobjects.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
@@ -32,13 +35,15 @@ public class GameRenderer {
     //GO
     private Squirrel mySquirrel;
 	private Star[] myStars;
+    private ProgressHandler myStage;
+    private RoadRoller[] myRoadRollers;
 
     //ASSET
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
     private TextureRegion gb;
-
+    private TextureRegion roadroller;
 
     private TextureRegion star1,star2;
     private TextureRegion background;
@@ -66,8 +71,15 @@ public class GameRenderer {
         initAsset();
         }
 
+
+    /*
+    shape for debugging
+     */
+    Polygon squirrelhitbox = new Polygon();
+
+
     public void render(float runTime){
-        Gdx.gl.glClearColor(100, 100,100, 1);
+        Gdx.gl.glClearColor(100, 100, 100, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //draw with shaperenderer
@@ -75,17 +87,23 @@ public class GameRenderer {
 
         shapeRenderer.end();
 
-        spriteBatch.begin();
-        spriteBatch.draw(background,0,bgOffset);
-     //   Gdx.app.log("runTime",runTime+"");
 
+        spriteBatch.begin();
+        spriteBatch.draw(background, 0, bgOffset);
+        //Gdx.app.log("runTime",runTime+"");
 		//rendering order
 
 
 
 		drawStars();
 		drawBacon(runTime);
-		drawBullets();
+		/*
+		Draw enemies here
+		 */
+        drawRoadRollers();
+
+
+        drawBullets();
 
         //draw main actor
         if (mySquirrel.isShooting()) {
@@ -105,13 +123,17 @@ public class GameRenderer {
         spriteBatch.end();
 
     }
-	/*
+
+
+	/******
 		INIT
-	 */
+	 *********/
 
     private void initGameObjects(){
         mySquirrel = myWorld.getMySquirrel();
 		myStars = myWorld.getMyStars();
+        myStage = myWorld.getMyStage();
+        myRoadRollers = myStage.getRoadRollers();
     }
 
     private void initAsset(){
@@ -120,6 +142,9 @@ public class GameRenderer {
         baconAnimation = AssetLoader.baconAnimation;
 
         gb = AssetLoader.greenBullet;
+
+        roadroller = AssetLoader.roadroller;
+
 
         star1 = AssetLoader.star1;
         star2 = AssetLoader.star2;
@@ -159,4 +184,11 @@ public class GameRenderer {
 
 		}
 	}
+
+    private void drawRoadRollers(){
+        for (RoadRoller r: myRoadRollers){
+            spriteBatch.draw(roadroller,r.getX(),r.getY());
+        }
+    }
+
 }

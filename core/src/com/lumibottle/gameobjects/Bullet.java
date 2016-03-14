@@ -47,7 +47,6 @@ public class Bullet {
 			position.add(velocity.cpy().scl(delta));
 
 
-
 		if (isOutOfScreen()) {// out of screen only need to be known in this class
 			reset();
 		}

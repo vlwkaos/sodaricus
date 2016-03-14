@@ -22,7 +22,7 @@ public class ProgressHandler {
 
         roadRollers= new RoadRoller[3];
         for (int i=0;i<roadRollers.length;i++){
-            roadRollers[i]= new RoadRoller(240,0,10);
+            roadRollers[i]= new RoadRoller(240,0,-50);
         }
     }
 

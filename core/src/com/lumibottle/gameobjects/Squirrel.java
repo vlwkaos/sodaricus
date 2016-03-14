@@ -44,8 +44,8 @@ public class Squirrel {
 
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
 
-		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
-		hitbox.setOrigin(width/2f,(height-5)/2f);
+		hitbox = new Polygon(new float[] {0,0,width,0,width,height,0,height});
+		hitbox.setOrigin(width/2f,height/2f);
 
 		/*
 		init bullet
