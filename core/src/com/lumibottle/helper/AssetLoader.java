@@ -63,7 +63,7 @@ public class AssetLoader {
         squirrelTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         bacon = new Texture(Gdx.files.internal("data/bacon.png"));
         bacon.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
+        enemyTexture = new Texture(Gdx.files.internal("data/enemies.png"));
 
         sodaTexture = new Texture(Gdx.files.internal("data/sodabullet.png"));
         sodaTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);

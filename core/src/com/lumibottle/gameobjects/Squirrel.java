@@ -2,6 +2,7 @@ package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Timer;
@@ -29,7 +30,7 @@ public class Squirrel {
 
 	private Bullet[] bullets;// hold for optimum performance
 
-	private Circle hitbox;
+	private Polygon hitbox;
 
 
 	public Squirrel(float x, float y, int width, int height) {
@@ -43,11 +44,13 @@ public class Squirrel {
 
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
 
-		hitbox = new Circle();
+		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
+		hitbox.setOrigin(width/2f,(height-5)/2f);
+
 		/*
 		init bullet
 		 */
-		bullets = new Bullet[7];
+		bullets = new Bullet[16];
 		for (int i=0;i<bullets.length;i++)
 			bullets[i] = new Bullet();
 
@@ -68,12 +71,12 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >1f && isIdle()){
-			runTime-=1f;
+		if (runTime >0.3f && isIdle()){
+			runTime-=0.3f;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.shot(position.x,position.y,70,rotation);
+					b.shot(position.x,position.y,90,rotation);
 					break;
 				}
 			}
@@ -120,8 +123,8 @@ public class Squirrel {
 		/*
 			collision
 		 */
-		hitbox.set(position.x+10,position.y+10,10f);
-
+		hitbox.setPosition(position.x,position.y);
+		hitbox.setRotation(rotation);
 
 	}
 
@@ -129,7 +132,9 @@ public class Squirrel {
 		velocity.y=140;
 	}
 
+	public void kill(){
 
+	}
 
 
 	/*
@@ -160,6 +165,9 @@ public class Squirrel {
 	}
 
 
+	public Polygon getHitbox() {
+		return hitbox;
+	}
 
 	public boolean isDead(){
 		return currentState==SquirrelState.DEAD;

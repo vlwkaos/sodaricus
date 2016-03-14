@@ -1,27 +1,28 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.math.Rectangle;
 
-import org.w3c.dom.css.Rect;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 
 /**
  * Created by MG-POW on 2016-03-13.
  */
 public class RoadRoller extends Scrollable {
 
-	private Rectangle hitbox;
+	private Polygon hitbox;
 
-
-	public RoadRoller(float x, float y, int width, int height, float x_speed, float y_speed) {
-		super(x, y, width, height, x_speed, y_speed);
-		hitbox = new Rectangle();
+	public RoadRoller(float x, float y, float x_speed) {
+		super(x, y, 20, 12	, x_speed, 0);
+		hitbox = new Polygon(new float[] {0,0,20,0,20,12,0,12});
+		reset(x);
 	}
 
-	@Override
-	public void update(float delta) {
+	//Overload
+	public void update(float delta, Squirrel mySquirrel) {
 		super.update(delta);
-		hitbox.set(getX(),getY(),getWidth(),getHeight());
+		hitbox.setPosition(getX(), getY());
 
+		collide(mySquirrel);
 	}
 
 	@Override
@@ -30,12 +31,25 @@ public class RoadRoller extends Scrollable {
 	}
 //checks in progress handler, then call squirrel's dead, reset method
 
-	public boolean hitSquirrel(Squirrel squirrel){
-		if (squirrel.getX()+squirrel.getWidth()> getX())
-			return false;
+	public void collide(Squirrel squirrel){
+		for (Bullet b:squirrel.getBullets()){
+			if (Intersector.overlapConvexPolygons(b.getHitbox(),hitbox)){
+				kill();
+				
+			}
+		}
 
-		return false;
+		if (squirrel.getX()+squirrel.getWidth()> getX()){
+			if (Intersector.overlapConvexPolygons(squirrel.getHitbox(),hitbox))
+				squirrel.kill();
+		}
+
 	}
+
+	private void kill(){
+
+	}
+
 
 
 }

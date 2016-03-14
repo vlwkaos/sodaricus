@@ -55,6 +55,9 @@ public class Bullet {
 
 
 
+	/*
+		when fired, calculate vector
+	 */
 	public void shot(float x, float y, float speed, float theta) {
 		position.set(x,y);
 		this.theta=theta;
@@ -63,12 +66,16 @@ public class Bullet {
 	}
 
 	private boolean isOutOfScreen(){
-		return (position.x + 32) > 240 || position.y>256;
+		return position.x > 240 || position.y>256 || (position.y-height)<0;
 	}
 
 	public void reset(){
 		position.set(-50,0);
 		currentState = BulletState.READY;
+	}
+
+	public void kill(){
+		//fx
 	}
 
 
