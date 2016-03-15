@@ -24,7 +24,7 @@ public class GameWorld {
     public GameWorld(float midPointY){
     this.midPointY = midPointY;
     mySquirrel = new Squirrel(55, midPointY+5, 20,20);
-    myStars = new Star[10];
+    myStars = new Star[14];
         for (int i=0;i<myStars.length;i++)
             myStars[i]= new Star();
     myStage = new ProgressHandler(mySquirrel);

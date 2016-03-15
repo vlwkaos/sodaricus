@@ -71,12 +71,12 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >0.3f && isIdle()){
-			runTime-=0.3f;
+		if (runTime >0.5f && isIdle()){
+			runTime-=0.5f;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.shot(position.x,position.y,100,rotation);
+					b.reset(position.x,position.y,120,rotation);
 					break;
 				}
 			}
@@ -103,7 +103,7 @@ public class Squirrel {
 		Physics
 		 */
 		velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
-		position.add(velocity.cpy().scl(delta));//add velo to position
+		//position.add(velocity.cpy().scl(delta));//add velo to position
 
 		//         _|_ angle
 		//rotation

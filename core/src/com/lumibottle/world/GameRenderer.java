@@ -119,6 +119,8 @@ public class GameRenderer {
         }
 
 
+        //fx
+
 
         spriteBatch.end();
 
@@ -176,17 +178,19 @@ public class GameRenderer {
 
 	private void drawBullets(){
 		for (Bullet b:mySquirrel.getBullets()){
+            if (b.isVISIBLE())
 			spriteBatch.draw(gb,
-					b.getX()+2, b.getY()+2,
+					b.getX(), b.getY(),
 					b.getWidth() / 2.0f,b.getHeight() / 2.0f,
 					b.getWidth(), b.getHeight(),
-					1, 1, b.getRotation()-90);
+					1, 1, b.getTheta()-90);
 
 		}
 	}
 
     private void drawRoadRollers(){
         for (RoadRoller r: myRoadRollers){
+            if (r.isVISIBLE())
             spriteBatch.draw(roadroller,r.getX(),r.getY());
         }
     }

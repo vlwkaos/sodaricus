@@ -22,14 +22,17 @@ public class ProgressHandler {
 
         roadRollers= new RoadRoller[3];
         for (int i=0;i<roadRollers.length;i++){
-            roadRollers[i]= new RoadRoller(240,0,-50);
+            roadRollers[i]= new RoadRoller();
+            roadRollers[i].reset(240+i*50);
         }
     }
 
     public void update(float delta){
         runTime+=delta;
-        for (RoadRoller r : roadRollers)
-            r.update(delta,mySquirrel);
+        for (RoadRoller r : roadRollers) {
+            r.update(delta);
+            r.collide(mySquirrel);
+        }
 
     }
 

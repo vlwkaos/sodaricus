@@ -9,107 +9,39 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by MG-POW on 2016-03-12.
  */
-public class Bullet {
-
-	private enum BulletState{
-		VISIBLE, READY
-	}
-
-	private BulletState currentState;
-
-	private Vector2 position;
-	private Vector2 velocity;
-
-	private float theta;
-	private int width, height;//fixed?
+public class Bullet extends GameEvent {
 
 	private Polygon hitbox;
-
+	private float theta;
 	//load in gameworld first, the move
 
 	public Bullet() {
-		position = new Vector2(-50, 0);
-		velocity = new Vector2(0, 0);
-		theta = 0;
-		width = 16;
-		height = 16;
-		currentState = BulletState.READY;
-		hitbox = new Polygon(new float[]{0,0,width,0,width,height,0,height});
-		hitbox.setOrigin(position.x/2f,position.y/2f);
-
+		super(16, 16);
+		hitbox = new Polygon(new float[]{0,0,getWidth(),0,getWidth(),getHeight(),0,getHeight()});
+		hitbox.setOrigin(getX()/2f,getY()/2f);
 	}
 
 	public void update(float delta) {
-		hitbox.setPosition(position.x,position.y);
-		hitbox.setRotation(theta);
+		hitbox.setPosition(getX(), getY());
+		hitbox.setRotation(getTheta());
 
 		if (isVISIBLE())
-			position.add(velocity.cpy().scl(delta));
+			getPosition().add(getVelocity().cpy().scl(delta));
 
 
-		if (isOutOfScreen()) {// out of screen only need to be known in this class
-			reset();
-		}
+		if (isOutOfScreen())
+			ready();
 	}
 
-
-
-	/*
-		when fired, calculate vector
-	 */
-	public void shot(float x, float y, float speed, float theta) {
-		position.set(x,y);
+	public void reset(float x, float y, float speed, float theta) {
 		this.theta=theta+MathUtils.random(-20,20);
-		velocity.set(speed * MathUtils.cos(MathUtils.degreesToRadians*theta), speed * MathUtils.degreesToRadians*theta);
-		currentState=BulletState.VISIBLE;
-	}
-
-	private boolean isOutOfScreen(){
-		return position.x > 240 || position.y>256 || (position.y+height)<0;
-	}
-
-	public void reset(){
-		position.set(-50,0);
-		currentState = BulletState.READY;
+		super.reset(x,y,speed * MathUtils.cos(MathUtils.degreesToRadians*this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians*this.theta), this.theta);
 	}
 
 	public void kill(){
-		//fx
+		//FX when collide
 	}
 
-
-	/*
-
-	 */
-	public boolean isREADY(){
-		return currentState==BulletState.READY;
-	}
-	public boolean isVISIBLE(){
-		return currentState==BulletState.VISIBLE;
-	}
-
-
-	//it will use coordinate from main actor, so ..
-	public float getX() {
-		return position.x;
-	}
-
-	public float getY() {
-		return position.y;
-	}
-
-
-	public float getRotation() {
-		return theta;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
 
 	public Polygon getHitbox() {
 		return hitbox;
