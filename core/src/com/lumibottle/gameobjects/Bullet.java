@@ -1,10 +1,9 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.math.GeometryUtils;
+
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
+
 
 /**
  * Created by MG-POW on 2016-03-12.
@@ -16,9 +15,9 @@ public class Bullet extends GameEvent {
 	//load in gameworld first, the move
 
 	public Bullet() {
-		super(16, 16);
-		hitbox = new Polygon(new float[]{0,0,getWidth(),0,getWidth(),getHeight(),0,getHeight()});
-		hitbox.setOrigin(getX()/2f,getY()/2f);
+		super(12, 12);
+		hitbox = new Polygon(new float[]{4,0,8,0,8,12,4,12});
+		hitbox.setOrigin(getWidth()/2f,getHeight()/2f);
 	}
 
 	public void update(float delta) {
@@ -36,10 +35,6 @@ public class Bullet extends GameEvent {
 	public void reset(float x, float y, float speed, float theta) {
 		this.theta=theta+MathUtils.random(-20,20);
 		super.reset(x,y,speed * MathUtils.cos(MathUtils.degreesToRadians*this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians*this.theta), this.theta);
-	}
-
-	public void kill(){
-		//FX when collide
 	}
 
 

@@ -1,6 +1,5 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.math.MathUtils;
 
 /**
@@ -27,11 +26,6 @@ public class Star extends GameEvent {
 		if (isOutOfScreen()){
 			reset();
 		}
-	}
-
-	@Override
-	public void kill() {
-
 	}
 
 

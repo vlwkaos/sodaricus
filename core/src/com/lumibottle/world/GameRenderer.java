@@ -40,7 +40,8 @@ public class GameRenderer {
 	private Star[] myStars;
     private ProgressHandler myStage;
     private RoadRoller[] myRoadRollers;
-    private FX[] myFXs;
+    private FX[] myFXs, enemFXs;
+
 
     //ASSET
     private TextureRegion squirrelDown;
@@ -104,7 +105,7 @@ public class GameRenderer {
 
         drawBullets();
 
-        drawFXs(runTime);
+        drawFXs();
         //draw main actor
         if (mySquirrel.isShooting()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
@@ -137,7 +138,8 @@ public class GameRenderer {
         myBullets = mySquirrel.getBullets();
         myStage = myWorld.getMyStage();
         myRoadRollers = myStage.getRoadRollers();
-        myFXs =myStage.getFXs();
+        myFXs =mySquirrel.getFXs();
+        enemFXs = myStage.getFXs();
     }
 
     private void initAsset(){
@@ -178,10 +180,14 @@ public class GameRenderer {
 				1, 1, mySquirrel.getRotation());
 	}
 
-    private void drawFXs(float runTime){
+    private void drawFXs(){
         for (FX f: myFXs){
-            spriteBatch.draw(f.getAnimation().getKeyFrame(runTime),f.getX(),f.getY());
+	        if (f.isTOBEDRAWN())
+            spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
         }
+	    for (FX f: enemFXs)
+		    if (f.isTOBEDRAWN())
+			    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
     }
 
 	private void drawBullets(){

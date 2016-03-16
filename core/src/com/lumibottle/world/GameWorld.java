@@ -1,6 +1,5 @@
 package com.lumibottle.world;
 
-import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;

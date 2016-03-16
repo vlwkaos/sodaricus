@@ -1,11 +1,8 @@
 package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
 
 /**
  * Created by MG-POW on 2016-03-10.
@@ -29,6 +26,8 @@ public class Squirrel {
 	private float rotation;
 
 	private Bullet[] bullets;// hold for optimum performance
+	private FX[] FXs;
+
 
 	private Polygon hitbox;
 
@@ -54,6 +53,10 @@ public class Squirrel {
 		for (int i=0;i<bullets.length;i++)
 			bullets[i] = new Bullet();
 
+		FXs = new FX[5];
+		for (int i=0;i<FXs.length;i++)
+			FXs[i] = new FX();
+
 
 		runTime=0;
 	}
@@ -65,8 +68,24 @@ public class Squirrel {
 			delta = .15f;
 		runTime+=delta;
 
-		for (Bullet b: bullets)
-		b.update(delta);
+		/*
+				Bullet Update
+		 */
+		for (Bullet b: bullets) {
+			b.update(delta);
+			if (b.isVISIBLE() && b.isEffectReady())
+					for (FX f : FXs)
+						if (f.isREADY()) {// FXs ready is different, it means it is ready to be set to something else.
+							f.reset(b.getX()-2.5f, b.getY()-2.5f, (short) 0);
+							b.ready();
+						}
+		}
+		/*
+				FX Update
+		 */
+		for (FX f : FXs)
+				f.update(delta);
+
 
 		/*
 		SHOOTING MECHANIC
@@ -133,7 +152,7 @@ public class Squirrel {
 	}
 
 	public void kill(){
-		Gdx.app.log("Roadroller","squirrel");
+
 	}
 
 
@@ -164,6 +183,9 @@ public class Squirrel {
 		return bullets;
 	}
 
+	public FX[] getFXs() {
+		return FXs;
+	}
 
 	public Polygon getHitbox() {
 		return hitbox;

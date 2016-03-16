@@ -11,15 +11,18 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class GameEvent {
 
+
 	private enum EventState{
 		READY, VISIBLE
-	}
+	}//READY state notifies that it went out of screen and is now ready to be reset
+
 
 	public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 240);
 	//runtime for enemy
 	private Vector2 position;
 	private Vector2 velocity;
 	private EventState currentState;
+	private boolean effectReady;
 
 	private int width, height;
 	private float theta;
@@ -32,6 +35,7 @@ public abstract class GameEvent {
 		this.height = height;
 		this.theta = 0;
 		currentState = EventState.READY;
+		effectReady = false;
 	}
 
 
@@ -45,6 +49,7 @@ public abstract class GameEvent {
 		velocity.set(dx,dy);
 		this.theta=theta;
 		currentState = EventState.VISIBLE;
+		effectReady = false;
 	}// re deploy, set to visible
 
 	public boolean isOutOfScreen(){
@@ -58,7 +63,6 @@ public abstract class GameEvent {
 	}
 
 
-	public abstract void kill();
 
 	/*
 		GETTER & SETTER
@@ -70,6 +74,9 @@ public abstract class GameEvent {
 		return currentState==EventState.VISIBLE;
 	}
 
+	public void setEffectReady(boolean set){
+		effectReady = set;
+	}
 
 	//it will use coordinate from main actor, so ..
 	public float getX() {
@@ -100,8 +107,9 @@ public abstract class GameEvent {
 		return velocity;
 	}
 
-	public void setVelocity(float dx, float dy){
-		velocity.set(dx,dy);
-	}
 
+
+	public boolean isEffectReady() {
+		return effectReady;
+	}
 }

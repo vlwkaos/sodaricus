@@ -1,7 +1,6 @@
 package com.lumibottle.gameobjects;
 
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
@@ -42,22 +41,23 @@ public class RoadRoller extends GameEvent {
 	public void collide(Squirrel squirrel){
 		for (Bullet b:squirrel.getBullets()){
 			if (Intersector.overlapConvexPolygons(b.getHitbox(),hitbox)){
-				b.kill();
-				kill();
+				b.setEffectReady(true);
+				setEffectReady(true);
+				Gdx.app.log("bullet hits","roadroller");
 			}
 		}
 
 		if (squirrel.getX()+squirrel.getWidth()> getX()){
-			if (Intersector.overlapConvexPolygons(squirrel.getHitbox(),hitbox))
+			if (Intersector.overlapConvexPolygons(squirrel.getHitbox(),hitbox)) {
 				squirrel.kill();
-				kill();
+				setEffectReady(true);
+
+			}
 		}
 
 	}
 
-	public void kill(){
-		//Gdx.app.log("Roadroller","bottle");
-	}
+
 
 
 

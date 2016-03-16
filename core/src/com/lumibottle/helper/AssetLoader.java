@@ -75,6 +75,11 @@ public class AssetLoader {
         starTexture = new Texture(Gdx.files.internal("data/stars.png"));
         starTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+
+	    //FX
+	    vfxTexture = new Texture(Gdx.files.internal("data/limexplosion.png"));
+	    vfxTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //Game Objects
@@ -102,6 +107,15 @@ public class AssetLoader {
         spacebg = new TextureRegion(backgroundTexture,0,0,256,256);
         star1 = new TextureRegion(starTexture,0,0,9,9);
         star2 = new TextureRegion(starTexture,9,0,9,9);
+
+
+	    //FX
+	    explosion1 = new TextureRegion[6];
+	    for (int i=0; i<6;i++)
+	    explosion1[i]= new TextureRegion(vfxTexture,i*17,0,17,17);
+	    explosionAnim1 = new Animation(1/12f, explosion1);
+	    explosionAnim1.setPlayMode(Animation.PlayMode.NORMAL);
+
 
     }
 
