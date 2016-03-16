@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
@@ -20,23 +21,26 @@ import com.lumibottle.helper.AssetLoader;
  */
 public class GameRenderer {
 
+    //libs
     private SpriteBatch spriteBatch;
     private ShapeRenderer shapeRenderer;
 
-
-    private GameWorld myWorld;
     private OrthographicCamera cam;
 
+    // vars
     private int gameHeight;
-
     private float midPointY;
     private float bgOffset;
 
+    private GameWorld myWorld;
+
     //GO
     private Squirrel mySquirrel;
+    private Bullet[] myBullets;
 	private Star[] myStars;
     private ProgressHandler myStage;
     private RoadRoller[] myRoadRollers;
+    private FX[] myFXs;
 
     //ASSET
     private TextureRegion squirrelDown;
@@ -84,27 +88,23 @@ public class GameRenderer {
 
         //draw with shaperenderer
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
         shapeRenderer.end();
-
 
         spriteBatch.begin();
         spriteBatch.draw(background, 0, bgOffset);
         //Gdx.app.log("runTime",runTime+"");
 		//rendering order
-
-
-
 		drawStars();
 		drawBacon(runTime);
 		/*
-		Draw enemies here
+		Draw enemies below here
 		 */
         drawRoadRollers();
 
 
         drawBullets();
 
+        drawFXs(runTime);
         //draw main actor
         if (mySquirrel.isShooting()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
@@ -134,8 +134,10 @@ public class GameRenderer {
     private void initGameObjects(){
         mySquirrel = myWorld.getMySquirrel();
 		myStars = myWorld.getMyStars();
+        myBullets = mySquirrel.getBullets();
         myStage = myWorld.getMyStage();
         myRoadRollers = myStage.getRoadRollers();
+        myFXs =myStage.getFXs();
     }
 
     private void initAsset(){
@@ -176,8 +178,14 @@ public class GameRenderer {
 				1, 1, mySquirrel.getRotation());
 	}
 
+    private void drawFXs(float runTime){
+        for (FX f: myFXs){
+            spriteBatch.draw(f.getAnimation().getKeyFrame(runTime),f.getX(),f.getY());
+        }
+    }
+
 	private void drawBullets(){
-		for (Bullet b:mySquirrel.getBullets()){
+		for (Bullet b:myBullets){
             if (b.isVISIBLE())
 			spriteBatch.draw(gb,
 					b.getX(), b.getY(),
