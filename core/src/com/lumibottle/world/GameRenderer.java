@@ -197,7 +197,7 @@ public class GameRenderer {
 					b.getX(), b.getY(),
 					b.getWidth() / 2.0f,b.getHeight() / 2.0f,
 					b.getWidth(), b.getHeight(),
-					1, 1, b.getTheta()-90);
+					1, 1, b.getTheta()+90);
 
 		}
 	}

@@ -16,7 +16,7 @@ public class Bullet extends GameEvent {
 
 	public Bullet() {
 		super(12, 12);
-		hitbox = new Polygon(new float[]{4,0,8,0,8,12,4,12});
+		hitbox = new Polygon(new float[]{4,4,8,4,8,8,4,8});
 		hitbox.setOrigin(getWidth()/2f,getHeight()/2f);
 	}
 

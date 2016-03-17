@@ -113,7 +113,6 @@ public class Squirrel {
 			velocity.y = -150;
 		} // maximum falling speed
 		if (position.y > ceiling) {
-			Gdx.app.log("heat ceiling!","yes");
 			position.y = ceiling;
 			velocity.y = 0;
 		}
@@ -122,7 +121,7 @@ public class Squirrel {
 		Physics
 		 */
 		velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
-		//position.add(velocity.cpy().scl(delta));//add velo to position
+		position.add(velocity.cpy().scl(delta));//add velo to position
 
 		//         _|_ angle
 		//rotation
