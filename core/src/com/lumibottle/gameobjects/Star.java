@@ -19,12 +19,12 @@ public class Star extends GameEvent {
 	@Override
 	public void update(float delta) {
 
-		if (isVISIBLE())
+		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
 
-
-		if (isOutOfScreen()){
-			reset();
+			if (isOutOfScreen(true)) {
+				reset();
+			}
 		}
 	}
 

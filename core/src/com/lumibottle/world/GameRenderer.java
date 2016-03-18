@@ -15,6 +15,7 @@ import com.lumibottle.gameobjects.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
+import com.lumibottle.helper.FXHelper;
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -72,6 +73,7 @@ public class GameRenderer {
         spriteBatch = new SpriteBatch();
         spriteBatch.setProjectionMatrix(cam.combined);
 
+
         initGameObjects();
         initAsset();
         }
@@ -103,9 +105,9 @@ public class GameRenderer {
         drawRoadRollers();
 
 
-        drawBullets();
 
-        drawFXs();
+
+
         //draw main actor
         if (mySquirrel.isShooting()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
@@ -119,9 +121,9 @@ public class GameRenderer {
                     1, 1, mySquirrel.getRotation());
         }
 
-
+	    drawBullets();
         //fx
-
+	    drawFXs();
 
         spriteBatch.end();
 
@@ -138,8 +140,6 @@ public class GameRenderer {
         myBullets = mySquirrel.getBullets();
         myStage = myWorld.getMyStage();
         myRoadRollers = myStage.getRoadRollers();
-        myFXs =mySquirrel.getFXs();
-        enemFXs = myStage.getFXs();
     }
 
     private void initAsset(){
@@ -181,13 +181,10 @@ public class GameRenderer {
 	}
 
     private void drawFXs(){
-        for (FX f: myFXs){
-	        if (f.isTOBEDRAWN())
-            spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
-        }
-	    for (FX f: enemFXs)
+	    for (FX f: FXHelper.getInstance().getMyFXs()){
 		    if (f.isTOBEDRAWN())
-			    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
+		    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
+	    }
     }
 
 	private void drawBullets(){
@@ -208,5 +205,10 @@ public class GameRenderer {
             spriteBatch.draw(roadroller,r.getX(),r.getY());
         }
     }
+
+	public void dispose(){
+		spriteBatch.dispose();
+		shapeRenderer.dispose();
+	}
 
 }

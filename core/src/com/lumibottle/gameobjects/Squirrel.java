@@ -26,7 +26,7 @@ public class Squirrel {
 	private float rotation;
 
 	private Bullet[] bullets;// hold for optimum performance
-	private FX[] FXs;
+
 
 
 	private Polygon hitbox;
@@ -44,19 +44,14 @@ public class Squirrel {
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
 
 		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
-		hitbox.setOrigin(width/2f,(height-5)/2f);
+		hitbox.setOrigin(width/2f,height/2f);
 
 		/*
 		init bullet
 		 */
-		bullets = new Bullet[16];
+		bullets = new Bullet[20];
 		for (int i=0;i<bullets.length;i++)
 			bullets[i] = new Bullet();
-
-		FXs = new FX[5];
-		for (int i=0;i<FXs.length;i++)
-			FXs[i] = new FX();
-
 
 		runTime=0;
 	}
@@ -68,34 +63,24 @@ public class Squirrel {
 			delta = .15f;
 		runTime+=delta;
 
+
+
 		/*
 				Bullet Update
 		 */
-		for (Bullet b: bullets) {
+		for (Bullet b: bullets)
 			b.update(delta);
-			if (b.isVISIBLE() && b.isEffectReady())
-					for (FX f : FXs)
-						if (f.isREADY()) {// FXs ready is different, it means it is ready to be set to something else.
-							f.reset(b.getX()-2.5f, b.getY()-2.5f, (short) 0);
-							b.ready();
-						}
-		}
-		/*
-				FX Update
-		 */
-		for (FX f : FXs)
-				f.update(delta);
 
 
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >0.5f && isIdle()){
-			runTime-=0.5f;
+		if (runTime >0.3f && isIdle()){
+			runTime-=0.3f;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.reset(position.x,position.y,120,rotation);
+					b.reset(position.x+8,position.y,200,rotation);
 					break;
 				}
 			}
@@ -125,11 +110,12 @@ public class Squirrel {
 
 		//         _|_ angle
 		//rotation
+
 		if (!isDead()) {
 			if (velocity.y >= 0) {
 				rotation += 600 * delta;
-				if (rotation > 40)
-					rotation = 40;
+				if (rotation > 45)
+					rotation = 45;
 			}
 			if (velocity.y < -50) {
 				rotation -= 280 * delta;
@@ -178,12 +164,10 @@ public class Squirrel {
 		return rotation;
 	}
 
+
+
 	public Bullet[] getBullets(){
 		return bullets;
-	}
-
-	public FX[] getFXs() {
-		return FXs;
 	}
 
 	public Polygon getHitbox() {

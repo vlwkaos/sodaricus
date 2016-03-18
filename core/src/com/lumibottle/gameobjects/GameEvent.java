@@ -22,7 +22,6 @@ public abstract class GameEvent {
 	private Vector2 position;
 	private Vector2 velocity;
 	private EventState currentState;
-	private boolean effectReady;
 
 	private int width, height;
 	private float theta;
@@ -35,12 +34,12 @@ public abstract class GameEvent {
 		this.height = height;
 		this.theta = 0;
 		currentState = EventState.READY;
-		effectReady = false;
 	}
 
 
 	/*
-	only update position when its visible.
+	BASIC PROTOTYPE : only update position when it's on visible state.
+					  set to ready state when OOS
 	 */
 	public abstract void update(float delta);
 
@@ -49,12 +48,14 @@ public abstract class GameEvent {
 		velocity.set(dx,dy);
 		this.theta=theta;
 		currentState = EventState.VISIBLE;
-		effectReady = false;
 	}// re deploy, set to visible
 
-	public boolean isOutOfScreen(){
+	public boolean isOutOfScreen(boolean toLeft){
 		//was visible but is out of screen, so move it else where ready to be re deployed
-		return (isVISIBLE() && (position.x+width<0 || position.y>gameHeight || (position.y+height)<0 ));
+		if (toLeft)
+			return (position.x+width<0 || position.y>gameHeight || (position.y+height)<0 );
+		else
+			return (  position.y>gameHeight || (position.y+height)<0 || position.x>240 );
 	}
 
 	public void ready(){
@@ -72,10 +73,6 @@ public abstract class GameEvent {
 	}
 	public boolean isVISIBLE(){
 		return currentState==EventState.VISIBLE;
-	}
-
-	public void setEffectReady(boolean set){
-		effectReady = set;
 	}
 
 	//it will use coordinate from main actor, so ..
@@ -108,8 +105,4 @@ public abstract class GameEvent {
 	}
 
 
-
-	public boolean isEffectReady() {
-		return effectReady;
-	}
 }

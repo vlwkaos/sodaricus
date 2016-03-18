@@ -33,13 +33,13 @@ public class FX {
 	}
 
 
-	public void update(float delta){
-		runTime+=delta;
-
-		if (myAnimation!=null && myAnimation.isAnimationFinished(runTime) /*runTime>duration && isTOBEDRAWN()*/) {
-			Gdx.app.log("fx done","go away");
-			currentState = FXState.READY;
-			position.set(-255,-255);
+	public void update(float delta) {
+		if (isTOBEDRAWN()) {
+			runTime += delta;
+			if (myAnimation != null && myAnimation.isAnimationFinished(runTime)) {
+				position.set(-255, -255);
+				currentState = FXState.READY;
+			}
 		}
 	}
 
@@ -60,10 +60,8 @@ public class FX {
 
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;
-		currentState = FXState.TOBEDRAWN;
-
 		position.set(x,y);
-
+		currentState = FXState.TOBEDRAWN;
 		switch (animationNumber){
 			case 0:
 				myAnimation = AssetLoader.explosionAnim1;

@@ -1,8 +1,10 @@
 package com.lumibottle.world;
 
+import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
+import com.lumibottle.helper.FXHelper;
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -20,13 +22,17 @@ public class GameWorld {
     //
     private Star[] myStars;
 
+
+
+
+
     public GameWorld(float midPointY){
     this.midPointY = midPointY;
     mySquirrel = new Squirrel(55, midPointY+5, 20,20);
-    myStars = new Star[14];
+    myStars = new Star[11];
         for (int i=0;i<myStars.length;i++)
             myStars[i]= new Star();
-    myStage = new ProgressHandler(mySquirrel);
+    myStage = new ProgressHandler();
 
     }
 
@@ -35,8 +41,14 @@ public class GameWorld {
             delta = .15f;
         }
 
-        myStage.update(delta);
         mySquirrel.update(delta);
+        myStage.update(delta);
+		myStage.checkCollision(mySquirrel);
+
+
+		for (FX f: FXHelper.getInstance().getMyFXs())
+		f.update(delta);
+
         for (Star s:myStars)
             s.update(delta);
     }

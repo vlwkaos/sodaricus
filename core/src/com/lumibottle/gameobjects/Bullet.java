@@ -24,16 +24,23 @@ public class Bullet extends GameEvent {
 		hitbox.setPosition(getX(), getY());
 		hitbox.setRotation(getTheta());
 
-		if (isVISIBLE())
+		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
 
 
-		if (isOutOfScreen())
-			ready();
+			if (isOutOfScreen(false))
+				ready();
+		}
 	}
 
 	public void reset(float x, float y, float speed, float theta) {
-		this.theta=theta+MathUtils.random(-20,20);
+		if (theta > 0)
+			this.theta=5*MathUtils.log2(theta);
+		else if (theta <0)
+			this.theta=(-5)*MathUtils.log2((-1)*theta);
+		else
+			this.theta=theta;
+
 		super.reset(x,y,speed * MathUtils.cos(MathUtils.degreesToRadians*this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians*this.theta), this.theta);
 	}
 

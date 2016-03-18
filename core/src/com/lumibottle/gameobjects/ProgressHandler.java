@@ -1,5 +1,7 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.Gdx;
+
 /**
  * This class handles the presentation of enemies as the run time passes on.
  */
@@ -8,44 +10,36 @@ public class ProgressHandler {
     private int numOfEnemies;
     private float runTime;
 
-    //
-	private Squirrel mySquirrel;
+	private int stageNumber;
+
+	private FX[] myFXs;
     //
 	private RoadRoller[] roadRollers;
 
-    //
-    private FX[] FXs;
 
-
-
-	public ProgressHandler(Squirrel mySquirrel) {
-		this.mySquirrel = mySquirrel;
-		FXs = new FX[5];
-		for (int i=0; i<FXs.length;i++)
-			FXs[i] = new FX();
-
-
-		roadRollers = new RoadRoller[3];
+	public ProgressHandler() {
+		stageNumber=0;
+		roadRollers = new RoadRoller[4];
 		for (int i = 0; i < roadRollers.length; i++) {
 			roadRollers[i] = new RoadRoller();
 			roadRollers[i].reset(240 + i * 50); //later, with runtime.
 		}
 
+		myFXs = new FX[10];
+		for (int i=0; i< myFXs.length;i++)
+			myFXs[i]= new FX();
 
 	}
 
 	public void update(float delta) {
 		runTime += delta;
 
-		for (FX f: FXs)
-		f.update(delta);
-
-
+		for (FX f:myFXs)
+				f.update(delta);
+		/*
+			Movements
+		 */
 		updateRoadRollers(delta);
-
-
-
-
 
 	}
 
@@ -53,22 +47,20 @@ public class ProgressHandler {
 	/*
 		Organize
 	 */
-	private void updateRoadRollers(float delta){
+	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
-			if (r.isVISIBLE()) {
 				r.update(delta);
-				r.collide(mySquirrel);//
-				if (r.isEffectReady())
-					for (FX f : FXs)
-						if (f.isREADY()) {// FXs ready is different, it means it is ready to be set to something else.
-						//	f.reset(r.getX(), r.getY(), (short) 0);
-						r.ready();
-						}
 
-			} else if (r.isREADY()) {
+			if (r.isREADY())
 				r.reset(250);
-			}
+
 		}
+	}
+
+	public void checkCollision(Squirrel mySquirrel){
+		for (RoadRoller r: roadRollers)
+			r.collide(mySquirrel);
+
 	}
 
 
@@ -80,10 +72,6 @@ public class ProgressHandler {
 	 */
 	public RoadRoller[] getRoadRollers() {
 		return roadRollers;
-	}
-
-	public FX[] getFXs() {
-		return FXs;
 	}
 
 
