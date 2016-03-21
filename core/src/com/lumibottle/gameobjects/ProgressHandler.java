@@ -25,10 +25,10 @@ public class ProgressHandler {
 			roadRollers[i].reset(240 + i * 50); //later, with runtime.
 		}
 
-		mustaches = new Mustache[4];
+		mustaches = new Mustache[10];
 		for (int i = 0; i < mustaches.length; i++) {
 			mustaches[i] = new Mustache();
-			mustaches[i].reset(240 + i * 50); //later, with runtime.
+			mustaches[i].reset(240 + i * 20); //later, with runtime.
 		}
 
 		myFXs = new FX[10];

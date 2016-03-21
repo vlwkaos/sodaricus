@@ -22,6 +22,10 @@ import com.lumibottle.helper.FXHelper;
  * Created by MG-UP on 2016-03-10.
  */
 public class GameRenderer {
+    //Texture, TextureRegion/Animation
+    //Texture need to be disposed
+    //
+
 
     //libs
     private SpriteBatch spriteBatch;

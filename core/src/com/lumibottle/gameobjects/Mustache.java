@@ -17,13 +17,13 @@ public class Mustache extends GameEvent {
 
 
 
-	final private int speed=99;
+	final private int speed=120;
 	private Vector2 acceleration;
 	private float runTime;
 
 	public Mustache() {
-		super(20, 12);
-		hitbox = new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12});
+		super(33, 10);
+		hitbox = new Polygon(new float[]{0, 0, 33, 0, 33, 10, 0, 10});
 	}
 
 
