@@ -53,7 +53,7 @@ public abstract class GameEvent {
 	public boolean isOutOfScreen(boolean toLeft){
 		//was visible but is out of screen, so move it else where ready to be re deployed
 		if (toLeft)
-			return (position.x+width<0 || position.y>gameHeight + height || position.y < 0-height );
+			return (position.x+width*2<0 || position.y>gameHeight + height || position.y < 0-height );
 		else
 			return (  position.y>gameHeight + height || position.y < 0-height || position.x>240 );
 	}

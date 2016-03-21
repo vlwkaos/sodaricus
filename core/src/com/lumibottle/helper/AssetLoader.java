@@ -3,6 +3,8 @@ package com.lumibottle.helper;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
@@ -43,8 +45,15 @@ public class AssetLoader {
     public static TextureRegion[] mustaches;
     public static Animation mustacheAnim;
 
-    public static void load() {
 
+    /*
+        Particles
+     */
+    public static ParticleEffect rainbowParticle;
+    public static ParticleEffectPool rainbowPool;
+
+    public static void load() {
+        loadParticles();
         loadTextures();
         loadSounds();
     }
@@ -57,7 +66,8 @@ public class AssetLoader {
         bacon.dispose();
         enemyTexture.dispose();
         mustacheTexture.dispose();
-
+		rainbowParticle.dispose();
+	    rainbowPool.clear();
     }
 
     private static void loadTextures() {
@@ -105,10 +115,10 @@ public class AssetLoader {
 
         roadroller = new TextureRegion(enemyTexture, 0, 8, 20, 12);
 
-        mustaches = new TextureRegion[3];
-        for (int i=0;i<3;i++)
-            mustaches[i] = new TextureRegion(mustacheTexture,i*33,0,33,10);
-        mustacheAnim = new Animation(1 / 12f, mustaches);
+        mustaches = new TextureRegion[5];
+        for (int i=0;i<5;i++)
+            mustaches[i] = new TextureRegion(mustacheTexture,i*33,0,33,16);
+        mustacheAnim = new Animation(1 / 30f, mustaches);
         mustacheAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
@@ -127,6 +137,14 @@ public class AssetLoader {
         explosionAnim1 = new Animation(1 / 12f, explosion1);
         explosionAnim1.setPlayMode(Animation.PlayMode.NORMAL);
 
+
+    }
+
+
+    private static void loadParticles(){
+        rainbowParticle = new ParticleEffect();
+        rainbowParticle.load(Gdx.files.internal("data/rainbow.p"),Gdx.files.internal("data/"));
+        rainbowPool = new ParticleEffectPool(rainbowParticle,0,10);
 
     }
 

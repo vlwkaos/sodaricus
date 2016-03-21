@@ -103,6 +103,10 @@ public class Squirrel {
 			velocity.y = 0;
 		}
 
+		//temporary bottom
+		if (position.y<0)
+			position.y = 0;
+
 		/*
 		Physics
 		 */

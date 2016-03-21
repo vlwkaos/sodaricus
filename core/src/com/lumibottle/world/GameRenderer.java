@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -87,11 +89,6 @@ public class GameRenderer {
         }
 
 
-    /*
-    shape for debugging
-     */
-    Polygon squirrelhitbox = new Polygon();
-
 
     public void render(float runTime){
         Gdx.gl.glClearColor(100, 100, 100, 1);
@@ -159,7 +156,7 @@ public class GameRenderer {
         gb = AssetLoader.greenBullet;
 
         roadroller = AssetLoader.roadroller;
-        mustacheIdle = AssetLoader.mustaches[0];
+        mustacheIdle = AssetLoader.mustaches[4];
         mustacheAnimation = AssetLoader.mustacheAnim;
 
         star1 = AssetLoader.star1;
@@ -219,11 +216,17 @@ public class GameRenderer {
     private void drawMustaches(){
         for (Mustache m : myMustaches) {
             if (m.isVISIBLE()) {
+
                 if (m.isDoneMoving())
                 spriteBatch.draw(mustacheIdle, m.getX(), m.getY());
                 else
                     spriteBatch.draw(mustacheAnimation.getKeyFrame(m.getRunTime()),m.getX(),m.getY());
 
+	            m.getParticle().setPosition(m.getX()+m.getWidth()/2f,m.getY()+m.getHeight()/2f);
+	            m.getParticle().update(Gdx.graphics.getDeltaTime());
+	            m.getParticle().draw(spriteBatch);
+	            if (m.getParticle().isComplete())
+		            m.getParticle().reset();
             }
         }
     }

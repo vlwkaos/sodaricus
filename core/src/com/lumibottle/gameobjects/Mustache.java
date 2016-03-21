@@ -1,9 +1,12 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.helper.AssetLoader;
 import com.lumibottle.helper.FXHelper;
 
 /**
@@ -15,13 +18,15 @@ public class Mustache extends GameEvent {
 
 	private boolean doneMoving;
 
+	private ParticleEffect rainbowParticle;
+
 	final private int speed=120;
 	private Vector2 acceleration;
 	private float runTime;
 
 	public Mustache() {
-		super(33, 10);
-		hitbox = new Polygon(new float[]{0, 0, 33, 0, 33, 10, 0, 10});
+		super(33, 16);
+		hitbox = new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16});
 	}
 
 
@@ -58,9 +63,21 @@ public class Mustache extends GameEvent {
 
 	public void reset(float x) {
 		super.reset(x, MathUtils.random(90, 110), 0, 0, 0);
+		rainbowParticle = AssetLoader.rainbowPool.obtain();
 		runTime=MathUtils.random(0,0.5f);
 		doneMoving=false;
 		nextTheta();
+	}
+
+	public ParticleEffect getParticle() {
+		return rainbowParticle;
+	}
+
+	@Override
+	public void ready(){
+		super.ready();
+		AssetLoader.rainbowPool.free((ParticleEffectPool.PooledEffect)rainbowParticle);
+
 	}
 
 	public boolean isDoneMoving(){
