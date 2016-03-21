@@ -15,8 +15,6 @@ public class Mustache extends GameEvent {
 
 	private boolean doneMoving;
 
-
-
 	final private int speed=120;
 	private Vector2 acceleration;
 	private float runTime;
