@@ -52,6 +52,8 @@ public class GameRenderer {
     private Animation baconAnimation;
     private TextureRegion gb;
     private TextureRegion roadroller;
+    private TextureRegion mustacheIdle;
+    private Animation mustacheAnimation;
 
     private TextureRegion star1,star2;
     private TextureRegion background;
@@ -153,7 +155,8 @@ public class GameRenderer {
         gb = AssetLoader.greenBullet;
 
         roadroller = AssetLoader.roadroller;
-
+        mustacheIdle = AssetLoader.mustaches[2];
+        mustacheAnimation = AssetLoader.mustacheAnim;
 
         star1 = AssetLoader.star1;
         star2 = AssetLoader.star2;
@@ -210,9 +213,14 @@ public class GameRenderer {
     }
 
     private void drawMustaches(){
-        for (Mustache m : myMustaches){
-            if (m.isVISIBLE())
-                spriteBatch.draw(roadroller,m.getX(),m.getY());
+        for (Mustache m : myMustaches) {
+            if (m.isVISIBLE()) {
+                if (m.isDoneMoving())
+                spriteBatch.draw(mustacheIdle, m.getX(), m.getY());
+                else
+                    spriteBatch.draw(mustacheAnimation.getKeyFrame(m.getRunTime()),m.getX(),m.getY());
+
+            }
         }
     }
 

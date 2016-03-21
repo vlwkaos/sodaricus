@@ -79,6 +79,9 @@ public class Mustache extends GameEvent {
 
 	}
 
+	public float getRunTime() {
+		return runTime;
+	}
 
 	//checks in progress handler, then call squirrel's dead, reset method
 	public void collide(Squirrel squirrel) {
