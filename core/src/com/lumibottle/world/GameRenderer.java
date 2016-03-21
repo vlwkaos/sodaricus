@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
@@ -41,6 +42,7 @@ public class GameRenderer {
 	private Star[] myStars;
     private ProgressHandler myStage;
     private RoadRoller[] myRoadRollers;
+    private Mustache[] myMustaches;
     private FX[] myFXs, enemFXs;
 
 
@@ -103,7 +105,7 @@ public class GameRenderer {
 		Draw enemies below here
 		 */
         drawRoadRollers();
-
+        drawMustaches();
 
 
 
@@ -140,6 +142,7 @@ public class GameRenderer {
         myBullets = mySquirrel.getBullets();
         myStage = myWorld.getMyStage();
         myRoadRollers = myStage.getRoadRollers();
+        myMustaches= myStage.getMustaches();
     }
 
     private void initAsset(){
@@ -203,6 +206,13 @@ public class GameRenderer {
         for (RoadRoller r: myRoadRollers){
             if (r.isVISIBLE())
             spriteBatch.draw(roadroller,r.getX(),r.getY());
+        }
+    }
+
+    private void drawMustaches(){
+        for (Mustache m : myMustaches){
+            if (m.isVISIBLE())
+                spriteBatch.draw(roadroller,m.getX(),m.getY());
         }
     }
 

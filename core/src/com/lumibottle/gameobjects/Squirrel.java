@@ -21,7 +21,7 @@ public class Squirrel {
 	private Vector2 acceleration;
 
 	private int width, height;
-	private int ceiling;
+	private float ceiling;
 
 	private float rotation;
 
@@ -41,7 +41,8 @@ public class Squirrel {
 		acceleration = new Vector2(0, -460);
 		currentState=SquirrelState.IDLE;
 
-		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240));// temporary
+		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-getHeight();// temporary
+		//TODO: is this device independent?
 
 		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
 		hitbox.setOrigin(width/2f,height/2f);

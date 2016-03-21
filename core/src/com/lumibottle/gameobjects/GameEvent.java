@@ -53,9 +53,9 @@ public abstract class GameEvent {
 	public boolean isOutOfScreen(boolean toLeft){
 		//was visible but is out of screen, so move it else where ready to be re deployed
 		if (toLeft)
-			return (position.x+width<0 || position.y>gameHeight || (position.y+height)<0 );
+			return (position.x+width<0 || position.y>gameHeight + height || position.y < 0-height );
 		else
-			return (  position.y>gameHeight || (position.y+height)<0 || position.x>240 );
+			return (  position.y>gameHeight + height || position.y < 0-height || position.x>240 );
 	}
 
 	public void ready(){
@@ -76,6 +76,16 @@ public abstract class GameEvent {
 	}
 
 	//it will use coordinate from main actor, so ..
+
+
+	public void setVelocity(float x, float y) {
+		this.velocity.set(x,y);
+	}
+
+	public void setTheta(float theta) {
+		this.theta = theta;
+	}
+
 	public float getX() {
 		return position.x;
 	}

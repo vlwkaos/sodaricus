@@ -17,9 +17,9 @@ public class Mustache extends GameEvent {
 
 
 
-	final private int speed=50;
+	final private int speed=99;
 	private Vector2 acceleration;
-
+	private float runTime;
 
 	public Mustache() {
 		super(20, 12);
@@ -31,9 +31,27 @@ public class Mustache extends GameEvent {
 	@Override
 	public void update(float delta) {
 		hitbox.setPosition(getX(), getY());
+		runTime +=delta;
 
 		if (isVISIBLE()) {
+			if (!doneMoving && runTime >= .4f) {
+				runTime -= .4f;
+				doneMoving=true;
+				nextTheta();
+			}
+
+			if (doneMoving && runTime >= 1.2f) { // resting
+				runTime-=1.2f;
+				doneMoving = false;
+			}
+
+			if (!doneMoving) {
+				setVelocity(MathUtils.sin(runTime * MathUtils.PI / 0.4f) * MathUtils.cosDeg(getTheta())*speed,
+						MathUtils.sin(runTime * MathUtils.PI / 0.4f) * MathUtils.sinDeg(getTheta())*speed);// changing
+			}
+
 			getPosition().add(getVelocity().cpy().scl(delta));
+
 			if (isOutOfScreen(true))
 				ready();
 		}
@@ -42,10 +60,23 @@ public class Mustache extends GameEvent {
 
 	public void reset(float x) {
 		super.reset(x, MathUtils.random(90, 110), 0, 0, 0);
+		runTime=MathUtils.random(0,0.5f);
+		doneMoving=false;
+		nextTheta();
 	}
 
-	public void setDoneMoving(boolean yes){
-		doneMoving=yes;
+	public boolean isDoneMoving(){
+		return doneMoving;
+	} // to notify sprite batch
+
+	private void nextTheta(){
+		if (getY() < getHeight())
+			setTheta(MathUtils.random(100,120));
+		else if ( getY() > GameEvent.gameHeight-getHeight())
+			setTheta(MathUtils.random(240,260));
+		else
+			setTheta(MathUtils.random(110,250));// set direction for the next move
+
 	}
 
 

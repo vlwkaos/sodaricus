@@ -15,7 +15,7 @@ public class ProgressHandler {
 	private FX[] myFXs;
     //
 	private RoadRoller[] roadRollers;
-
+	private Mustache[] mustaches;
 
 	public ProgressHandler() {
 		stageNumber=0;
@@ -23,6 +23,12 @@ public class ProgressHandler {
 		for (int i = 0; i < roadRollers.length; i++) {
 			roadRollers[i] = new RoadRoller();
 			roadRollers[i].reset(240 + i * 50); //later, with runtime.
+		}
+
+		mustaches = new Mustache[4];
+		for (int i = 0; i < mustaches.length; i++) {
+			mustaches[i] = new Mustache();
+			mustaches[i].reset(240 + i * 50); //later, with runtime.
 		}
 
 		myFXs = new FX[10];
@@ -39,8 +45,8 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-		updateRoadRollers(delta);
-
+	//	updateRoadRollers(delta);
+		updateMustaches(delta);
 	}
 
 
@@ -49,13 +55,22 @@ public class ProgressHandler {
 	 */
 	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
-				r.update(delta);
-
+			r.update(delta);
 			if (r.isREADY())
 				r.reset(250);
-
 		}
 	}
+		private void updateMustaches(float delta){
+		for (Mustache m : mustaches)
+			m.update(delta);
+
+	}
+
+
+
+
+
+
 
 	public void checkCollision(Squirrel mySquirrel){
 		for (RoadRoller r: roadRollers)
@@ -74,7 +89,7 @@ public class ProgressHandler {
 		return roadRollers;
 	}
 
-
-
-
+	public Mustache[] getMustaches() {
+		return mustaches;
+	}
 }
