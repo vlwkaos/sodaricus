@@ -108,7 +108,7 @@ public class AssetLoader {
         mustaches = new TextureRegion[3];
         for (int i=0;i<3;i++)
             mustaches[i] = new TextureRegion(mustacheTexture,i*33,0,33,10);
-        mustacheAnim = new Animation(1 / 8f, mustaches);
+        mustacheAnim = new Animation(1 / 12f, mustaches);
         mustacheAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);

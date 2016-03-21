@@ -159,7 +159,7 @@ public class GameRenderer {
         gb = AssetLoader.greenBullet;
 
         roadroller = AssetLoader.roadroller;
-        mustacheIdle = AssetLoader.mustaches[2];
+        mustacheIdle = AssetLoader.mustaches[0];
         mustacheAnimation = AssetLoader.mustacheAnim;
 
         star1 = AssetLoader.star1;
