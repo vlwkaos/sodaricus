@@ -2,9 +2,12 @@ package com.lumibottle.gameobjects;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.lumibottle.helper.AssetLoader;
 import com.lumibottle.helper.FXHelper;
 
 /**
@@ -13,6 +16,8 @@ import com.lumibottle.helper.FXHelper;
 public class RoadRoller extends GameEvent {
 
 	private Polygon hitbox;
+	private ParticleEffect nitroParticle;
+
 
 	public RoadRoller() {
 		super(20, 12);
@@ -32,11 +37,23 @@ public class RoadRoller extends GameEvent {
 
 	}
 
-	public void reset(float x) {
-		//	super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
-		super.reset(x, MathUtils.random(90, 110), -50, 0, 0);
+	public ParticleEffect getParticle() {
+		return nitroParticle;
 	}
 
+	public void reset(float x) {
+		super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
+		nitroParticle = AssetLoader.nitroPool.obtain();
+
+	}
+
+
+	@Override
+	public void ready(){
+		super.ready();
+		AssetLoader.nitroPool.free((ParticleEffectPool.PooledEffect)nitroParticle);
+
+	}
 
 	//checks in progress handler, then call squirrel's dead, reset method
 	public void collide(Squirrel squirrel) {

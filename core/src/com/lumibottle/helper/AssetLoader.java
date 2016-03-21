@@ -28,8 +28,6 @@ public class AssetLoader {
      */
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
-    public static TextureRegion[] gbCrash, pbCrash; // 4 or 3 frames
-    public static Animation gbCrashAnim, pbCrashAnim;//animation for bullet hit
 
     public static TextureRegion sqdown, sqmid, squp;
     public static Animation sqAnimation;
@@ -51,6 +49,8 @@ public class AssetLoader {
      */
     public static ParticleEffect rainbowParticle;
     public static ParticleEffectPool rainbowPool;
+	public static ParticleEffect nitroParticle;
+	public static ParticleEffectPool nitroPool;
 
     public static void load() {
         loadParticles();
@@ -66,8 +66,10 @@ public class AssetLoader {
         bacon.dispose();
         enemyTexture.dispose();
         mustacheTexture.dispose();
+        rainbowPool.clear();
 		rainbowParticle.dispose();
-	    rainbowPool.clear();
+		nitroPool.clear();
+	    nitroParticle.dispose();
     }
 
     private static void loadTextures() {
@@ -145,6 +147,10 @@ public class AssetLoader {
         rainbowParticle = new ParticleEffect();
         rainbowParticle.load(Gdx.files.internal("data/rainbow.p"),Gdx.files.internal("data/"));
         rainbowPool = new ParticleEffectPool(rainbowParticle,0,10);
+
+	    nitroParticle = new ParticleEffect();
+	    nitroParticle.load(Gdx.files.internal("data/nitro.p"),Gdx.files.internal("data/"));
+	    nitroPool = new ParticleEffectPool(nitroParticle,0,10);
 
     }
 

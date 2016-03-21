@@ -45,7 +45,7 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-	//	updateRoadRollers(delta);
+		updateRoadRollers(delta);
 		updateMustaches(delta);
 	}
 
@@ -65,6 +65,8 @@ public class ProgressHandler {
 		for (Mustache m : mustaches) {
 			m.update(delta);
 
+			if (m.isREADY())
+				m.reset(250);
 		}
 
 	}

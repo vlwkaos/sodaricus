@@ -207,9 +207,16 @@ public class GameRenderer {
 	}
 
     private void drawRoadRollers(){
-        for (RoadRoller r: myRoadRollers){
-            if (r.isVISIBLE())
-            spriteBatch.draw(roadroller,r.getX(),r.getY());
+        for (RoadRoller r: myRoadRollers) {
+	        if (r.isVISIBLE()) {
+
+		        r.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
+		        r.getParticle().update(Gdx.graphics.getDeltaTime());
+		        r.getParticle().draw(spriteBatch);
+		        if (r.getParticle().isComplete())
+			        r.getParticle().reset();
+		        spriteBatch.draw(roadroller, r.getX(), r.getY());
+	              }
         }
     }
 
