@@ -7,18 +7,16 @@ import com.badlogic.gdx.math.MathUtils;
  */
 public class Star extends GameEvent {
 
-
 	private boolean isBigStar;
 
 	public Star() {
-		super(9,9);
+		super(9,9,null);
 		reset();
 
 	}
 
 	@Override
 	public void update(float delta) {
-
 		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
 

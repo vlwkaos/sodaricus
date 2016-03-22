@@ -14,26 +14,23 @@ import com.lumibottle.helper.FXHelper;
  */
 public class Mustache extends GameEvent {
 
-	private Polygon hitbox;
-
 	private boolean doneMoving;
 
 	private ParticleEffect rainbowParticle;
 
 	final private int speed=120;
-	private Vector2 acceleration;
 	private float runTime;
 
 	public Mustache() {
-		super(33, 16);
-		hitbox = new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16});
+		super(33, 16,new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16}));
+
 	}
 
 
 	//must separate moving, stopping
 	@Override
 	public void update(float delta) {
-		hitbox.setPosition(getX(), getY());
+		getHitbox().setPosition(getX(), getY());
 		runTime +=delta;
 
 		if (isVISIBLE()) {
@@ -99,23 +96,4 @@ public class Mustache extends GameEvent {
 	}
 
 	//checks in progress handler, then call squirrel's dead, reset method
-	public void collide(Squirrel squirrel) {
-		if (isVISIBLE()) {
-			for (Bullet b : squirrel.getBullets()) {
-				if (b.getX() + b.getWidth() > getX())
-					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
-						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
-						ready();
-						b.ready();
-						break;
-					}
-			}
-
-			if (squirrel.getX() + squirrel.getWidth() > getX()) {
-				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
-
-				}
-			}
-		}
-	}
 }

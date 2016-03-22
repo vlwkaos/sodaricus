@@ -216,6 +216,7 @@ public class GameRenderer {
 		        if (r.getParticle().isComplete())
 			        r.getParticle().reset();
 		        spriteBatch.draw(roadroller, r.getX(), r.getY());
+
 	              }
         }
     }

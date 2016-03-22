@@ -10,19 +10,17 @@ import com.badlogic.gdx.math.Polygon;
  */
 public class Bullet extends GameEvent {
 
-	private Polygon hitbox;
 	private float theta;
 	//load in gameworld first, the move
 
 	public Bullet() {
-		super(12, 12);
-		hitbox = new Polygon(new float[]{4,4,8,4,8,8,4,8});
-		hitbox.setOrigin(getWidth()/2f,getHeight()/2f);
+		super(12, 12,new Polygon(new float[]{4,4,8,4,8,8,4,8}));
+		getHitbox().setOrigin(getWidth()/2f,getHeight()/2f);
 	}
 
 	public void update(float delta) {
-		hitbox.setPosition(getX(), getY());
-		hitbox.setRotation(getTheta());
+		getHitbox().setPosition(getX(), getY());
+		getHitbox().setRotation(getTheta());
 
 		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
@@ -44,8 +42,4 @@ public class Bullet extends GameEvent {
 		super.reset(x,y,speed * MathUtils.cos(MathUtils.degreesToRadians*this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians*this.theta), this.theta);
 	}
 
-
-	public Polygon getHitbox() {
-		return hitbox;
-	}
 }

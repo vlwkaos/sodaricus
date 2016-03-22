@@ -1,7 +1,10 @@
 package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.helper.FXHelper;
 
 /**
  * 		OOP
@@ -17,6 +20,8 @@ public abstract class GameEvent {
 	}//READY state notifies that it went out of screen and is now ready to be reset
 
 
+
+
 	public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 240);
 	//runtime for enemy
 	private Vector2 position;
@@ -26,14 +31,16 @@ public abstract class GameEvent {
 	private int width, height;
 	private float theta;
 
+	private Polygon hitbox;
 
-	public GameEvent(int width, int height){
+	public GameEvent(int width, int height, Polygon hitbox){
 		position = new Vector2(-255,-255);
 		velocity = new Vector2(0,0);
 		this.width = width;
 		this.height = height;
 		this.theta = 0;
 		currentState = EventState.READY;
+		this.hitbox = hitbox;
 	}
 
 
@@ -43,6 +50,8 @@ public abstract class GameEvent {
 	 */
 	public abstract void update(float delta);
 
+
+	//If using particle, You should obtain particle here by overriding this method.
 	public void reset(float x, float y, float dx, float dy, float theta){
 		position.set(x,y);
 		velocity.set(dx,dy);
@@ -58,9 +67,34 @@ public abstract class GameEvent {
 			return (  position.y>gameHeight + height || position.y < 0-height || position.x>240 );
 	}
 
+	// if using particle, free particle here
 	public void ready(){
 		position.set(-255, -255);
 		currentState = EventState.READY;
+	}
+
+
+	/*
+	collision
+	 */
+	public void collide(Squirrel squirrel) {
+		if (isVISIBLE()) {
+			for (Bullet b : squirrel.getBullets()) {
+				if (b.getX() + b.getWidth() > getX())
+					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
+						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
+						ready();
+						b.ready();
+						break;
+					}
+			}
+
+			if (squirrel.getX() + squirrel.getWidth() > getX()) {
+				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
+
+				}
+			}
+		}
 	}
 
 
@@ -76,8 +110,6 @@ public abstract class GameEvent {
 	}
 
 	//it will use coordinate from main actor, so ..
-
-
 	public void setVelocity(float x, float y) {
 		this.velocity.set(x,y);
 	}
@@ -114,5 +146,8 @@ public abstract class GameEvent {
 		return velocity;
 	}
 
+	public Polygon getHitbox() {
+		return hitbox;
+	}
 
 }
