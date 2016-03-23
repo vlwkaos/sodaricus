@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.Mustache;
@@ -19,6 +20,12 @@ import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
 import com.lumibottle.helper.FXHelper;
+
+import java.awt.Color;
+
+import static com.badlogic.gdx.graphics.Color.BLACK;
+import static com.badlogic.gdx.graphics.Color.CORAL;
+import static com.badlogic.gdx.graphics.Color.WHITE;
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -147,7 +154,6 @@ public class GameRenderer {
         myRoadRollers = myStage.getRoadRollers();
         myMustaches= myStage.getMustaches();
     }
-
     private void initAsset(){
         squirrelDown = AssetLoader.sqdown;
         squirrelAnimation = AssetLoader.sqAnimation;
@@ -216,6 +222,7 @@ public class GameRenderer {
 		        if (r.getParticle().isComplete())
 			        r.getParticle().reset();
 		        spriteBatch.draw(roadroller, r.getX(), r.getY());
+
 
 	              }
         }
