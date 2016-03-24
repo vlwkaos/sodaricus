@@ -4,13 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.Mustache;
@@ -20,12 +18,6 @@ import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
 import com.lumibottle.helper.FXHelper;
-
-import java.awt.Color;
-
-import static com.badlogic.gdx.graphics.Color.BLACK;
-import static com.badlogic.gdx.graphics.Color.CORAL;
-import static com.badlogic.gdx.graphics.Color.WHITE;
 
 /**
  * Created by MG-UP on 2016-03-10.
