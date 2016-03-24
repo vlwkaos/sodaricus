@@ -109,6 +109,9 @@ public abstract class GameEvent {
 		return currentState==EventState.VISIBLE;
 	}
 
+	public void setHitbox(Polygon hitbox) {
+		this.hitbox = hitbox;
+	}
 	//it will use coordinate from main actor, so ..
 	public void setVelocity(float x, float y) {
 		this.velocity.set(x,y);
