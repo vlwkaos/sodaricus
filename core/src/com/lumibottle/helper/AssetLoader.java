@@ -165,8 +165,8 @@ public class AssetLoader {
 	    redlaser0.flip(true,false);
 	    redlaserinit = new Animation(1f,redlaser0);
 	    redlaserinit.setPlayMode(Animation.PlayMode.NORMAL);
-	    redlaser = new TextureRegion[6];
-	    for (int i=0; i<6;i++) {
+	    redlaser = new TextureRegion[7];
+	    for (int i=0; i<7;i++) {
 		    redlaser[i] = new TextureRegion(redlaserTexture, 0, (i + 1) * 30, 240, 30);
 	        redlaser[i].flip(true,false);
 	    }
