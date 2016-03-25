@@ -20,9 +20,12 @@ public class AssetLoader {
     public static Texture sodaTexture;
     public static Texture squirrelTexture;
     public static Texture bacon;
-    public static Texture vfxTexture;
+    public static Texture limeexplosionTexture;
     public static Texture enemyTexture;
     public static Texture mustacheTexture;
+    public static Texture bluecrayonTexture;
+	public static Texture redlaserTexture;
+
     /*
         Texture Region
      */
@@ -36,6 +39,10 @@ public class AssetLoader {
 
     public static TextureRegion[] explosion1;
     public static Animation explosionAnim1;
+	public static TextureRegion[] redlaser;
+	public static Animation redlaserinit;
+	public static Animation redlaserAnim;
+
 
     //TODO: collage texture into one png file
     public static TextureRegion roadroller;
@@ -43,7 +50,7 @@ public class AssetLoader {
     public static TextureRegion[] mustaches;
     public static Animation mustacheAnim;
 
-
+	public static TextureRegion bluecrayon;
     /*
         Particles
      */
@@ -70,6 +77,9 @@ public class AssetLoader {
 		rainbowParticle.dispose();
 		nitroPool.clear();
 	    nitroParticle.dispose();
+	    bluecrayonTexture.dispose();
+	    redlaserTexture.dispose();
+
     }
 
     private static void loadTextures() {
@@ -79,8 +89,14 @@ public class AssetLoader {
         squirrelTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         bacon = new Texture(Gdx.files.internal("data/bacon.png"));
         bacon.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+	    //ENemy
         enemyTexture = new Texture(Gdx.files.internal("data/enemies.png"));
+	    enemyTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         mustacheTexture = new Texture(Gdx.files.internal("data/rainbowmusta.png"));
+	    mustacheTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+	    bluecrayonTexture = new Texture(Gdx.files.internal("data/bluepastel.png"));
+	    bluecrayonTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
         sodaTexture = new Texture(Gdx.files.internal("data/sodabullet.png"));
@@ -95,9 +111,11 @@ public class AssetLoader {
 
 
         //FX
-        vfxTexture = new Texture(Gdx.files.internal("data/limexplosion.png"));
-        vfxTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        limeexplosionTexture = new Texture(Gdx.files.internal("data/limexplosion.png"));
+        limeexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+	    redlaserTexture = new Texture(Gdx.files.internal("data/redlaser.png"));
+	    redlaserTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //Game Objects
@@ -106,8 +124,8 @@ public class AssetLoader {
         squp = new TextureRegion(squirrelTexture, 40, 0, 20, 20);
 
         TextureRegion[] sqs = {squp, sqmid, sqdown};
-        sqAnimation = new Animation(1 / 12f, sqs);
-        sqAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        sqAnimation = new Animation(1 / 16f, sqs);
+        sqAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         bacon1 = new TextureRegion(bacon, 0, 0, 32, 32);
         bacon2 = new TextureRegion(bacon, 32, 0, 32, 32);
         TextureRegion[] bacons = {bacon1, bacon2};
@@ -123,6 +141,9 @@ public class AssetLoader {
         mustacheAnim = new Animation(1 / 30f, mustaches);
         mustacheAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
+	    bluecrayon = new TextureRegion(bluecrayonTexture);
+
+
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
 
 
@@ -135,11 +156,22 @@ public class AssetLoader {
         //FX
         explosion1 = new TextureRegion[6];
         for (int i = 0; i < 6; i++)
-            explosion1[i] = new TextureRegion(vfxTexture, i * 17, 0, 17, 17);
+            explosion1[i] = new TextureRegion(limeexplosionTexture, i * 17, 0, 17, 17);
         explosionAnim1 = new Animation(1 / 12f, explosion1);
         explosionAnim1.setPlayMode(Animation.PlayMode.NORMAL);
 
 
+	    TextureRegion redlaser0 = new TextureRegion(redlaserTexture,0,0,240,30);
+	    redlaser0.flip(true,false);
+	    redlaserinit = new Animation(1f,redlaser0);
+	    redlaserinit.setPlayMode(Animation.PlayMode.NORMAL);
+	    redlaser = new TextureRegion[6];
+	    for (int i=0; i<6;i++) {
+		    redlaser[i] = new TextureRegion(redlaserTexture, 0, (i + 1) * 30, 240, 30);
+	        redlaser[i].flip(true,false);
+	    }
+		redlaserAnim = new Animation(1/16f,redlaser);
+        redlaserAnim.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
 

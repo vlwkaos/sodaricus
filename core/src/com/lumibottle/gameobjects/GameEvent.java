@@ -83,6 +83,7 @@ public abstract class GameEvent {
 				if (b.getX() + b.getWidth() > getX())
 					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
 						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
+
 						ready();
 						b.ready();
 						break;
@@ -91,7 +92,7 @@ public abstract class GameEvent {
 
 			if (squirrel.getX() + squirrel.getWidth() > getX()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
-
+					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
 				}
 			}
 		}
@@ -109,8 +110,8 @@ public abstract class GameEvent {
 		return currentState==EventState.VISIBLE;
 	}
 
-	public void setHitbox(Polygon hitbox) {
-		this.hitbox = hitbox;
+	public void setHitbox(float[] hitbox) {
+		this.hitbox.setVertices(hitbox);
 	}
 	//it will use coordinate from main actor, so ..
 	public void setVelocity(float x, float y) {
@@ -151,6 +152,10 @@ public abstract class GameEvent {
 
 	public Polygon getHitbox() {
 		return hitbox;
+	}
+
+	public float getdX(){
+		return velocity.x;
 	}
 
 }

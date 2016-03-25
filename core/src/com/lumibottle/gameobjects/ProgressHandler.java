@@ -1,6 +1,8 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.Gdx;
+import com.lumibottle.gameobjects.enemies.LaserCrayon;
+import com.lumibottle.gameobjects.enemies.Mustache;
+import com.lumibottle.gameobjects.enemies.RoadRoller;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -16,6 +18,7 @@ public class ProgressHandler {
     //
 	private RoadRoller[] roadRollers;
 	private Mustache[] mustaches;
+	private LaserCrayon[] laserCrayons;
 
 	public ProgressHandler() {
 		stageNumber=0;
@@ -31,11 +34,20 @@ public class ProgressHandler {
 			mustaches[i].reset(240 + i * 20); //later, with runtime.
 		}
 
+		laserCrayons = new LaserCrayon[5];
+		for (int i=0;i<laserCrayons.length;i++){
+			laserCrayons[i] = new LaserCrayon();
+			laserCrayons[i].reset(240 + i * 20);
+		}
+
+
 		myFXs = new FX[10];
 		for (int i=0; i< myFXs.length;i++)
 			myFXs[i]= new FX();
 
 	}
+
+
 
 	public void update(float delta) {
 		runTime += delta;
@@ -45,8 +57,9 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-		updateRoadRollers(delta);
-		updateMustaches(delta);
+	//	updateRoadRollers(delta);
+	//	updateMustaches(delta);
+		updateLaserCrayons(delta);
 	}
 
 
@@ -71,7 +84,14 @@ public class ProgressHandler {
 
 	}
 
-
+	private void updateLaserCrayons(float delta) {
+		for (LaserCrayon l : laserCrayons) {
+			l.update(delta);
+			//TODO how to spawn?
+			if (l.isREADY())
+				l.reset(250);
+		}
+	}
 
 
 
@@ -83,6 +103,9 @@ public class ProgressHandler {
 
 		for (Mustache m : mustaches)
 			m.collide(mySquirrel);
+
+		for (LaserCrayon l : laserCrayons)
+			l.collide(mySquirrel);
 	}
 
 
@@ -96,7 +119,10 @@ public class ProgressHandler {
 		return roadRollers;
 	}
 
-	public Mustache[] getMustaches() {
+	public com.lumibottle.gameobjects.enemies.Mustache[] getMustaches() {
 		return mustaches;
+	}
+	public LaserCrayon[] getLaserCrayons() {
+		return laserCrayons;
 	}
 }

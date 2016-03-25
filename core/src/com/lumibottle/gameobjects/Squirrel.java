@@ -16,6 +16,8 @@ public class Squirrel {
 	private SquirrelState currentState;
 	private float runTime;
 
+	private float animRunTime;
+
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
@@ -58,12 +60,13 @@ public class Squirrel {
 	}
 
 
+
 	public void update(float delta){
 		// constant delta
 		if (delta > .15f)
 			delta = .15f;
 		runTime+=delta;
-
+		animRunTime+=delta;
 
 
 		/*
@@ -76,18 +79,20 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >0.3f && isIdle()){
-			runTime-=0.3f;
+		if (runTime >0.8f && isIdle()){
+			runTime-=0.8f;
+			animRunTime = 0;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isREADY()){
-					b.reset(position.x+8,position.y,200,rotation);
+					b.reset(position.x+getWidth()/2f,position.y+getHeight()/2f,200,rotation);
 					break;
 				}
 			}
 			//shoot bullet
 		} else if (runTime >0.2f && isShooting()){
-			currentState=SquirrelState.IDLE;
+			runTime-=0.2f;
+			currentState = SquirrelState.IDLE;
 		}
 
 
@@ -104,8 +109,11 @@ public class Squirrel {
 		}
 
 		//temporary bottom
-		if (position.y<0)
+		if (position.y<0){
 			position.y = 0;
+			rotation=0;
+		}
+
 
 		/*
 		Physics
@@ -170,6 +178,9 @@ public class Squirrel {
 	}
 
 
+	public float getAnimRunTime() {
+		return animRunTime;
+	}
 
 	public Bullet[] getBullets(){
 		return bullets;

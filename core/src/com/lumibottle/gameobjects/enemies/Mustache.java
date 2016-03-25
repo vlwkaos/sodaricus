@@ -1,4 +1,4 @@
-package com.lumibottle.gameobjects;
+package com.lumibottle.gameobjects.enemies;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetLoader;
 import com.lumibottle.helper.FXHelper;
 

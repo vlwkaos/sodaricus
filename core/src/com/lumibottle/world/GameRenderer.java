@@ -11,9 +11,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
-import com.lumibottle.gameobjects.Mustache;
+import com.lumibottle.gameobjects.enemies.LaserCrayon;
+import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
-import com.lumibottle.gameobjects.RoadRoller;
+import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetLoader;
@@ -48,7 +49,7 @@ public class GameRenderer {
     private ProgressHandler myStage;
     private RoadRoller[] myRoadRollers;
     private Mustache[] myMustaches;
-    private FX[] myFXs, enemFXs;
+	private LaserCrayon[] myLaserCrayons;
 
 
     //ASSET
@@ -62,6 +63,9 @@ public class GameRenderer {
 
     private TextureRegion star1,star2;
     private TextureRegion background;
+
+	private TextureRegion bluecrayon;
+
 
 
     public GameRenderer(GameWorld myWorld, int gameHeight, float midPointY){
@@ -108,13 +112,13 @@ public class GameRenderer {
 		 */
         drawRoadRollers();
         drawMustaches();
-
+		drawBlueCrayons();
 
 
 
         //draw main actor
         if (mySquirrel.isShooting()) {
-            spriteBatch.draw(squirrelAnimation.getKeyFrame(runTime), mySquirrel.getX(),
+            spriteBatch.draw(squirrelAnimation.getKeyFrame(mySquirrel.getAnimRunTime()), mySquirrel.getX(),
                     mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
                     mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
                     1, 1, mySquirrel.getRotation());
@@ -145,6 +149,7 @@ public class GameRenderer {
         myStage = myWorld.getMyStage();
         myRoadRollers = myStage.getRoadRollers();
         myMustaches= myStage.getMustaches();
+	    myLaserCrayons = myStage.getLaserCrayons();
     }
     private void initAsset(){
         squirrelDown = AssetLoader.sqdown;
@@ -156,6 +161,8 @@ public class GameRenderer {
         roadroller = AssetLoader.roadroller;
         mustacheIdle = AssetLoader.mustaches[4];
         mustacheAnimation = AssetLoader.mustacheAnim;
+
+		bluecrayon = AssetLoader.bluecrayon;
 
         star1 = AssetLoader.star1;
         star2 = AssetLoader.star2;
@@ -199,7 +206,7 @@ public class GameRenderer {
 					b.getX(), b.getY(),
 					b.getWidth() / 2.0f,b.getHeight() / 2.0f,
 					b.getWidth(), b.getHeight(),
-					1, 1, b.getTheta()+90);
+					1, 1, b.getTheta()+180);
 
 		}
 	}
@@ -237,6 +244,22 @@ public class GameRenderer {
             }
         }
     }
+
+	private void drawBlueCrayons(){
+		for (LaserCrayon l: myLaserCrayons) {
+			if (l.isVISIBLE()) {
+
+//				l.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
+//				r.getParticle().update(Gdx.graphics.getDeltaTime());
+//				r.getParticle().draw(spriteBatch);
+//				if (r.getParticle().isComplete())
+//					r.getParticle().reset();
+				spriteBatch.draw(bluecrayon, l.getX(), l.getY());
+
+
+			}
+		}
+	}
 
 	public void dispose(){
 		spriteBatch.dispose();
