@@ -24,6 +24,11 @@ public class LaserCrayon extends GameEvent {
 	private LaserCrayonState currentState;
     private float runTime;
 	private float delay;
+
+	private ParticleEffect energyParticle;
+
+
+
     public LaserCrayon() {
         super(29, 5, new Polygon(new float[]{0, 0, 29, 0, 29, 5, 0, 5}));
 
@@ -38,7 +43,7 @@ public class LaserCrayon extends GameEvent {
 
 	        // move right and
             if (getX()<240-getWidth()*2 && currentState == LaserCrayonState.INIT){
-                getVelocity().add(2*runTime,0);
+                getVelocity().add(4*runTime,0);
             }
 
 	        //stop
@@ -58,25 +63,25 @@ public class LaserCrayon extends GameEvent {
 	        if (currentState == LaserCrayonState.READYTOSHOOT && delay > 1f){
 			//change hit box
 		        setHitbox(new float[]{
-				        -240,17.5f,
-				        0,17.5f,
+				        -240,14.5f,
+				        0,14.5f,
 				        0, 5,
 				        29, 5,
 				        29, 0,
 				        0, 0,
-				        0,-13.5f,
-				        -240,-13.5f});
+				        0,-10.5f,
+				        -240,-10.5f});
 		        //put fx
 		        FXHelper.getInstance().newFX(0-(240-getX()),getY()-12f,(short)2);
 		        currentState = LaserCrayonState.SHOT;
 		        delay=0;
 	        }
 
-	        if (currentState == LaserCrayonState.SHOT && delay > 0.6f){
+	        if (currentState == LaserCrayonState.SHOT && delay > 0.3f){
 		        //change hit box
 				setHitbox(new float[]{0, 0, 29, 0, 29, 5, 0, 5});
 		        // go back to your home
-		        setVelocity(delay*30,0);
+		        setVelocity(delay*50,0);
 	        }
 
 			if (currentState == LaserCrayonState.SHOT  && getX()>240)
@@ -85,12 +90,10 @@ public class LaserCrayon extends GameEvent {
 
     }
 
-//    public ParticleEffect getParticle() {
-//        return nitroParticle;
-//    }
 
     public void reset(float x) {
         super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
+	    energyParticle = AssetLoader.energyPool.obtain();
     runTime = 0;
 	    delay=0;
 	    currentState = LaserCrayonState.INIT;
@@ -100,7 +103,7 @@ public class LaserCrayon extends GameEvent {
     @Override
     public void ready(){
         super.ready();
-      //  AssetLoader.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
+        AssetLoader.energyPool.free((ParticleEffectPool.PooledEffect) energyParticle);
 
     }
 
@@ -114,4 +117,17 @@ public class LaserCrayon extends GameEvent {
 		}
 	}
 
+
+//getter setter
+	public ParticleEffect getParticle() {
+		return energyParticle;
+	}
+
+	public boolean isREADYTOSHOOT(){
+		return currentState == LaserCrayonState.READYTOSHOOT;
+	}
+
+	public boolean isSHOT(){
+		return currentState == LaserCrayonState.SHOT;
+	}
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+
 /**
  * Created by MG-UP on 2016-03-10.
  */
@@ -58,6 +59,9 @@ public class AssetLoader {
     public static ParticleEffectPool rainbowPool;
 	public static ParticleEffect nitroParticle;
 	public static ParticleEffectPool nitroPool;
+	public static ParticleEffect energyParticle;
+	public static ParticleEffectPool energyPool;
+
 
     public static void load() {
         loadParticles();
@@ -73,13 +77,18 @@ public class AssetLoader {
         bacon.dispose();
         enemyTexture.dispose();
         mustacheTexture.dispose();
-        rainbowPool.clear();
-		rainbowParticle.dispose();
-		nitroPool.clear();
-	    nitroParticle.dispose();
+
 	    bluecrayonTexture.dispose();
 	    redlaserTexture.dispose();
 
+
+//particle
+	    rainbowPool.clear();
+	    rainbowParticle.dispose();
+	    nitroPool.clear();
+	    nitroParticle.dispose();
+        energyPool.clear();
+	    energyParticle.dispose();
     }
 
     private static void loadTextures() {
@@ -183,6 +192,10 @@ public class AssetLoader {
 	    nitroParticle = new ParticleEffect();
 	    nitroParticle.load(Gdx.files.internal("data/nitro.p"),Gdx.files.internal("data/"));
 	    nitroPool = new ParticleEffectPool(nitroParticle,0,10);
+
+	    energyParticle = new ParticleEffect();
+	    energyParticle.load(Gdx.files.internal("data/energy.p"),Gdx.files.internal("data/"));
+	    energyPool = new ParticleEffectPool(energyParticle,0,10);
 
     }
 

@@ -46,7 +46,7 @@ public class Squirrel {
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-getHeight();// temporary
 		//TODO: is this device independent?
 
-		hitbox = new Polygon(new float[] {0,0,width,0,width,height-5,0,height-5});
+		hitbox = new Polygon(new float[] {0,0,width,0,width,height-8,0,height-8});
 		hitbox.setOrigin(width/2f,height/2f);
 
 		/*

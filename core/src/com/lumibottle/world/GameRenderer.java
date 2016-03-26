@@ -1,6 +1,7 @@
 package com.lumibottle.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
@@ -97,9 +99,6 @@ public class GameRenderer {
         Gdx.gl.glClearColor(100, 100, 100, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        //draw with shaperenderer
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.end();
 
         spriteBatch.begin();
         spriteBatch.draw(background, 0, bgOffset);
@@ -134,6 +133,13 @@ public class GameRenderer {
 	    drawFXs();
 
         spriteBatch.end();
+
+
+	    //draw with shaperenderer
+	    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+	    shapeRenderer.setColor(147 / 255.0f, 80 / 255.0f, 27 / 255.0f, 1);
+	    shapeRenderer.rect(mySquirrel.getX(),mySquirrel.getY(),mySquirrel.getWidth()/2f,mySquirrel.getHeight()/2f,20,12,1,1,mySquirrel.getRotation());
+	    shapeRenderer.end();
 
     }
 
@@ -249,11 +255,12 @@ public class GameRenderer {
 		for (LaserCrayon l: myLaserCrayons) {
 			if (l.isVISIBLE()) {
 
-//				l.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
-//				r.getParticle().update(Gdx.graphics.getDeltaTime());
-//				r.getParticle().draw(spriteBatch);
-//				if (r.getParticle().isComplete())
-//					r.getParticle().reset();
+				if (l.isREADYTOSHOOT()) {
+					l.getParticle().setPosition(l.getX(), l.getY());
+					l.getParticle().update(Gdx.graphics.getDeltaTime());
+					l.getParticle().draw(spriteBatch);
+				}
+
 				spriteBatch.draw(bluecrayon, l.getX(), l.getY());
 
 

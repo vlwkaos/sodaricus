@@ -57,8 +57,8 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-	//	updateRoadRollers(delta);
-	//	updateMustaches(delta);
+		updateRoadRollers(delta);
+		updateMustaches(delta);
 		updateLaserCrayons(delta);
 	}
 
