@@ -46,7 +46,9 @@ public abstract class GameEvent {
 
 	/*
 	BASIC PROTOTYPE : only update position when it's on visible state.
-					  set to ready state when OOS
+					  set to ready state when Out of screen.
+					  set to ready state when hit by bullet.
+					  visible state starts when reset.
 	 */
 	public abstract void update(float delta);
 

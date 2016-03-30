@@ -46,7 +46,7 @@ public class Squirrel {
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-getHeight();// temporary
 		//TODO: is this device independent?
 
-		hitbox = new Polygon(new float[] {0,0,width,0,width,height-8,0,height-8});
+		hitbox = new Polygon(new float[] {2,0,width-2,0,width-2,height-8,2,height-8});
 		hitbox.setOrigin(width/2f,height/2f);
 
 		/*
@@ -79,8 +79,8 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >0.8f && isIdle()){
-			runTime-=0.8f;
+		if (runTime >0.5f && isIdle()){
+			runTime-=0.5f;
 			animRunTime = 0;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){

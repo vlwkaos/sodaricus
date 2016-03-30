@@ -60,7 +60,7 @@ public class Mustache extends GameEvent {
 	}
 
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
+		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
 		rainbowParticle = AssetLoader.rainbowPool.obtain();
 		runTime=MathUtils.random(0,0.5f);
 		doneMoving=false;

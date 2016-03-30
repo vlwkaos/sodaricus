@@ -22,10 +22,14 @@ public class AssetLoader {
     public static Texture squirrelTexture;
     public static Texture bacon;
     public static Texture limeexplosionTexture;
+	public static Texture bombexplosionTexture;
     public static Texture enemyTexture;
     public static Texture mustacheTexture;
     public static Texture bluecrayonTexture;
 	public static Texture redlaserTexture;
+
+
+	//11
 
     /*
         Texture Region
@@ -40,13 +44,17 @@ public class AssetLoader {
 
     public static TextureRegion[] explosion1;
     public static Animation explosionAnim1;
+
+	public static TextureRegion[] explosion2;
+	public static Animation explosionAnim2;
+
 	public static TextureRegion[] redlaser;
 	public static Animation redlaserinit;
 	public static Animation redlaserAnim;
 
-
     //TODO: collage texture into one png file
     public static TextureRegion roadroller;
+	public static TextureRegion tanklorry;
 
     public static TextureRegion[] mustaches;
     public static Animation mustacheAnim;
@@ -61,7 +69,8 @@ public class AssetLoader {
 	public static ParticleEffectPool nitroPool;
 	public static ParticleEffect energyParticle;
 	public static ParticleEffectPool energyPool;
-
+	public static ParticleEffect popcornParticle;
+	public static ParticleEffectPool popcornPool;
 
     public static void load() {
         loadParticles();
@@ -77,9 +86,12 @@ public class AssetLoader {
         bacon.dispose();
         enemyTexture.dispose();
         mustacheTexture.dispose();
-
+	    limeexplosionTexture.dispose();
+	    bombexplosionTexture.dispose();
 	    bluecrayonTexture.dispose();
 	    redlaserTexture.dispose();
+	    //11
+
 
 
 //particle
@@ -89,6 +101,8 @@ public class AssetLoader {
 	    nitroParticle.dispose();
         energyPool.clear();
 	    energyParticle.dispose();
+	    popcornPool.clear();
+	    popcornParticle.dispose();
     }
 
     private static void loadTextures() {
@@ -125,6 +139,9 @@ public class AssetLoader {
 
 	    redlaserTexture = new Texture(Gdx.files.internal("data/redlaser.png"));
 	    redlaserTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+	    bombexplosionTexture = new Texture(Gdx.files.internal("data/bombexplosion.png"));
+	    bombexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //Game Objects
@@ -142,7 +159,9 @@ public class AssetLoader {
         baconAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 
-        roadroller = new TextureRegion(enemyTexture, 0, 8, 20, 12);
+        roadroller = new TextureRegion(enemyTexture, 0, 0, 20, 12);
+		tanklorry = new TextureRegion(enemyTexture,21,0,32,14);
+
 
         mustaches = new TextureRegion[5];
         for (int i=0;i<5;i++)
@@ -166,9 +185,14 @@ public class AssetLoader {
         explosion1 = new TextureRegion[6];
         for (int i = 0; i < 6; i++)
             explosion1[i] = new TextureRegion(limeexplosionTexture, i * 17, 0, 17, 17);
-        explosionAnim1 = new Animation(1 / 12f, explosion1);
+        explosionAnim1 = new Animation(1 / 30f, explosion1);
         explosionAnim1.setPlayMode(Animation.PlayMode.NORMAL);
 
+	    explosion2 = new TextureRegion[10];
+	    for (int i = 0; i < 10; i++)
+		    explosion2[i] = new TextureRegion(bombexplosionTexture, i * 40, 0, 40, 40);
+	    explosionAnim2 = new Animation(1/30f, explosion2);
+	    explosionAnim2.setPlayMode(Animation.PlayMode.NORMAL);
 
 	    TextureRegion redlaser0 = new TextureRegion(redlaserTexture,0,0,240,30);
 	    redlaser0.flip(true,false);
@@ -176,10 +200,10 @@ public class AssetLoader {
 	    redlaserinit.setPlayMode(Animation.PlayMode.NORMAL);
 	    redlaser = new TextureRegion[7];
 	    for (int i=0; i<7;i++) {
-		    redlaser[i] = new TextureRegion(redlaserTexture, 0, (i + 1) * 30, 240, 30);
+		    redlaser[i] = new TextureRegion(redlaserTexture, 0, i*30, 240, 30);
 	        redlaser[i].flip(true,false);
 	    }
-		redlaserAnim = new Animation(1/16f,redlaser);
+		redlaserAnim = new Animation(1/30f,redlaser);
         redlaserAnim.setPlayMode(Animation.PlayMode.NORMAL);
     }
 
@@ -197,6 +221,10 @@ public class AssetLoader {
 	    energyParticle.load(Gdx.files.internal("data/energy.p"),Gdx.files.internal("data/"));
 	    energyPool = new ParticleEffectPool(energyParticle,0,10);
 
+
+	    popcornParticle = new ParticleEffect();
+	    popcornParticle.load(Gdx.files.internal("data/popcorn.p"),Gdx.files.internal("data/"));
+	    popcornPool = new ParticleEffectPool(popcornParticle,0,10);
     }
 
     private static void loadSounds() {

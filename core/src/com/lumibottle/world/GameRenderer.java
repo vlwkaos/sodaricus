@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -50,6 +51,7 @@ public class GameRenderer {
 	private Star[] myStars;
     private ProgressHandler myStage;
     private RoadRoller[] myRoadRollers;
+	private Bomb[] myBombs;
     private Mustache[] myMustaches;
 	private LaserCrayon[] myLaserCrayons;
 
@@ -60,6 +62,7 @@ public class GameRenderer {
     private Animation baconAnimation;
     private TextureRegion gb;
     private TextureRegion roadroller;
+	private TextureRegion bomb;
     private TextureRegion mustacheIdle;
     private Animation mustacheAnimation;
 
@@ -112,7 +115,7 @@ public class GameRenderer {
         drawRoadRollers();
         drawMustaches();
 		drawBlueCrayons();
-
+		drawBombs();
 
 
         //draw main actor
@@ -135,11 +138,6 @@ public class GameRenderer {
         spriteBatch.end();
 
 
-	    //draw with shaperenderer
-	    shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-	    shapeRenderer.setColor(147 / 255.0f, 80 / 255.0f, 27 / 255.0f, 1);
-	    shapeRenderer.rect(mySquirrel.getX(),mySquirrel.getY(),mySquirrel.getWidth()/2f,mySquirrel.getHeight()/2f,20,12,1,1,mySquirrel.getRotation());
-	    shapeRenderer.end();
 
     }
 
@@ -156,6 +154,7 @@ public class GameRenderer {
         myRoadRollers = myStage.getRoadRollers();
         myMustaches= myStage.getMustaches();
 	    myLaserCrayons = myStage.getLaserCrayons();
+	    myBombs = myStage.getBombs();
     }
     private void initAsset(){
         squirrelDown = AssetLoader.sqdown;
@@ -165,6 +164,7 @@ public class GameRenderer {
         gb = AssetLoader.greenBullet;
 
         roadroller = AssetLoader.roadroller;
+	    bomb = AssetLoader.tanklorry;
         mustacheIdle = AssetLoader.mustaches[4];
         mustacheAnimation = AssetLoader.mustacheAnim;
 
@@ -218,20 +218,35 @@ public class GameRenderer {
 	}
 
     private void drawRoadRollers(){
-        for (RoadRoller r: myRoadRollers) {
-	        if (r.isVISIBLE()) {
+		for (RoadRoller r: myRoadRollers) {
+			if (r.isVISIBLE()) {
 
-		        r.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
-		        r.getParticle().update(Gdx.graphics.getDeltaTime());
-		        r.getParticle().draw(spriteBatch);
-		        if (r.getParticle().isComplete())
-			        r.getParticle().reset();
-		        spriteBatch.draw(roadroller, r.getX(), r.getY());
+				r.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
+				r.getParticle().update(Gdx.graphics.getDeltaTime());
+				r.getParticle().draw(spriteBatch);
+				if (r.getParticle().isComplete())
+					r.getParticle().reset();
+				spriteBatch.draw(roadroller, r.getX(), r.getY());
 
 
-	              }
-        }
-    }
+			}
+		}
+	}
+
+	private void drawBombs(){
+		for (Bomb b: myBombs) {
+			if (b.isVISIBLE()) {
+
+				if (!b.isExploding())
+				spriteBatch.draw(bomb, b.getX(), b.getY());
+				b.getParticle().setPosition(b.getX()+b.getWidth()/2f,b.getY()+b.getHeight());
+				b.getParticle().update(Gdx.graphics.getDeltaTime());
+				b.getParticle().draw(spriteBatch);
+				if (b.getParticle().isComplete())
+					b.getParticle().reset();
+			}
+		}
+	}
 
     private void drawMustaches(){
         for (Mustache m : myMustaches) {

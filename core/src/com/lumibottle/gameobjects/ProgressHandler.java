@@ -1,5 +1,6 @@
 package com.lumibottle.gameobjects;
 
+import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
@@ -17,6 +18,7 @@ public class ProgressHandler {
 	private FX[] myFXs;
     //
 	private RoadRoller[] roadRollers;
+	private Bomb[] bombs;
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
 
@@ -27,6 +29,13 @@ public class ProgressHandler {
 			roadRollers[i] = new RoadRoller();
 			roadRollers[i].reset(240 + i * 50); //later, with runtime.
 		}
+
+		bombs = new Bomb[4];
+		for (int i = 0; i < bombs.length; i++) {
+			bombs[i] = new Bomb();
+			bombs[i].reset(240 + i * 50); //later, with runtime.
+		}
+
 
 		mustaches = new Mustache[5];
 		for (int i = 0; i < mustaches.length; i++) {
@@ -57,8 +66,9 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-		updateRoadRollers(delta);
-		updateMustaches(delta);
+//		updateRoadRollers(delta);
+		updateBombs(delta);
+//		updateMustaches(delta);
 		updateLaserCrayons(delta);
 	}
 
@@ -74,6 +84,15 @@ public class ProgressHandler {
 				r.reset(250);
 		}
 	}
+	private void updateBombs(float delta) {
+		for (Bomb b : bombs) {
+			b.update(delta);
+			//TODO how to spawn?
+			if (b.isREADY())
+				b.reset(250);
+		}
+	}
+
 		private void updateMustaches(float delta){
 		for (Mustache m : mustaches) {
 			m.update(delta);
@@ -101,6 +120,9 @@ public class ProgressHandler {
 		for (RoadRoller r: roadRollers)
 			r.collide(mySquirrel);
 
+		for (Bomb b: bombs)
+		b.collide(mySquirrel);
+
 		for (Mustache m : mustaches)
 			m.collide(mySquirrel);
 
@@ -119,7 +141,11 @@ public class ProgressHandler {
 		return roadRollers;
 	}
 
-	public com.lumibottle.gameobjects.enemies.Mustache[] getMustaches() {
+	public Bomb[] getBombs() {
+		return bombs;
+	}
+
+	public Mustache[] getMustaches() {
 		return mustaches;
 	}
 	public LaserCrayon[] getLaserCrayons() {

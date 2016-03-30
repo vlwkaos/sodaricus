@@ -72,6 +72,8 @@ public class FX {
 			case 2:
 				myAnimation = AssetLoader.redlaserAnim;
 				break;
+			case 3:
+				myAnimation = AssetLoader.explosionAnim2;
 			default:
 		}
 

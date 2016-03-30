@@ -77,7 +77,7 @@ public class LaserCrayon extends GameEvent {
 		        delay=0;
 	        }
 
-	        if (currentState == LaserCrayonState.SHOT && delay > 0.3f){
+	        if (currentState == LaserCrayonState.SHOT && delay > 3/15f){
 		        //change hit box
 				setHitbox(new float[]{0, 0, 29, 0, 29, 5, 0, 5});
 		        // go back to your home
@@ -92,7 +92,7 @@ public class LaserCrayon extends GameEvent {
 
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
+        super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
 	    energyParticle = AssetLoader.energyPool.obtain();
     runTime = 0;
 	    delay=0;

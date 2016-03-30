@@ -28,7 +28,6 @@ public class RoadRoller extends GameEvent {
 
 		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
-//		collide(mySquirrel); this is progress
 			if (isOutOfScreen(true))
 				ready();
 		}
@@ -40,7 +39,7 @@ public class RoadRoller extends GameEvent {
 	}
 
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameEvent.gameHeight), -50, 0, 0);
+		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
 		nitroParticle = AssetLoader.nitroPool.obtain();
 
 	}
