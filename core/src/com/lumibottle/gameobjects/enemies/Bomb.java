@@ -55,8 +55,8 @@ public class Bomb extends GameEvent{
 	}
 
 	public void reset(float x) {
-		super.reset(x, getHeight(), -70, 0, 0);
-//		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -70, 0, 0);
+//		super.reset(x, getHeight(), -70, 0, 0);
+		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -70, 0, 0);
 		isExploding=false;
 		popcornParticle = AssetLoader.popcornPool.obtain();
 

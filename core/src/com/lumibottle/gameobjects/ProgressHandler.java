@@ -69,7 +69,7 @@ public class ProgressHandler {
 //		updateRoadRollers(delta);
 		updateBombs(delta);
 //		updateMustaches(delta);
-		updateLaserCrayons(delta);
+//		updateLaserCrayons(delta);
 	}
 
 
