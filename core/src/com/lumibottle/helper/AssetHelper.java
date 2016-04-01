@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 /**
  * Created by MG-UP on 2016-03-10.
  */
-public class AssetLoader {
+public class AssetHelper {
 
     /*
         Textures - logical mapping with TextureRegion
@@ -71,6 +71,8 @@ public class AssetLoader {
 	public static ParticleEffectPool energyPool;
 	public static ParticleEffect popcornParticle;
 	public static ParticleEffectPool popcornPool;
+	public static ParticleEffect sodaburstParticle;
+	public static ParticleEffectPool sodaburstPool;
 
     public static void load() {
         loadParticles();
@@ -103,6 +105,8 @@ public class AssetLoader {
 	    energyParticle.dispose();
 	    popcornPool.clear();
 	    popcornParticle.dispose();
+	    sodaburstPool.clear();
+	    sodaburstParticle.dispose();
     }
 
     private static void loadTextures() {
@@ -210,21 +214,25 @@ public class AssetLoader {
 
     private static void loadParticles(){
         rainbowParticle = new ParticleEffect();
-        rainbowParticle.load(Gdx.files.internal("data/rainbow.p"),Gdx.files.internal("data/"));
+        rainbowParticle.load(Gdx.files.internal("data/particles/rainbow.p"),Gdx.files.internal("data/particles/"));
         rainbowPool = new ParticleEffectPool(rainbowParticle,0,10);
 
 	    nitroParticle = new ParticleEffect();
-	    nitroParticle.load(Gdx.files.internal("data/nitro.p"),Gdx.files.internal("data/"));
+	    nitroParticle.load(Gdx.files.internal("data/particles/nitro.p"),Gdx.files.internal("data/particles/"));
 	    nitroPool = new ParticleEffectPool(nitroParticle,0,10);
 
 	    energyParticle = new ParticleEffect();
-	    energyParticle.load(Gdx.files.internal("data/energy.p"),Gdx.files.internal("data/"));
+	    energyParticle.load(Gdx.files.internal("data/particles/energy.p"),Gdx.files.internal("data/particles/"));
 	    energyPool = new ParticleEffectPool(energyParticle,0,10);
 
 
 	    popcornParticle = new ParticleEffect();
-	    popcornParticle.load(Gdx.files.internal("data/popcorn.p"),Gdx.files.internal("data/"));
+	    popcornParticle.load(Gdx.files.internal("data/particles/popcorn.p"),Gdx.files.internal("data/particles/"));
 	    popcornPool = new ParticleEffectPool(popcornParticle,0,10);
+
+	    sodaburstParticle = new ParticleEffect();
+	    sodaburstParticle.load(Gdx.files.internal("data/particles/sodaburst.p"),Gdx.files.internal("data/"));
+		sodaburstPool = new ParticleEffectPool(sodaburstParticle,0,3);
     }
 
     private static void loadSounds() {

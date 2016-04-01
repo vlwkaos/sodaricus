@@ -37,13 +37,17 @@ public class GameWorld {
     }
 
     public void update(float delta){
-        if (delta > .15f) {
+        if (delta > .15f)
             delta = .15f;
-        }
 
-        mySquirrel.update(delta);
+
+		if (mySquirrel.isDead())
+			mySquirrel.updateDead(delta);
+		else {
+			mySquirrel.update(delta);
+			myStage.checkCollision(mySquirrel);
+		}
         myStage.update(delta);
-		myStage.checkCollision(mySquirrel);
 
 
 		for (FX f: FXHelper.getInstance().getMyFXs())

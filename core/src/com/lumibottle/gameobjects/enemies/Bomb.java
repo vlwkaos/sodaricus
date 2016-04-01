@@ -9,11 +9,11 @@ import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
-import com.lumibottle.helper.AssetLoader;
+import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
 /**
- * Created by MG-POW on 2016-03-27.
+ *  So you thought RoadRoller was too easy?
  */
 public class Bomb extends GameEvent{
 
@@ -58,7 +58,7 @@ public class Bomb extends GameEvent{
 //		super.reset(x, getHeight(), -70, 0, 0);
 		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -70, 0, 0);
 		isExploding=false;
-		popcornParticle = AssetLoader.popcornPool.obtain();
+		popcornParticle = AssetHelper.popcornPool.obtain();
 
 	}
 
@@ -66,19 +66,20 @@ public class Bomb extends GameEvent{
 	@Override
 	public void ready(){
 		super.ready();
-		AssetLoader.nitroPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
+		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
 		setHitbox(new float[]{0, 0, 32, 0, 32, 14, 0, 14});
 	}
 
 
 
 	public void explode(){
+		FXHelper.getInstance().newFX(getX()-(bomb_x-getWidth())/2f,getY()-(bomb_y-getHeight())/2f,(short) 3);
 		explodingCounter=0;
 		isExploding=true;
 		setHitbox(new float[]{0-(bomb_x-getWidth()/2f), 0-(bomb_y-getHeight()/2f),
 							32+(bomb_x-getWidth()/2f), 0-(bomb_y-getHeight()/2f),
 							32+(bomb_x-getWidth()/2f), 14+(bomb_y-getHeight()/2f),
-							0-(bomb_x-getWidth()/2f), 14+(bomb_y-getHeight()/2f)});//TODO
+							0-(bomb_x-getWidth()/2f), 14+(bomb_y-getHeight()/2f)});
 	}
 
 
@@ -92,9 +93,7 @@ public class Bomb extends GameEvent{
 					if (Intersector.overlapConvexPolygons(b.getHitbox(), getHitbox()) && b.isVISIBLE()) {
 						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
 						//bomb fx
-						FXHelper.getInstance().newFX(getX()-(bomb_x-getWidth())/2f,getY()-(bomb_y-getHeight())/2f,(short) 3);
 						explode();
-
 						b.ready();
 						break;
 					}
@@ -104,6 +103,7 @@ public class Bomb extends GameEvent{
 			if (squirrel.getX() + squirrel.getWidth() > getX()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
+					squirrel.kill();
 				}
 			}
 		}

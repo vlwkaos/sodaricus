@@ -1,9 +1,8 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
-import com.lumibottle.helper.AssetLoader;
+import com.lumibottle.helper.AssetHelper;
 
 /**
  * Created by MG-POW on 2016-03-15.
@@ -64,16 +63,16 @@ public class FX {
 		currentState = FXState.TOBEDRAWN;
 		switch (animationNumber){
 			case 0:
-				myAnimation = AssetLoader.explosionAnim1;
+				myAnimation = AssetHelper.explosionAnim1;
 				break;
 			case 1:
-				myAnimation = AssetLoader.redlaserinit;
+				myAnimation = AssetHelper.redlaserinit;
 				break;
 			case 2:
-				myAnimation = AssetLoader.redlaserAnim;
+				myAnimation = AssetHelper.redlaserAnim;
 				break;
 			case 3:
-				myAnimation = AssetLoader.explosionAnim2;
+				myAnimation = AssetHelper.explosionAnim2;
 			default:
 		}
 

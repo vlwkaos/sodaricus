@@ -71,6 +71,7 @@ public abstract class GameEvent {
 
 	// if using particle, free particle here
 	public void ready(){
+
 		position.set(-255, -255);
 		currentState = EventState.READY;
 	}
@@ -85,9 +86,8 @@ public abstract class GameEvent {
 				if (b.getX() + b.getWidth() > getX())
 					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
 						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
-
 						ready();
-						b.ready();
+						b.ready();//dead fx goes in ready?
 						break;
 					}
 			}
@@ -95,6 +95,7 @@ public abstract class GameEvent {
 			if (squirrel.getX() + squirrel.getWidth() > getX()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
+					squirrel.kill();
 				}
 			}
 		}
@@ -159,5 +160,7 @@ public abstract class GameEvent {
 	public float getdX(){
 		return velocity.x;
 	}
+
+
 
 }

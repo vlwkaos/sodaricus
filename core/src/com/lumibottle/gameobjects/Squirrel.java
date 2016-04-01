@@ -1,8 +1,11 @@
 package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.loaders.AssetLoader;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.helper.AssetHelper;
 
 /**
  * Created by MG-POW on 2016-03-10.
@@ -14,25 +17,26 @@ public class Squirrel {
 	}
 
 	private SquirrelState currentState;
-	private float runTime;
 
+	private float runTime;
 	private float animRunTime;
 
+	//Vector Information
 	private Vector2 position;
 	private Vector2 velocity;
 	private Vector2 acceleration;
+	private float rotation;
 
+	//Size
 	private int width, height;
 	private float ceiling;
 
-	private float rotation;
 
 	private Bullet[] bullets;// hold for optimum performance
-
+	private ParticleEffect sodaburst;
 
 
 	private Polygon hitbox;
-
 
 	public Squirrel(float x, float y, int width, int height) {
 		this.width = width;
@@ -57,9 +61,16 @@ public class Squirrel {
 			bullets[i] = new Bullet();
 
 		runTime=0;
+
+		sodaburst = AssetHelper.sodaburstPool.obtain();
 	}
 
 
+
+	public void updateDead(float delta){
+		for (Bullet b: bullets)
+			b.update(delta);
+	}
 
 	public void update(float delta){
 		// constant delta
@@ -67,15 +78,11 @@ public class Squirrel {
 			delta = .15f;
 		runTime+=delta;
 		animRunTime+=delta;
-
-
 		/*
 				Bullet Update
 		 */
 		for (Bullet b: bullets)
 			b.update(delta);
-
-
 		/*
 		SHOOTING MECHANIC
 		 */
@@ -94,11 +101,9 @@ public class Squirrel {
 			runTime-=0.2f;
 			currentState = SquirrelState.IDLE;
 		}
-
-
-
 		/*
 		Position constraints
+		TODO: just put static enemy that detects collision and kill this thing
 		 */
 		if (velocity.y < -150) {
 			velocity.y = -150;
@@ -113,8 +118,6 @@ public class Squirrel {
 			position.y = 0;
 			rotation=0;
 		}
-
-
 		/*
 		Physics
 		 */
@@ -123,8 +126,6 @@ public class Squirrel {
 
 		//         _|_ angle
 		//rotation
-
-		if (!isDead()) {
 			if (velocity.y >= 0) {
 				rotation += 600 * delta;
 				if (rotation > 45)
@@ -135,7 +136,6 @@ public class Squirrel {
 				if (rotation < -90)
 					rotation = -90;
 			}
-		}
 
 		/*
 			collision
@@ -150,7 +150,7 @@ public class Squirrel {
 	}
 
 	public void kill(){
-
+		currentState = SquirrelState.DEAD;
 	}
 
 
@@ -177,7 +177,6 @@ public class Squirrel {
 		return rotation;
 	}
 
-
 	public float getAnimRunTime() {
 		return animRunTime;
 	}
@@ -188,6 +187,10 @@ public class Squirrel {
 
 	public Polygon getHitbox() {
 		return hitbox;
+	}
+
+	public ParticleEffect getSodaburst() {
+		return sodaburst;
 	}
 
 	public boolean isDead(){
@@ -201,5 +204,6 @@ public class Squirrel {
 	public boolean isIdle(){
 		return currentState==SquirrelState.IDLE;
 	}
+
 	}
 

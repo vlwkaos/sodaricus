@@ -1,7 +1,6 @@
 package com.lumibottle.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -10,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Bomb;
@@ -20,7 +18,7 @@ import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
-import com.lumibottle.helper.AssetLoader;
+import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
 /**
@@ -118,21 +116,11 @@ public class GameRenderer {
 		drawBombs();
 
 
-        //draw main actor
-        if (mySquirrel.isShooting()) {
-            spriteBatch.draw(squirrelAnimation.getKeyFrame(mySquirrel.getAnimRunTime()), mySquirrel.getX(),
-                    mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
-                    mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
-                    1, 1, mySquirrel.getRotation());
-        } else {
-            spriteBatch.draw(squirrelDown, mySquirrel.getX(),
-                    mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
-                    mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
-                    1, 1, mySquirrel.getRotation());
-        }
-
+		//main
+	    drawSquirrel();
 	    drawBullets();
-        //fx
+
+	    //fx
 	    drawFXs();
 
         spriteBatch.end();
@@ -157,28 +145,63 @@ public class GameRenderer {
 	    myBombs = myStage.getBombs();
     }
     private void initAsset(){
-        squirrelDown = AssetLoader.sqdown;
-        squirrelAnimation = AssetLoader.sqAnimation;
-        baconAnimation = AssetLoader.baconAnimation;
+        squirrelDown = AssetHelper.sqdown;
+        squirrelAnimation = AssetHelper.sqAnimation;
+        baconAnimation = AssetHelper.baconAnimation;
 
-        gb = AssetLoader.greenBullet;
+        gb = AssetHelper.greenBullet;
 
-        roadroller = AssetLoader.roadroller;
-	    bomb = AssetLoader.tanklorry;
-        mustacheIdle = AssetLoader.mustaches[4];
-        mustacheAnimation = AssetLoader.mustacheAnim;
+        roadroller = AssetHelper.roadroller;
+	    bomb = AssetHelper.tanklorry;
+        mustacheIdle = AssetHelper.mustaches[4];
+        mustacheAnimation = AssetHelper.mustacheAnim;
 
-		bluecrayon = AssetLoader.bluecrayon;
+		bluecrayon = AssetHelper.bluecrayon;
 
-        star1 = AssetLoader.star1;
-        star2 = AssetLoader.star2;
-        background = AssetLoader.spacebg;
+        star1 = AssetHelper.star1;
+        star2 = AssetHelper.star2;
+        background = AssetHelper.spacebg;
 
     }
 
 	/*
 		Drawing methods
 	 */
+
+	private void drawSquirrel(){
+		//draw main actor
+		if (mySquirrel.isShooting()) {
+			spriteBatch.draw(squirrelAnimation.getKeyFrame(mySquirrel.getAnimRunTime()), mySquirrel.getX(),
+					mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
+					mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
+					1, 1, mySquirrel.getRotation());
+
+		} else {
+			spriteBatch.draw(squirrelDown, mySquirrel.getX(),
+					mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
+					mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
+					1, 1, mySquirrel.getRotation());
+
+		}
+//
+//		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
+//		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
+//		mySquirrel.getSodaburst().draw(spriteBatch);
+
+	}
+
+	private void drawBullets(){
+		for (Bullet b:myBullets){
+			if (b.isVISIBLE())
+				spriteBatch.draw(gb,
+						b.getX(), b.getY(),
+						b.getWidth() / 2.0f,b.getHeight() / 2.0f,
+						b.getWidth(), b.getHeight(),
+						1, 1, b.getTheta()+180);
+
+		}
+	}
+
 	private void drawStars(){
 		for (Star s:myStars){
 			if (s.isBigStar()){
@@ -205,17 +228,6 @@ public class GameRenderer {
 	    }
     }
 
-	private void drawBullets(){
-		for (Bullet b:myBullets){
-            if (b.isVISIBLE())
-			spriteBatch.draw(gb,
-					b.getX(), b.getY(),
-					b.getWidth() / 2.0f,b.getHeight() / 2.0f,
-					b.getWidth(), b.getHeight(),
-					1, 1, b.getTheta()+180);
-
-		}
-	}
 
     private void drawRoadRollers(){
 		for (RoadRoller r: myRoadRollers) {

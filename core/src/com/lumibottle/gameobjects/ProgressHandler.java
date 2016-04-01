@@ -22,6 +22,8 @@ public class ProgressHandler {
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
 
+	private boolean squirrelHit;
+
 	public ProgressHandler() {
 		stageNumber=0;
 		roadRollers = new RoadRoller[4];
@@ -121,7 +123,7 @@ public class ProgressHandler {
 			r.collide(mySquirrel);
 
 		for (Bomb b: bombs)
-		b.collide(mySquirrel);
+			b.collide(mySquirrel);
 
 		for (Mustache m : mustaches)
 			m.collide(mySquirrel);

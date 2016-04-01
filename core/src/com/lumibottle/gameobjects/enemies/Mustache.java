@@ -2,16 +2,13 @@ package com.lumibottle.gameobjects.enemies;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.helper.AssetLoader;
-import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.AssetHelper;
 
 /**
- * Created by MG-POW on 2016-03-19.
+ *  Mustache moves in a jelly-fish-like fashion, it is slightly unpredictable.
  */
 public class Mustache extends GameEvent {
 
@@ -61,7 +58,7 @@ public class Mustache extends GameEvent {
 
 	public void reset(float x) {
 		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
-		rainbowParticle = AssetLoader.rainbowPool.obtain();
+		rainbowParticle = AssetHelper.rainbowPool.obtain();
 		runTime=MathUtils.random(0,0.5f);
 		doneMoving=false;
 		nextTheta();
@@ -74,7 +71,7 @@ public class Mustache extends GameEvent {
 	@Override
 	public void ready(){
 		super.ready();
-		AssetLoader.rainbowPool.free((ParticleEffectPool.PooledEffect)rainbowParticle);
+		AssetHelper.rainbowPool.free((ParticleEffectPool.PooledEffect)rainbowParticle);
 
 	}
 

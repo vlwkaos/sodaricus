@@ -1,18 +1,15 @@
 package com.lumibottle.gameobjects.enemies;
 
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.helper.AssetLoader;
-import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.AssetHelper;
 
 /**
- * Created by MG-POW on 2016-03-13.
+ *  RoadRoller is the most basic type of an enemy; it just moves with a constant speed
  */
 public class RoadRoller extends GameEvent {
 
@@ -40,7 +37,7 @@ public class RoadRoller extends GameEvent {
 
 	public void reset(float x) {
 		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
-		nitroParticle = AssetLoader.nitroPool.obtain();
+		nitroParticle = AssetHelper.nitroPool.obtain();
 
 	}
 
@@ -48,7 +45,7 @@ public class RoadRoller extends GameEvent {
 	@Override
 	public void ready(){
 		super.ready();
-		AssetLoader.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
+		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
 
 	}
 }

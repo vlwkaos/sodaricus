@@ -6,14 +6,13 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
-import com.lumibottle.helper.AssetLoader;
+import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
 /**
- * Created by MG-UP on 2016-03-24.
+ *  LaserCrayon is a deadly weapon that cannot be eliminated. It is used to confine Player's movement
  */
 public class LaserCrayon extends GameEvent {
 
@@ -93,7 +92,7 @@ public class LaserCrayon extends GameEvent {
 
     public void reset(float x) {
         super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
-	    energyParticle = AssetLoader.energyPool.obtain();
+	    energyParticle = AssetHelper.energyPool.obtain();
     runTime = 0;
 	    delay=0;
 	    currentState = LaserCrayonState.INIT;
@@ -103,7 +102,7 @@ public class LaserCrayon extends GameEvent {
     @Override
     public void ready(){
         super.ready();
-        AssetLoader.energyPool.free((ParticleEffectPool.PooledEffect) energyParticle);
+        AssetHelper.energyPool.free((ParticleEffectPool.PooledEffect) energyParticle);
 
     }
 
@@ -112,6 +111,7 @@ public class LaserCrayon extends GameEvent {
 		if (isVISIBLE()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
+					squirrel.kill();
 				}
 
 		}
