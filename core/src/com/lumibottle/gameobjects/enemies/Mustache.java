@@ -28,10 +28,11 @@ public class Mustache extends GameEvent {
 	//must separate moving, stopping
 	@Override
 	public void update(float delta) {
-		getHitbox().setPosition(getX(), getY());
-		runTime +=delta;
-
 		if (isVISIBLE()) {
+			getHitbox().setPosition(getX(), getY());
+			runTime +=delta;
+
+
 			if (!doneMoving && runTime >= .4f) {
 				runTime -= .4f;
 				doneMoving=true;

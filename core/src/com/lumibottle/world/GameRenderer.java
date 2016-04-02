@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.CowboyHat;
+import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -20,6 +22,7 @@ import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -52,22 +55,28 @@ public class GameRenderer {
 	private Bomb[] myBombs;
     private Mustache[] myMustaches;
 	private LaserCrayon[] myLaserCrayons;
-
+	private CowboyHat[] myCowboyHats;
+	private CowboySausage[] myCowboySausages;
 
     //ASSET
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
     private TextureRegion gb;
+
+	//
     private TextureRegion roadroller;
 	private TextureRegion bomb;
     private TextureRegion mustacheIdle;
     private Animation mustacheAnimation;
-
-    private TextureRegion star1,star2;
-    private TextureRegion background;
-
 	private TextureRegion bluecrayon;
+	private Animation cowboyhatAnimation;
+	private TextureRegion cowboysausage;
+
+
+
+	private TextureRegion star1,star2;
+    private TextureRegion background;
 
 
 
@@ -114,7 +123,8 @@ public class GameRenderer {
         drawMustaches();
 		drawBlueCrayons();
 		drawBombs();
-
+	    drawCowboySausages();
+		drawCowboyHats(runTime);
 
 		//main
 	    drawSquirrel();
@@ -143,6 +153,8 @@ public class GameRenderer {
         myMustaches= myStage.getMustaches();
 	    myLaserCrayons = myStage.getLaserCrayons();
 	    myBombs = myStage.getBombs();
+	    myCowboyHats = myStage.getCowboyHats();
+	    myCowboySausages = myStage.getCowboySausages();
     }
     private void initAsset(){
         squirrelDown = AssetHelper.sqdown;
@@ -151,6 +163,8 @@ public class GameRenderer {
 
         gb = AssetHelper.greenBullet;
 
+
+	    //en
         roadroller = AssetHelper.roadroller;
 	    bomb = AssetHelper.tanklorry;
         mustacheIdle = AssetHelper.mustaches[4];
@@ -158,6 +172,10 @@ public class GameRenderer {
 
 		bluecrayon = AssetHelper.bluecrayon;
 
+		cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
+	 //TODO  cowboysausage = AssetHelper.cowboy
+
+	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
         background = AssetHelper.spacebg;
@@ -293,6 +311,19 @@ public class GameRenderer {
 
 			}
 		}
+	}
+
+	private void drawCowboySausages(){
+		for (CowboySausage c: myCowboySausages){
+			if (c.isVISIBLE())
+				spriteBatch.draw(bomb,c.getX(),c.getY());
+		}
+	}
+
+	private void drawCowboyHats(float runTime){
+		for (CowboyHat c : myCowboyHats)
+			if (c.isVISIBLE())
+				spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()),c.getX(),c.getY());
 	}
 
 	public void dispose(){

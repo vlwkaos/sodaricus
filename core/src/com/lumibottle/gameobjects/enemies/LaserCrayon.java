@@ -35,9 +35,11 @@ public class LaserCrayon extends GameEvent {
 
     @Override
     public void update(float delta) {
-        getHitbox().setPosition(getX(), getY());
-	    runTime+=delta;
+
         if (isVISIBLE()) {
+	        getHitbox().setPosition(getX(), getY());
+	        runTime+=delta;
+
             getPosition().add(getVelocity().cpy().scl(delta));
 
 	        // move right and

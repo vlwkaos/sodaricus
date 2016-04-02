@@ -31,10 +31,10 @@ public class Bomb extends GameEvent{
 
 	@Override
 	public void update(float delta) {
-		getHitbox().setPosition(getX(), getY());
+
 
 		if (isVISIBLE()) {
-
+			getHitbox().setPosition(getX(), getY());
 
 			if (isExploding)
 				explodingCounter+=delta;
@@ -66,7 +66,7 @@ public class Bomb extends GameEvent{
 	@Override
 	public void ready(){
 		super.ready();
-		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
+		AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
 		setHitbox(new float[]{0, 0, 32, 0, 32, 14, 0, 14});
 	}
 

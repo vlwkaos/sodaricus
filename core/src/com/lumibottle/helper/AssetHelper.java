@@ -27,9 +27,9 @@ public class AssetHelper {
     public static Texture mustacheTexture;
     public static Texture bluecrayonTexture;
 	public static Texture redlaserTexture;
+	public static Texture cowboyhatTexture;
 
-
-	//11
+	//12
 
     /*
         Texture Region
@@ -42,16 +42,7 @@ public class AssetHelper {
     public static TextureRegion bacon1, bacon2;
     public static Animation baconAnimation;
 
-    public static TextureRegion[] explosion1;
-    public static Animation explosionAnim1;
-
-	public static TextureRegion[] explosion2;
-	public static Animation explosionAnim2;
-
-	public static TextureRegion[] redlaser;
-	public static Animation redlaserinit;
-	public static Animation redlaserAnim;
-
+	//Enemies
     //TODO: collage texture into one png file
     public static TextureRegion roadroller;
 	public static TextureRegion tanklorry;
@@ -60,6 +51,21 @@ public class AssetHelper {
     public static Animation mustacheAnim;
 
 	public static TextureRegion bluecrayon;
+
+	public static TextureRegion[] cowboyhats;
+	public static Animation cowboyhatsAnim;
+
+	//FX
+	public static TextureRegion[] explosion1;
+	public static Animation explosionAnim1;
+
+	public static TextureRegion[] explosion2;
+	public static Animation explosionAnim2;
+
+	public static TextureRegion[] redlaser;
+	public static Animation redlaserinit;
+	public static Animation redlaserAnim;
+
     /*
         Particles
      */
@@ -92,7 +98,8 @@ public class AssetHelper {
 	    bombexplosionTexture.dispose();
 	    bluecrayonTexture.dispose();
 	    redlaserTexture.dispose();
-	    //11
+	    cowboyhatTexture.dispose();
+	    //12
 
 
 
@@ -129,6 +136,8 @@ public class AssetHelper {
         sodaTexture = new Texture(Gdx.files.internal("data/sodabullet.png"));
         sodaTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+	    cowboyhatTexture = new Texture(Gdx.files.internal("data/cowboyhat.png"));
+		cowboyhatTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //Aesthetic Objects/image
         backgroundTexture = new Texture(Gdx.files.internal("data/spacebg.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -138,14 +147,16 @@ public class AssetHelper {
 
 
         //FX
-        limeexplosionTexture = new Texture(Gdx.files.internal("data/limexplosion.png"));
+        limeexplosionTexture = new Texture(Gdx.files.internal("data/gfx/limexplosion.png"));
         limeexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-	    redlaserTexture = new Texture(Gdx.files.internal("data/redlaser.png"));
+	    redlaserTexture = new Texture(Gdx.files.internal("data/gfx/redlaser.png"));
 	    redlaserTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-	    bombexplosionTexture = new Texture(Gdx.files.internal("data/bombexplosion.png"));
+	    bombexplosionTexture = new Texture(Gdx.files.internal("data/gfx/bombexplosion.png"));
 	    bombexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //Game Objects
@@ -175,10 +186,14 @@ public class AssetHelper {
 
 	    bluecrayon = new TextureRegion(bluecrayonTexture);
 
+	    cowboyhats = new TextureRegion[4];
+	    for (int i=0;i<4;i++)
+		    cowboyhats[i] = new TextureRegion(cowboyhatTexture,i*32,0,32,16);
+	    cowboyhatsAnim = new Animation(1/30f, cowboyhats);
+	    cowboyhatsAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+	    //
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
-
-
         //Aesthetic Objects/image
         spacebg = new TextureRegion(backgroundTexture, 0, 0, 256, 256);
         star1 = new TextureRegion(starTexture, 0, 0, 9, 9);

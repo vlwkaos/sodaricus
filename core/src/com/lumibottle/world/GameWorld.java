@@ -32,7 +32,7 @@ public class GameWorld {
     myStars = new Star[11];
         for (int i=0;i<myStars.length;i++)
             myStars[i]= new Star();
-    myStage = new ProgressHandler();
+    myStage = new ProgressHandler(mySquirrel);
 
     }
 
@@ -45,7 +45,7 @@ public class GameWorld {
 			mySquirrel.updateDead(delta);
 		else {
 			mySquirrel.update(delta);
-			myStage.checkCollision(mySquirrel);
+			myStage.checkCollision();
 		}
         myStage.update(delta);
 

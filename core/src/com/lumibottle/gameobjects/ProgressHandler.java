@@ -1,6 +1,10 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.CowboyHat;
+import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
@@ -15,17 +19,26 @@ public class ProgressHandler {
 
 	private int stageNumber;
 
+	private Squirrel mySquirrel;
+
 	private FX[] myFXs;
     //
 	private RoadRoller[] roadRollers;
 	private Bomb[] bombs;
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
-
+	private CowboySausage[] cowboySausages;
+	private CowboyHat[] cowboyHats;
+	private float hatspeed = 100f;
 	private boolean squirrelHit;
 
-	public ProgressHandler() {
+	public ProgressHandler(Squirrel s) {
 		stageNumber=0;
+
+		mySquirrel = s;
+		/*
+			Initialize enemy objects
+		 */
 		roadRollers = new RoadRoller[4];
 		for (int i = 0; i < roadRollers.length; i++) {
 			roadRollers[i] = new RoadRoller();
@@ -52,6 +65,18 @@ public class ProgressHandler {
 		}
 
 
+		cowboySausages = new CowboySausage[5];
+		for (int i=0; i< cowboySausages.length;i++){
+			cowboySausages[i] = new CowboySausage();
+			cowboySausages[i].reset(250);
+
+		}
+
+		cowboyHats = new CowboyHat[10];
+		for (int i=0;i<cowboyHats.length;i++){
+			cowboyHats[i] = new CowboyHat();
+		}
+
 		myFXs = new FX[10];
 		for (int i=0; i< myFXs.length;i++)
 			myFXs[i]= new FX();
@@ -69,19 +94,21 @@ public class ProgressHandler {
 			Movements
 		 */
 //		updateRoadRollers(delta);
-		updateBombs(delta);
+//		updateBombs(delta);
 //		updateMustaches(delta);
 //		updateLaserCrayons(delta);
+		updateCowboySausages(delta);
+		updateCowboyHats(delta);
+
 	}
 
 
 	/*
 		Organize
-	 */
+	 *///TODO how to spawn?
 	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
 			r.update(delta);
-			//TODO how to spawn?
 			if (r.isREADY())
 				r.reset(250);
 		}
@@ -89,7 +116,6 @@ public class ProgressHandler {
 	private void updateBombs(float delta) {
 		for (Bomb b : bombs) {
 			b.update(delta);
-			//TODO how to spawn?
 			if (b.isREADY())
 				b.reset(250);
 		}
@@ -98,7 +124,6 @@ public class ProgressHandler {
 		private void updateMustaches(float delta){
 		for (Mustache m : mustaches) {
 			m.update(delta);
-
 			if (m.isREADY())
 				m.reset(250);
 		}
@@ -108,17 +133,39 @@ public class ProgressHandler {
 	private void updateLaserCrayons(float delta) {
 		for (LaserCrayon l : laserCrayons) {
 			l.update(delta);
-			//TODO how to spawn?
+
 			if (l.isREADY())
 				l.reset(250);
 		}
 	}
 
 
+	private void updateCowboySausages(float delta){
+		for (CowboySausage c : cowboySausages){
+			c.update(delta);
+			if(c.isShooting())
+				for (CowboyHat h: cowboyHats)
+					if (h.isREADY()) {
+						float theta= MathUtils.atan2(c.getY()-mySquirrel.getY(),c.getX()-mySquirrel.getX());
+						float dx = -hatspeed* MathUtils.cos(theta);
+						float dy = -hatspeed* MathUtils.sin(theta);
+						h.reset(c.getX(),c.getY(),dx,dy,0);
+						c.doneShooting();
+						break;
+					}
+
+			if (c.isREADY())
+				c.reset(250);
+		}
+	}
+
+	private void updateCowboyHats(float delta){
+		for (CowboyHat c: cowboyHats)
+			c.update(delta);
+	}
 
 
-
-	public void checkCollision(Squirrel mySquirrel){
+	public void checkCollision(){
 		for (RoadRoller r: roadRollers)
 			r.collide(mySquirrel);
 
@@ -130,6 +177,12 @@ public class ProgressHandler {
 
 		for (LaserCrayon l : laserCrayons)
 			l.collide(mySquirrel);
+
+		for (CowboySausage c : cowboySausages)
+			c.collide(mySquirrel);
+
+		for (CowboyHat c :cowboyHats)
+			c.collide(mySquirrel);
 	}
 
 
@@ -152,5 +205,13 @@ public class ProgressHandler {
 	}
 	public LaserCrayon[] getLaserCrayons() {
 		return laserCrayons;
+	}
+
+	public CowboyHat[] getCowboyHats() {
+		return cowboyHats;
+	}
+
+	public CowboySausage[] getCowboySausages() {
+		return cowboySausages;
 	}
 }
