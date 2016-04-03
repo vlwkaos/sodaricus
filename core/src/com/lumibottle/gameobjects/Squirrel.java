@@ -5,7 +5,9 @@ import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
 import com.lumibottle.helper.AssetHelper;
+import com.lumibottle.helper.FXHelper;
 
 /**
  * Created by MG-POW on 2016-03-10.
@@ -50,7 +52,7 @@ public class Squirrel {
 		ceiling = (Gdx.graphics.getHeight()/(Gdx.graphics.getWidth()/240))-getHeight();// temporary
 		//TODO: is this device independent?
 
-		hitbox = new Polygon(new float[] {2,0,width-2,0,width-2,height-8,2,height-8});
+		hitbox = new Polygon(new float[] {4,0,width-4,0,width-4,height-8,4,height-8});
 		hitbox.setOrigin(width/2f,height/2f);
 
 		/*
@@ -70,6 +72,7 @@ public class Squirrel {
 	public void updateDead(float delta){
 		for (Bullet b: bullets)
 			b.update(delta);
+
 	}
 
 	public void update(float delta){
@@ -146,11 +149,21 @@ public class Squirrel {
 	}
 
 	public void onClick(){
+
+		if (isDead()){
+			currentState = SquirrelState.IDLE;
+			position.set(55,55);
+		}
+			else
 		velocity.y=160;
 	}
 
 	public void kill(){
+		//TODO white flash
+
 		currentState = SquirrelState.DEAD;
+		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,(short)4);
+		position.set(-255f,-255f);
 	}
 
 
@@ -187,6 +200,10 @@ public class Squirrel {
 
 	public Polygon getHitbox() {
 		return hitbox;
+	}
+
+	public Vector2 getVelocity() {
+		return velocity;
 	}
 
 	public ParticleEffect getSodaburst() {

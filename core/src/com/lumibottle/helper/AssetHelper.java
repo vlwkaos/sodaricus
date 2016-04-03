@@ -1,5 +1,6 @@
 package com.lumibottle.helper;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -28,19 +29,25 @@ public class AssetHelper {
     public static Texture bluecrayonTexture;
 	public static Texture redlaserTexture;
 	public static Texture cowboyhatTexture;
-
-	//12
+	public static Texture eyeTexture;
+	public static Texture holeTexture;
+	public static Texture deadTexture;
+	//15
 
     /*
         Texture Region
      */
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
+	public static TextureRegion[] eyes;
+	public static Animation eyeAnim;
+
 
     public static TextureRegion sqdown, sqmid, squp;
-    public static Animation sqAnimation;
+    public static Animation sqAnim;
     public static TextureRegion bacon1, bacon2;
-    public static Animation baconAnimation;
+    public static Animation baconAnim;
+
 
 	//Enemies
     //TODO: collage texture into one png file
@@ -55,6 +62,8 @@ public class AssetHelper {
 	public static TextureRegion[] cowboyhats;
 	public static Animation cowboyhatsAnim;
 
+	public static TextureRegion hole;
+
 	//FX
 	public static TextureRegion[] explosion1;
 	public static Animation explosionAnim1;
@@ -66,7 +75,11 @@ public class AssetHelper {
 	public static Animation redlaserinit;
 	public static Animation redlaserAnim;
 
-    /*
+	public static TextureRegion[] deadplosion;
+    public static Animation deadAnim;
+	public static Animation deadInit;
+
+	/*
         Particles
      */
     public static ParticleEffect rainbowParticle;
@@ -99,7 +112,10 @@ public class AssetHelper {
 	    bluecrayonTexture.dispose();
 	    redlaserTexture.dispose();
 	    cowboyhatTexture.dispose();
-	    //12
+	    eyeTexture.dispose();
+	    holeTexture.dispose();
+	    deadTexture.dispose();
+	    //15
 
 
 
@@ -124,6 +140,9 @@ public class AssetHelper {
         bacon = new Texture(Gdx.files.internal("data/bacon.png"));
         bacon.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+	    eyeTexture = new Texture(Gdx.files.internal("data/eyes.png"));
+	    eyeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
 	    //ENemy
         enemyTexture = new Texture(Gdx.files.internal("data/enemies.png"));
 	    enemyTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -132,6 +151,8 @@ public class AssetHelper {
 	    bluecrayonTexture = new Texture(Gdx.files.internal("data/bluepastel.png"));
 	    bluecrayonTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+		holeTexture = new Texture(Gdx.files.internal("data/hole.png"));
+	    holeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         sodaTexture = new Texture(Gdx.files.internal("data/sodabullet.png"));
         sodaTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -156,6 +177,9 @@ public class AssetHelper {
 	    bombexplosionTexture = new Texture(Gdx.files.internal("data/gfx/bombexplosion.png"));
 	    bombexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+	    deadTexture = new Texture(Gdx.files.internal("data/gfx/dead.png"));
+	    deadTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
 
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
@@ -164,14 +188,21 @@ public class AssetHelper {
         sqmid = new TextureRegion(squirrelTexture, 20, 0, 20, 20);
         squp = new TextureRegion(squirrelTexture, 40, 0, 20, 20);
 
+	    eyes = new TextureRegion[4];
+	    for (int i=0;i<4;i++)
+		    eyes[i] = new TextureRegion(eyeTexture,i*6,0,6,6);
+	    eyeAnim = new Animation(1/15f, eyes);
+	    eyeAnim.setPlayMode(Animation.PlayMode.LOOP);
+
         TextureRegion[] sqs = {squp, sqmid, sqdown};
-        sqAnimation = new Animation(1 / 16f, sqs);
-        sqAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+        sqAnim = new Animation(1 / 16f, sqs);
+        sqAnim.setPlayMode(Animation.PlayMode.NORMAL);
         bacon1 = new TextureRegion(bacon, 0, 0, 32, 32);
         bacon2 = new TextureRegion(bacon, 32, 0, 32, 32);
+
         TextureRegion[] bacons = {bacon1, bacon2};
-        baconAnimation = new Animation(1 / 8f, bacons);
-        baconAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        baconAnim = new Animation(1 / 8f, bacons);
+        baconAnim.setPlayMode(Animation.PlayMode.LOOP);
 
 
         roadroller = new TextureRegion(enemyTexture, 0, 0, 20, 12);
@@ -192,8 +223,11 @@ public class AssetHelper {
 	    cowboyhatsAnim = new Animation(1/30f, cowboyhats);
 	    cowboyhatsAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+	    hole = new TextureRegion(holeTexture,0,0,32,32);
+
 	    //
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
+
         //Aesthetic Objects/image
         spacebg = new TextureRegion(backgroundTexture, 0, 0, 256, 256);
         star1 = new TextureRegion(starTexture, 0, 0, 9, 9);
@@ -213,17 +247,28 @@ public class AssetHelper {
 	    explosionAnim2 = new Animation(1/30f, explosion2);
 	    explosionAnim2.setPlayMode(Animation.PlayMode.NORMAL);
 
-	    TextureRegion redlaser0 = new TextureRegion(redlaserTexture,0,0,240,30);
-	    redlaser0.flip(true,false);
-	    redlaserinit = new Animation(1f,redlaser0);
-	    redlaserinit.setPlayMode(Animation.PlayMode.NORMAL);
 	    redlaser = new TextureRegion[7];
 	    for (int i=0; i<7;i++) {
 		    redlaser[i] = new TextureRegion(redlaserTexture, 0, i*30, 240, 30);
 	        redlaser[i].flip(true,false);
 	    }
+	    redlaserinit = new Animation(1f,redlaser[0]);
+	    redlaserinit.setPlayMode(Animation.PlayMode.NORMAL);
 		redlaserAnim = new Animation(1/30f,redlaser);
         redlaserAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+
+	    deadplosion = new TextureRegion[60];
+//	    for (int j=0;j<10;j++)
+//		    deadplosion[j] = new TextureRegion(deadTexture,0,0,128,128);
+	    for (int i=0;i<6;i++)
+		    for (int j=0;j<10;j++)
+		    deadplosion[i*10+j] = new TextureRegion(deadTexture,j*128,i*128,128,128);
+	    deadAnim = new Animation(1/30f,deadplosion);
+	    deadAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+
+
     }
 
 

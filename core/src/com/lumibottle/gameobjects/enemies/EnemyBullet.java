@@ -9,16 +9,18 @@ import com.lumibottle.gameobjects.Squirrel;
 /**
  * Created by MG-POW on 2016-04-01.
  */
-public class CowboyHat extends GameEvent {
+public class EnemyBullet extends GameEvent {
 
 
+	private int type;
 	private float runTime;
 
-	public CowboyHat() {
+	public EnemyBullet() {
 		super(32, 16, new Polygon(new float[]{  4,4,
 												28,4,
 												28,12,
 												4,12}));
+
 	}
 
 	@Override
@@ -38,10 +40,10 @@ public class CowboyHat extends GameEvent {
 
  */
 
-	@Override
-	public void reset(float x, float y, float dx, float dy, float theta) {
+	public void reset(float x, float y, float dx, float dy, float theta, int type) {
 		super.reset(x, y, dx, dy, theta);
 		runTime=0;
+		this.type =type;
 	}
 
 	@Override
@@ -58,4 +60,9 @@ public class CowboyHat extends GameEvent {
 	public float getRunTime() {
 		return runTime;
 	}
+
+	public int getType() {
+		return type;
+	}
+
 }

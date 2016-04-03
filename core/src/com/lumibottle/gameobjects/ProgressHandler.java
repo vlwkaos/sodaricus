@@ -1,9 +1,9 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
-import com.lumibottle.gameobjects.enemies.CowboyHat;
+import com.lumibottle.gameobjects.enemies.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
@@ -28,7 +28,10 @@ public class ProgressHandler {
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
 	private CowboySausage[] cowboySausages;
-	private CowboyHat[] cowboyHats;
+	private EnemyBullet[] enemyBullets;
+	private Blackhole[] blackholes;
+
+
 	private float hatspeed = 100f;
 	private boolean squirrelHit;
 
@@ -72,9 +75,15 @@ public class ProgressHandler {
 
 		}
 
-		cowboyHats = new CowboyHat[10];
-		for (int i=0;i<cowboyHats.length;i++){
-			cowboyHats[i] = new CowboyHat();
+		enemyBullets = new EnemyBullet[10];
+		for (int i = 0; i< enemyBullets.length; i++){
+			enemyBullets[i] = new EnemyBullet();
+		}
+
+		blackholes = new Blackhole[3];
+		for (int i=0; i< blackholes.length; i++){
+			blackholes[i] = new Blackhole();
+			blackholes[i].reset(240+i*20);
 		}
 
 		myFXs = new FX[10];
@@ -93,13 +102,13 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-//		updateRoadRollers(delta);
-//		updateBombs(delta);
-//		updateMustaches(delta);
-//		updateLaserCrayons(delta);
+		updateRoadRollers(delta);
+		updateBombs(delta);
+		updateMustaches(delta);
+		updateLaserCrayons(delta);
 		updateCowboySausages(delta);
-		updateCowboyHats(delta);
-
+		updateEnemyBullets(delta);
+		updateBlackholes(delta);
 	}
 
 
@@ -144,12 +153,12 @@ public class ProgressHandler {
 		for (CowboySausage c : cowboySausages){
 			c.update(delta);
 			if(c.isShooting())
-				for (CowboyHat h: cowboyHats)
+				for (EnemyBullet h: enemyBullets)
 					if (h.isREADY()) {
 						float theta= MathUtils.atan2(c.getY()-mySquirrel.getY(),c.getX()-mySquirrel.getX());
 						float dx = -hatspeed* MathUtils.cos(theta);
 						float dy = -hatspeed* MathUtils.sin(theta);
-						h.reset(c.getX(),c.getY(),dx,dy,0);
+						h.reset(c.getX(),c.getY(),dx,dy,0,0);//sprite type
 						c.doneShooting();
 						break;
 					}
@@ -159,9 +168,19 @@ public class ProgressHandler {
 		}
 	}
 
-	private void updateCowboyHats(float delta){
-		for (CowboyHat c: cowboyHats)
+	private void updateEnemyBullets(float delta){
+		for (EnemyBullet c: enemyBullets)
 			c.update(delta);
+
+
+	}
+
+	private void updateBlackholes(float delta){
+		for (Blackhole b: blackholes) {
+			b.update(delta);
+			if (b.isREADY())
+				b.reset(250);
+		}
 	}
 
 
@@ -181,8 +200,11 @@ public class ProgressHandler {
 		for (CowboySausage c : cowboySausages)
 			c.collide(mySquirrel);
 
-		for (CowboyHat c :cowboyHats)
+		for (EnemyBullet c : enemyBullets)
 			c.collide(mySquirrel);
+
+		for (Blackhole b : blackholes)
+			b.collide(mySquirrel);
 	}
 
 
@@ -207,11 +229,15 @@ public class ProgressHandler {
 		return laserCrayons;
 	}
 
-	public CowboyHat[] getCowboyHats() {
-		return cowboyHats;
+	public EnemyBullet[] getEnemyBullets() {
+		return enemyBullets;
 	}
 
 	public CowboySausage[] getCowboySausages() {
 		return cowboySausages;
+	}
+
+	public Blackhole[] getBlackholes() {
+		return blackholes;
 	}
 }

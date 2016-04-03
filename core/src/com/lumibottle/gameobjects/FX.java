@@ -24,6 +24,7 @@ public class FX {
 
 	private Animation myAnimation;
 
+	private short animNo;
 
 	public FX(){
 		runTime=0;
@@ -60,6 +61,7 @@ public class FX {
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;
 		position.set(x,y);
+		animNo=animationNumber;
 		currentState = FXState.TOBEDRAWN;
 		switch (animationNumber){
 			case 0:
@@ -73,6 +75,12 @@ public class FX {
 				break;
 			case 3:
 				myAnimation = AssetHelper.explosionAnim2;
+				break;
+			case 4:
+				myAnimation = AssetHelper.deadAnim;
+				break;
+			case 5:
+				myAnimation = AssetHelper.deadInit;
 			default:
 		}
 
@@ -88,5 +96,9 @@ public class FX {
 
 	public float getRunTime() {
 		return runTime;
+	}
+
+	public short getAnimNo() {
+		return animNo;
 	}
 }

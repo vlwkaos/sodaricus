@@ -125,6 +125,8 @@ public abstract class GameEvent {
 		this.theta = theta;
 	}
 
+	public void addTheta(float theta) {this.theta += theta;}
+
 	public float getX() {
 		return position.x;
 	}

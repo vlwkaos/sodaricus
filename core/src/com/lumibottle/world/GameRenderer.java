@@ -11,8 +11,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
-import com.lumibottle.gameobjects.enemies.CowboyHat;
+import com.lumibottle.gameobjects.enemies.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
@@ -55,15 +56,16 @@ public class GameRenderer {
 	private Bomb[] myBombs;
     private Mustache[] myMustaches;
 	private LaserCrayon[] myLaserCrayons;
-	private CowboyHat[] myCowboyHats;
+	private EnemyBullet[] myEnemyBullets;
 	private CowboySausage[] myCowboySausages;
+	private Blackhole[] myBlackholes;
 
     //ASSET
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
     private TextureRegion gb;
-
+	private Animation eyeAnmimation;
 	//
     private TextureRegion roadroller;
 	private TextureRegion bomb;
@@ -72,7 +74,7 @@ public class GameRenderer {
 	private TextureRegion bluecrayon;
 	private Animation cowboyhatAnimation;
 	private TextureRegion cowboysausage;
-
+	private TextureRegion hole;
 
 
 	private TextureRegion star1,star2;
@@ -115,16 +117,19 @@ public class GameRenderer {
         //Gdx.app.log("runTime",runTime+"");
 		//rendering order
 		drawStars();
+	    drawBlackholes();
 		drawBacon(runTime);
 		/*
 		Draw enemies below here
 		 */
-        drawRoadRollers();
-        drawMustaches();
-		drawBlueCrayons();
-		drawBombs();
-	    drawCowboySausages();
-		drawCowboyHats(runTime);
+        drawRoadRollers(runTime);
+        drawMustaches(runTime);
+		drawBlueCrayons(runTime);
+		drawBombs(runTime);
+	    drawCowboySausages(runTime);
+		drawEnemyBullets();
+
+
 
 		//main
 	    drawSquirrel();
@@ -153,13 +158,16 @@ public class GameRenderer {
         myMustaches= myStage.getMustaches();
 	    myLaserCrayons = myStage.getLaserCrayons();
 	    myBombs = myStage.getBombs();
-	    myCowboyHats = myStage.getCowboyHats();
+	    myEnemyBullets = myStage.getEnemyBullets();
 	    myCowboySausages = myStage.getCowboySausages();
+	    myBlackholes = myStage.getBlackholes();
+
     }
     private void initAsset(){
         squirrelDown = AssetHelper.sqdown;
-        squirrelAnimation = AssetHelper.sqAnimation;
-        baconAnimation = AssetHelper.baconAnimation;
+        squirrelAnimation = AssetHelper.sqAnim;
+        baconAnimation = AssetHelper.baconAnim;
+		eyeAnmimation = AssetHelper.eyeAnim;
 
         gb = AssetHelper.greenBullet;
 
@@ -174,6 +182,7 @@ public class GameRenderer {
 
 		cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
 	 //TODO  cowboysausage = AssetHelper.cowboy
+	    hole = AssetHelper.hole;
 
 	    //bg
         star1 = AssetHelper.star1;
@@ -242,12 +251,16 @@ public class GameRenderer {
     private void drawFXs(){
 	    for (FX f: FXHelper.getInstance().getMyFXs()){
 		    if (f.isTOBEDRAWN())
-		    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
+		        if (f.getAnimNo()==(short)4)
+			        spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY(),128/2f,128/2f,128,128,1.0f,1.0f,mySquirrel.getRotation());
+			        else
+			    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
+
 	    }
     }
 
 
-    private void drawRoadRollers(){
+    private void drawRoadRollers(float runTime){
 		for (RoadRoller r: myRoadRollers) {
 			if (r.isVISIBLE()) {
 
@@ -257,28 +270,31 @@ public class GameRenderer {
 				if (r.getParticle().isComplete())
 					r.getParticle().reset();
 				spriteBatch.draw(roadroller, r.getX(), r.getY());
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),r.getX(),r.getY());
 
 
 			}
 		}
 	}
 
-	private void drawBombs(){
+	private void drawBombs(float runTime){
 		for (Bomb b: myBombs) {
 			if (b.isVISIBLE()) {
 
 				if (!b.isExploding())
 				spriteBatch.draw(bomb, b.getX(), b.getY());
+
 				b.getParticle().setPosition(b.getX()+b.getWidth()/2f,b.getY()+b.getHeight());
 				b.getParticle().update(Gdx.graphics.getDeltaTime());
 				b.getParticle().draw(spriteBatch);
 				if (b.getParticle().isComplete())
 					b.getParticle().reset();
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),b.getX(),b.getY()+b.getHeight()*1/2f);
 			}
 		}
 	}
 
-    private void drawMustaches(){
+    private void drawMustaches(float runTime){
         for (Mustache m : myMustaches) {
             if (m.isVISIBLE()) {
 
@@ -292,11 +308,14 @@ public class GameRenderer {
 	            m.getParticle().draw(spriteBatch);
 	            if (m.getParticle().isComplete())
 		            m.getParticle().reset();
+
+	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()*1/3f,m.getY()+m.getHeight()*2/3f);
+	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()*1/3f+6f,m.getY()+m.getHeight()*2/3f);
             }
         }
     }
 
-	private void drawBlueCrayons(){
+	private void drawBlueCrayons(float runTime){
 		for (LaserCrayon l: myLaserCrayons) {
 			if (l.isVISIBLE()) {
 
@@ -313,17 +332,29 @@ public class GameRenderer {
 		}
 	}
 
-	private void drawCowboySausages(){
+	private void drawCowboySausages(float runTime){
 		for (CowboySausage c: myCowboySausages){
 			if (c.isVISIBLE())
-				spriteBatch.draw(bomb,c.getX(),c.getY());
+				spriteBatch.draw(bomb,c.getX(),c.getY());//TODO cowboy sausage texture needed
 		}
 	}
 
-	private void drawCowboyHats(float runTime){
-		for (CowboyHat c : myCowboyHats)
-			if (c.isVISIBLE())
-				spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()),c.getX(),c.getY());
+	private void  drawEnemyBullets(){
+		for (EnemyBullet c : myEnemyBullets)
+			if (c.isVISIBLE()) {
+				switch( c.getType()){
+					case 0: 		spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY()); break;
+
+				}
+
+			}
+	}
+
+	private void drawBlackholes(){
+		for (Blackhole b : myBlackholes)
+			if (b.isVISIBLE()){
+				spriteBatch.draw(hole, b.getX(), b.getY(),b.getWidth()/2f,b.getHeight()/2f,b.getWidth(),b.getHeight(),0.5f,0.5f,b.getTheta());
+			}
 	}
 
 	public void dispose(){

@@ -1,6 +1,5 @@
 package com.lumibottle.helper;
 
-import com.badlogic.gdx.Gdx;
 import com.lumibottle.gameobjects.FX;
 
 /**
@@ -31,7 +30,6 @@ public class FXHelper {
 		}
 
 	}
-
 	public FX[] getMyFXs() {
 		return myFXs;
 	}
