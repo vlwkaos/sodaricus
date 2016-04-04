@@ -3,7 +3,6 @@ package com.lumibottle.gameobjects.enemies;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.helper.AssetHelper;
 
 /**
  *  CowboySausage is a shooting enemy that never goes away unless killed
