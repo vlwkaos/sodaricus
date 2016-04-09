@@ -3,8 +3,8 @@ package com.lumibottle.gameobjects;
 import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.Cowboy;
 import com.lumibottle.gameobjects.enemies.EnemyBullet;
-import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
@@ -27,7 +27,7 @@ public class ProgressHandler {
 	private Bomb[] bombs;
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
-	private CowboySausage[] cowboySausages;
+	private Cowboy[] cowboys;
 	private EnemyBullet[] enemyBullets;
 	private Blackhole[] blackholes;
 
@@ -68,10 +68,10 @@ public class ProgressHandler {
 		}
 
 
-		cowboySausages = new CowboySausage[5];
-		for (int i=0; i< cowboySausages.length;i++){
-			cowboySausages[i] = new CowboySausage();
-			cowboySausages[i].reset(250);
+		cowboys = new Cowboy[3];
+		for (int i = 0; i< cowboys.length; i++){
+			cowboys[i] = new Cowboy();
+			cowboys[i].reset(250);
 
 		}
 
@@ -102,19 +102,22 @@ public class ProgressHandler {
 		/*
 			Movements
 		 */
-		updateRoadRollers(delta);
-		updateBombs(delta);
-		updateMustaches(delta);
-		updateLaserCrayons(delta);
-		updateCowboySausages(delta);
+//		updateRoadRollers(delta);
+//		updateBombs(delta);
+//		updateMustaches(delta);
+//		updateLaserCrayons(delta);
+		updateCowboy(delta);
 		updateEnemyBullets(delta);
-		updateBlackholes(delta);
+//		updateBlackholes(delta);
 	}
 
 
 	/*
-		Organize
-	 *///TODO how to spawn?
+			Organize
+
+	    //TODO cowboy는 블럭 단위로?
+	   */// how to spawn?
+
 	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
 			r.update(delta);
@@ -149,16 +152,16 @@ public class ProgressHandler {
 	}
 
 
-	private void updateCowboySausages(float delta){
-		for (CowboySausage c : cowboySausages){
+	private void updateCowboy(float delta){
+		for (Cowboy c : cowboys){
 			c.update(delta);
 			if(c.isShooting())
 				for (EnemyBullet h: enemyBullets)
 					if (h.isREADY()) {
-						float theta= MathUtils.atan2(c.getY()-mySquirrel.getY(),c.getX()-mySquirrel.getX());
+						float theta= MathUtils.atan2((c.getY()+23)-mySquirrel.getY(),c.getX()-mySquirrel.getX());
 						float dx = -hatspeed* MathUtils.cos(theta);
 						float dy = -hatspeed* MathUtils.sin(theta);
-						h.reset(c.getX(),c.getY(),dx,dy,0,0);//sprite type
+						h.reset(c.getX()-6,c.getY()+23,dx,dy,0,0);//sprite type
 						c.doneShooting();
 						break;
 					}
@@ -197,7 +200,7 @@ public class ProgressHandler {
 		for (LaserCrayon l : laserCrayons)
 			l.collide(mySquirrel);
 
-		for (CowboySausage c : cowboySausages)
+		for (Cowboy c : cowboys)
 			c.collide(mySquirrel);
 
 		for (EnemyBullet c : enemyBullets)
@@ -233,8 +236,8 @@ public class ProgressHandler {
 		return enemyBullets;
 	}
 
-	public CowboySausage[] getCowboySausages() {
-		return cowboySausages;
+	public Cowboy[] getCowboys() {
+		return cowboys;
 	}
 
 	public Blackhole[] getBlackholes() {

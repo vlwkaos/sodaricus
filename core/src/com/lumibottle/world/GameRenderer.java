@@ -13,8 +13,8 @@ import com.lumibottle.gameobjects.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.Cowboy;
 import com.lumibottle.gameobjects.enemies.EnemyBullet;
-import com.lumibottle.gameobjects.enemies.CowboySausage;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -57,7 +57,7 @@ public class GameRenderer {
     private Mustache[] myMustaches;
 	private LaserCrayon[] myLaserCrayons;
 	private EnemyBullet[] myEnemyBullets;
-	private CowboySausage[] myCowboySausages;
+	private Cowboy[] myCowboys;
 	private Blackhole[] myBlackholes;
 
     //ASSET
@@ -69,11 +69,13 @@ public class GameRenderer {
 	//
     private TextureRegion roadroller;
 	private TextureRegion bomb;
+	private Animation cowboy;
+	private TextureRegion cowboyidle;
     private TextureRegion mustacheIdle;
     private Animation mustacheAnimation;
 	private TextureRegion bluecrayon;
 	private Animation cowboyhatAnimation;
-	private TextureRegion cowboysausage;
+	private Animation cowboyhatspawnAnimation;
 	private TextureRegion hole;
 
 
@@ -126,7 +128,7 @@ public class GameRenderer {
         drawMustaches(runTime);
 		drawBlueCrayons(runTime);
 		drawBombs(runTime);
-	    drawCowboySausages(runTime);
+	    drawCowboy(runTime);
 		drawEnemyBullets();
 
 
@@ -159,7 +161,7 @@ public class GameRenderer {
 	    myLaserCrayons = myStage.getLaserCrayons();
 	    myBombs = myStage.getBombs();
 	    myEnemyBullets = myStage.getEnemyBullets();
-	    myCowboySausages = myStage.getCowboySausages();
+	    myCowboys = myStage.getCowboys();
 	    myBlackholes = myStage.getBlackholes();
 
     }
@@ -177,10 +179,14 @@ public class GameRenderer {
 	    bomb = AssetHelper.tanklorry;
         mustacheIdle = AssetHelper.mustaches[4];
         mustacheAnimation = AssetHelper.mustacheAnim;
+		cowboy = AssetHelper.cowboythrowAnim;
+		cowboyidle = AssetHelper.cowboythrow[0];
+
 
 		bluecrayon = AssetHelper.bluecrayon;
 
 		cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
+	    cowboyhatspawnAnimation = AssetHelper.cowboyhatsspawnAnim;
 	 //TODO  cowboysausage = AssetHelper.cowboy
 	    hole = AssetHelper.hole;
 
@@ -332,18 +338,37 @@ public class GameRenderer {
 		}
 	}
 
-	private void drawCowboySausages(float runTime){
-		for (CowboySausage c: myCowboySausages){
-			if (c.isVISIBLE())
-				spriteBatch.draw(bomb,c.getX(),c.getY());//TODO cowboy sausage texture needed
-		}
+	private void drawCowboy(float runTime){
+		for (Cowboy c: myCowboys){
+			if (c.isVISIBLE()) {
+
+
+				c.getParticle().setPosition(c.getX()+c.getWidth()/2f, c.getY()+8f);
+				c.getParticle().update(Gdx.graphics.getDeltaTime());
+				c.getParticle().draw(spriteBatch);
+
+
+
+			if (c.isPreparing())
+				spriteBatch.draw(cowboy.getKeyFrame(c.getRunTime()), c.getX(), c.getY());
+				else
+				spriteBatch.draw(cowboyidle,c.getX(),c.getY());
+
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),c.getX()+c.getWidth()/4f,c.getY()+c.getHeight()/2f);
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),c.getX()+c.getWidth()/4f+6f,c.getY()+c.getHeight()/2f);
+
+				if (c.isPreparing())
+					spriteBatch.draw(cowboyhatspawnAnimation.getKeyFrame(c.getRunTime()),c.getX(),c.getY()+23f);
+			}
+
+			}
 	}
 
 	private void  drawEnemyBullets(){
 		for (EnemyBullet c : myEnemyBullets)
 			if (c.isVISIBLE()) {
 				switch( c.getType()){
-					case 0: 		spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY()); break;
+					case 0: 	spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY()); break;
 
 				}
 

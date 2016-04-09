@@ -29,10 +29,11 @@ public class AssetHelper {
     public static Texture bluecrayonTexture;
 	public static Texture redlaserTexture;
 	public static Texture cowboyhatTexture;
+	public static Texture cowboythrowTexture;
 	public static Texture eyeTexture;
 	public static Texture holeTexture;
 	public static Texture deadTexture;
-	//15
+	//16
 
     /*
         Texture Region
@@ -61,6 +62,11 @@ public class AssetHelper {
 
 	public static TextureRegion[] cowboyhats;
 	public static Animation cowboyhatsAnim;
+	public static TextureRegion[] cowboyhatsspawn;
+	public static Animation cowboyhatsspawnAnim;
+
+	public static TextureRegion[] cowboythrow;
+	public static Animation cowboythrowAnim;
 
 	public static TextureRegion hole;
 
@@ -77,7 +83,8 @@ public class AssetHelper {
 
 	public static TextureRegion[] deadplosion;
     public static Animation deadAnim;
-	public static Animation deadInit;
+
+
 
 	/*
         Particles
@@ -92,6 +99,9 @@ public class AssetHelper {
 	public static ParticleEffectPool popcornPool;
 	public static ParticleEffect sodaburstParticle;
 	public static ParticleEffectPool sodaburstPool;
+	public static ParticleEffect nitro2Particle;
+	public static ParticleEffectPool nitro2Pool;
+
 
     public static void load() {
         loadParticles();
@@ -115,7 +125,8 @@ public class AssetHelper {
 	    eyeTexture.dispose();
 	    holeTexture.dispose();
 	    deadTexture.dispose();
-	    //15
+	    cowboythrowTexture.dispose();
+	    //16
 
 
 
@@ -130,6 +141,8 @@ public class AssetHelper {
 	    popcornParticle.dispose();
 	    sodaburstPool.clear();
 	    sodaburstParticle.dispose();
+	    nitro2Pool.clear();
+	    nitro2Particle.dispose();
     }
 
     private static void loadTextures() {
@@ -150,6 +163,10 @@ public class AssetHelper {
 	    mustacheTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 	    bluecrayonTexture = new Texture(Gdx.files.internal("data/bluepastel.png"));
 	    bluecrayonTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+
+	    cowboythrowTexture = new Texture(Gdx.files.internal("data/cowboymotion.png"));
+	    cowboythrowTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 		holeTexture = new Texture(Gdx.files.internal("data/hole.png"));
 	    holeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -179,7 +196,6 @@ public class AssetHelper {
 
 	    deadTexture = new Texture(Gdx.files.internal("data/gfx/dead.png"));
 	    deadTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
 
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
@@ -223,6 +239,20 @@ public class AssetHelper {
 	    cowboyhatsAnim = new Animation(1/30f, cowboyhats);
 	    cowboyhatsAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+	    cowboyhatsspawn = new TextureRegion[4];
+	    for (int i=0;i<4;i++)
+		    cowboyhatsspawn[i] = new TextureRegion(cowboyhatTexture,(i+4)*32,0,32,16);
+	    cowboyhatsspawnAnim = new Animation(1/30f,cowboyhatsspawn);
+	    cowboyhatsspawnAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+
+	    cowboythrow = new TextureRegion[4];
+	    for (int i=0;i<4;i++)
+		    cowboythrow[i] = new TextureRegion(cowboythrowTexture,i*32,0,32,48);
+	    cowboythrowAnim = new Animation(1/30f, cowboythrow);
+	    cowboythrowAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+
 	    hole = new TextureRegion(holeTexture,0,0,32,32);
 
 	    //
@@ -259,8 +289,6 @@ public class AssetHelper {
 
 
 	    deadplosion = new TextureRegion[60];
-//	    for (int j=0;j<10;j++)
-//		    deadplosion[j] = new TextureRegion(deadTexture,0,0,128,128);
 	    for (int i=0;i<6;i++)
 		    for (int j=0;j<10;j++)
 		    deadplosion[i*10+j] = new TextureRegion(deadTexture,j*128,i*128,128,128);
@@ -281,6 +309,12 @@ public class AssetHelper {
 	    nitroParticle.load(Gdx.files.internal("data/particles/nitro.p"),Gdx.files.internal("data/particles/"));
 	    nitroPool = new ParticleEffectPool(nitroParticle,0,10);
 
+	    nitro2Particle = new ParticleEffect();
+	    nitro2Particle.load(Gdx.files.internal("data/particles/nitro2.p"),Gdx.files.internal("data/particles/"));
+	    nitro2Pool = new ParticleEffectPool(nitro2Particle,0,10);
+
+
+
 	    energyParticle = new ParticleEffect();
 	    energyParticle.load(Gdx.files.internal("data/particles/energy.p"),Gdx.files.internal("data/particles/"));
 	    energyPool = new ParticleEffectPool(energyParticle,0,10);
@@ -293,6 +327,9 @@ public class AssetHelper {
 	    sodaburstParticle = new ParticleEffect();
 	    sodaburstParticle.load(Gdx.files.internal("data/particles/sodaburst.p"),Gdx.files.internal("data/"));
 		sodaburstPool = new ParticleEffectPool(sodaburstParticle,0,3);
+
+
+
     }
 
     private static void loadSounds() {

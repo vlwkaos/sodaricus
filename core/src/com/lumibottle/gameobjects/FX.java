@@ -58,6 +58,14 @@ public class FX {
 		return currentState == FXState.TOBEDRAWN;
 	}
 
+	/*
+		0 explosion for soda
+		1 laser line
+		2 laser animation
+		3 explosion for tanklorry
+		4 explosion for squirrel
+		5 snowman
+	 */
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;
 		position.set(x,y);
@@ -79,8 +87,6 @@ public class FX {
 			case 4:
 				myAnimation = AssetHelper.deadAnim;
 				break;
-			case 5:
-				myAnimation = AssetHelper.deadInit;
 			default:
 		}
 

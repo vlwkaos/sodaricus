@@ -32,6 +32,7 @@ public class Blackhole extends GameEvent {
 		}
 
 	}
+
 	public void reset(float x) {
 		super.reset(x, (GameEvent.gameHeight/20f)*MathUtils.random(5,13), -15, 0, 0);
 	}
