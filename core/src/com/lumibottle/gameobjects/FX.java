@@ -64,7 +64,7 @@ public class FX {
 		2 laser animation
 		3 explosion for tanklorry
 		4 explosion for squirrel
-		5 snowman
+
 	 */
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;

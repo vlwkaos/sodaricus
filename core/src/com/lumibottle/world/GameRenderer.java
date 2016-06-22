@@ -124,6 +124,7 @@ public class GameRenderer {
 		/*
 		Draw enemies below here
 		 */
+
         drawRoadRollers(runTime);
         drawMustaches(runTime);
 		drawBlueCrayons(runTime);
@@ -134,7 +135,9 @@ public class GameRenderer {
 
 
 		//main
+	    spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f);
 	    drawSquirrel();
+	    spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
 	    drawBullets();
 
 	    //fx
@@ -295,7 +298,7 @@ public class GameRenderer {
 				b.getParticle().draw(spriteBatch);
 				if (b.getParticle().isComplete())
 					b.getParticle().reset();
-				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),b.getX(),b.getY()+b.getHeight()*1/2f);
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),b.getX(),b.getY()+b.getHeight()/2f);
 			}
 		}
 	}
@@ -315,8 +318,8 @@ public class GameRenderer {
 	            if (m.getParticle().isComplete())
 		            m.getParticle().reset();
 
-	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()*1/3f,m.getY()+m.getHeight()*2/3f);
-	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()*1/3f+6f,m.getY()+m.getHeight()*2/3f);
+	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()/3f,m.getY()+m.getHeight()*2/3f);
+	            spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),m.getX()+m.getWidth()/3f+6f,m.getY()+m.getHeight()*2/3f);
             }
         }
     }
