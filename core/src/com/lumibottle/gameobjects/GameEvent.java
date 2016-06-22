@@ -14,13 +14,9 @@ import com.lumibottle.helper.FXHelper;
  */
 public abstract class GameEvent {
 
-
 	private enum EventState{
 		READY, VISIBLE
-	}//READY state notifies that it went out of screen and is now ready to be reset
-
-
-
+	}//READY state notifies that it went out of screen and is now hit to be reset
 
 	public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 240);
 	//runtime for enemy
@@ -28,12 +24,16 @@ public abstract class GameEvent {
 	private Vector2 velocity;
 	private EventState currentState;
 
+	// Heatlh
+	private int maxhp;
+	private int hitpoint;
+
 	private int width, height;
 	private float theta;
 
 	private Polygon hitbox;
 
-	public GameEvent(int width, int height, Polygon hitbox){
+	public GameEvent(int width, int height, Polygon hitbox, int hp){
 		position = new Vector2(-255,-255);
 		velocity = new Vector2(0,0);
 		this.width = width;
@@ -41,13 +41,15 @@ public abstract class GameEvent {
 		this.theta = 0;
 		currentState = EventState.READY;
 		this.hitbox = hitbox;
+		this.maxhp = hp;
+		this.hitpoint = hp;
 	}
 
 
 	/*
 	BASIC PROTOTYPE : only update position when it's on visible state.
-					  set to ready state when Out of screen.
-					  set to ready state when hit by bullet.
+					  set to hit state when Out of screen.
+					  set to hit state when hit by bullet.
 					  visible state starts when reset.
 	 */
 	public abstract void update(float delta);
@@ -55,27 +57,37 @@ public abstract class GameEvent {
 
 	//If using particle, You should obtain particle here by overriding this method.
 	public void reset(float x, float y, float dx, float dy, float theta){
-		position.set(x,y);
-		velocity.set(dx,dy);
+		this.position.set(x,y);
+		this.velocity.set(dx,dy);
 		this.theta=theta;
-		currentState = EventState.VISIBLE;
+		this.hitpoint = this.maxhp;
+		this.currentState = EventState.VISIBLE;
 	}// re deploy, set to visible
 
 	public boolean isOutOfScreen(boolean toLeft){
-		//was visible but is out of screen, so move it else where ready to be re deployed
+		//was visible but is out of screen, so move it else where hit to be re deployed
 		if (toLeft)
 			return (position.x+width*2<0 || position.y>gameHeight + height || position.y < 0-height );
 		else
 			return (  position.y>gameHeight + height || position.y < 0-height || position.x>240 );
 	}
 
-	// if using particle, free particle here
-	public void ready(){
 
-		position.set(-255, -255);
-		currentState = EventState.READY;
+	public void hit(){
+		if (hitpoint == 0){
+			dead();
+		} else {
+			hitpoint--;
+		}
 	}
 
+	// if using particle, free particle here
+	public void dead(){
+		position.set(-255, -255);
+		currentState = EventState.READY; // hit to deploy
+
+	}
+	
 
 	/*
 	collision
@@ -85,17 +97,19 @@ public abstract class GameEvent {
 			for (Bullet b : squirrel.getBullets()) {
 				if (b.getX() + b.getWidth() > getX())
 					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
+						//When bullet hits Event
 						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
-						ready();
-						b.ready();//dead fx goes in ready?
+						hit();
+						b.hit();//dead fx goes in hit?
 						break;
 					}
 			}
 
+			//When squirrel is hit by event
 			if (squirrel.getX() + squirrel.getWidth() > getX()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.kill();
+					squirrel.dead();
 				}
 			}
 		}

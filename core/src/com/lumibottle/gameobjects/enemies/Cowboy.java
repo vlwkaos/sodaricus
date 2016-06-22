@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
-import com.lumibottle.helper.FXHelper;
 
 /**
  *  Cowboy is a shooting enemy that never goes away unless killed
@@ -26,7 +25,7 @@ public class Cowboy extends GameEvent{
 
 
 	public Cowboy() {
-		super(32, 48, new Polygon(new float[]{6,0,26,0,26,32,6,32}));
+		super(32, 48, new Polygon(new float[]{6,0,26,0,26,32,6,32}),3);
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class Cowboy extends GameEvent{
 
 
 			if (isOutOfScreen(true))
-				ready();
+				dead();
 		}
 
 	}
@@ -66,8 +65,8 @@ public class Cowboy extends GameEvent{
 
 
 	@Override
-	public void ready(){
-		super.ready();
+	public void dead(){
+		super.dead();
 		AssetHelper.nitro2Pool.free((ParticleEffectPool.PooledEffect) nitroParticle);
 
 	}

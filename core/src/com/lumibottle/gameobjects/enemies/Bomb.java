@@ -25,7 +25,7 @@ public class Bomb extends GameEvent{
 	private float bomb_y=40;
 
 	public Bomb() {
-		super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}));
+		super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}),3);
 
 	}
 
@@ -42,10 +42,10 @@ public class Bomb extends GameEvent{
 				getPosition().add(getVelocity().cpy().scl(delta));
 
 			if (isExploding && explodingCounter > 3/15f)
-				ready();
+				dead();
 
 			if (isOutOfScreen(true))
-				ready();
+				dead();
 		}
 
 	}
@@ -64,8 +64,9 @@ public class Bomb extends GameEvent{
 
 
 	@Override
-	public void ready(){
-		super.ready();
+	public void dead(){
+		super.dead();
+		explode();
 		AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
 		setHitbox(new float[]{0, 0, 32, 0, 32, 14, 0, 14});
 	}
@@ -93,8 +94,7 @@ public class Bomb extends GameEvent{
 					if (Intersector.overlapConvexPolygons(b.getHitbox(), getHitbox()) && b.isVISIBLE()) {
 						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
 						//bomb fx
-						explode();
-						b.ready();
+						b.hit();
 						break;
 					}
 			}
@@ -103,7 +103,7 @@ public class Bomb extends GameEvent{
 			if (squirrel.getX() + squirrel.getWidth() > getX()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.kill();
+					squirrel.dead();
 				}
 			}
 		}

@@ -29,7 +29,7 @@ public class LaserCrayon extends GameEvent {
 
 
     public LaserCrayon() {
-        super(29, 5, new Polygon(new float[]{0, 0, 29, 0, 29, 5, 0, 5}));
+        super(29, 5, new Polygon(new float[]{0, 0, 29, 0, 29, 5, 0, 5}),0);
 
     }
 
@@ -55,7 +55,7 @@ public class LaserCrayon extends GameEvent {
 		        delay=0;
 	        }
 
-	        //its ready to shoot after 1 second
+	        //its hit to shoot after 1 second
 			if (currentState == LaserCrayonState.READYTOSHOOT || currentState == LaserCrayonState.SHOT){
 				delay+=delta;
 			}
@@ -86,7 +86,7 @@ public class LaserCrayon extends GameEvent {
 	        }
 
 			if (currentState == LaserCrayonState.SHOT  && getX()>240)
-                ready();
+                dead();
         }
 
     }
@@ -102,8 +102,8 @@ public class LaserCrayon extends GameEvent {
 
 
     @Override
-    public void ready(){
-        super.ready();
+    public void dead(){
+        super.dead();
         AssetHelper.energyPool.free((ParticleEffectPool.PooledEffect) energyParticle);
 
     }
@@ -113,7 +113,7 @@ public class LaserCrayon extends GameEvent {
 		if (isVISIBLE()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.kill();
+					squirrel.dead();
 				}
 
 		}

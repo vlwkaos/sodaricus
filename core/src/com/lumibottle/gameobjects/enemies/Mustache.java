@@ -20,7 +20,7 @@ public class Mustache extends GameEvent {
 	private float runTime;
 
 	public Mustache() {
-		super(33, 16,new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16}));
+		super(33, 16,new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16}),5);
 
 	}
 
@@ -52,7 +52,7 @@ public class Mustache extends GameEvent {
 			getPosition().add(getVelocity().cpy().scl(delta));
 
 			if (isOutOfScreen(true))
-				ready();
+				hit();
 		}
 
 	}
@@ -70,10 +70,9 @@ public class Mustache extends GameEvent {
 	}
 
 	@Override
-	public void ready(){
-		super.ready();
+	public void dead(){
+		super.dead();
 		AssetHelper.rainbowPool.free((ParticleEffectPool.PooledEffect)rainbowParticle);
-
 	}
 
 	public boolean isDoneMoving(){

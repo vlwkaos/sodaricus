@@ -19,7 +19,7 @@ public class EnemyBullet extends GameEvent {
 		super(32, 16, new Polygon(new float[]{  4,4,
 												28,4,
 												28,12,
-												4,12}));
+												4,12}),0);
 
 	}
 
@@ -32,7 +32,7 @@ public class EnemyBullet extends GameEvent {
 			getPosition().add(getVelocity().cpy().scl(delta));
 
 			if (isOutOfScreen(true))
-				ready();
+				dead();
 		}
 	}
 /*
@@ -51,7 +51,7 @@ public class EnemyBullet extends GameEvent {
 		if (isVISIBLE()) {
 			if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 				Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-				squirrel.kill();
+				squirrel.dead();
 			}
 
 		}

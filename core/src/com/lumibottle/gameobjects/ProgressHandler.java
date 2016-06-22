@@ -105,9 +105,9 @@ public class ProgressHandler {
 //		updateRoadRollers(delta);
 //		updateBombs(delta);
 //		updateMustaches(delta);
-//		updateLaserCrayons(delta);
-		updateCowboy(delta);
-		updateEnemyBullets(delta);
+		updateLaserCrayons(delta);
+//		updateCowboy(delta);
+//		updateEnemyBullets(delta);
 //		updateBlackholes(delta);
 	}
 

@@ -15,8 +15,10 @@ public class RoadRoller extends GameEvent {
 
 	private ParticleEffect nitroParticle;
 
+
+
 	public RoadRoller() {
-		super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}));
+		super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}), 4);
 	}
 
 	@Override
@@ -25,7 +27,7 @@ public class RoadRoller extends GameEvent {
 			getHitbox().setPosition(getX(), getY());
 			getPosition().add(getVelocity().cpy().scl(delta));
 			if (isOutOfScreen(true))
-				ready();
+				hit();
 		}
 
 	}
@@ -42,10 +44,9 @@ public class RoadRoller extends GameEvent {
 
 
 	@Override
-	public void ready(){
-		super.ready();
+	public void dead(){
+		super.dead();
 		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
-
 	}
 }
 

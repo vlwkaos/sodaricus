@@ -135,9 +135,8 @@ public class GameRenderer {
 
 
 		//main
-	    spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f);
+	   // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
 	    drawSquirrel();
-	    spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
 	    drawBullets();
 
 	    //fx
@@ -220,9 +219,9 @@ public class GameRenderer {
 
 		}
 //
-//		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
-//		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
-//		mySquirrel.getSodaburst().draw(spriteBatch);
+		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
+		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
+		mySquirrel.getSodaburst().draw(spriteBatch);
 
 	}
 

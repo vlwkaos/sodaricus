@@ -1,6 +1,5 @@
 package com.lumibottle.gameobjects.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
@@ -17,7 +16,7 @@ public class Blackhole extends GameEvent {
 	private float acc= 5f;
 
 	public Blackhole() {
-		super(32, 32, new Polygon(new float[]{-6,-24,22,-24,22,-6,40,22,22,40,-6,40,-24,22,-24,-6}));
+		super(32, 32, new Polygon(new float[]{-6,-24,22,-24,22,-6,40,22,22,40,-6,40,-24,22,-24,-6}),0);
 
 	}
 
@@ -28,7 +27,7 @@ public class Blackhole extends GameEvent {
 			getHitbox().setPosition(getX(), getY());
 			getPosition().add(getVelocity().cpy().scl(delta));
 			if (isOutOfScreen(true))
-				ready();
+				dead();
 		}
 
 	}
@@ -51,14 +50,18 @@ public class Blackhole extends GameEvent {
 					}
 			}
 
-
+/*
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					//squirrel.kill();
+					//squirrel.dead();
 					float theta= MathUtils.atan2(getY()-squirrel.getY(),getX()-squirrel.getX());
 					float dy = acc* MathUtils.sin(theta);
 					squirrel.getVelocity().add(0,acc*dy);
 				}
+			//
+*/
+
+
 		}
 	}
 

@@ -33,6 +33,7 @@ public class Squirrel {
 	private int width, height;
 	private float ceiling;
 
+	final private float shootFreq = 0.05f;
 
 	private Bullet[] bullets;// hold for optimum performance
 	private ParticleEffect sodaburst;
@@ -63,7 +64,6 @@ public class Squirrel {
 			bullets[i] = new Bullet();
 
 		runTime=0;
-
 		sodaburst = AssetHelper.sodaburstPool.obtain();
 	}
 
@@ -89,8 +89,8 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-		if (runTime >0.5f && isIdle()){
-			runTime-=0.5f;
+		if (runTime >shootFreq && isIdle()){// shooting speed adjust
+			runTime-=shootFreq;
 			animRunTime = 0;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
@@ -106,7 +106,7 @@ public class Squirrel {
 		}
 		/*
 		Position constraints
-		TODO: just put static enemy that detects collision and kill this thing
+		TODO: just put static enemy that detects collision and dead this thing
 		 */
 		if (velocity.y < -150) {
 			velocity.y = -150;
@@ -146,6 +146,8 @@ public class Squirrel {
 		hitbox.setPosition(position.x,position.y);
 		hitbox.setRotation(rotation);
 
+
+
 	}
 
 	public void onClick(){
@@ -158,7 +160,7 @@ public class Squirrel {
 		velocity.y=160;
 	}
 
-	public void kill(){
+	public void dead(){
 		//TODO white flash
 
 		currentState = SquirrelState.DEAD;

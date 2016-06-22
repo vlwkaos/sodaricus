@@ -46,6 +46,7 @@ public class InputHelper implements InputProcessor{
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+
         return false;
     }
 

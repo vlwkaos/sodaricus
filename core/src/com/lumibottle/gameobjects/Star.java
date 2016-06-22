@@ -10,7 +10,7 @@ public class Star extends GameEvent {
 	private boolean isBigStar;
 
 	public Star() {
-		super(9,9,null);
+		super(9,9,null,0);
 		reset();
 
 	}

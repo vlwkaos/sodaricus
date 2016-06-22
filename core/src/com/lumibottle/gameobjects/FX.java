@@ -8,9 +8,9 @@ import com.lumibottle.helper.AssetHelper;
  * Created by MG-POW on 2016-03-15.
  */
 public class FX {
-//in event, ready means ready to be reset()
+//in event, hit means hit to be reset()
 
-	//in FX ready means ready to be set?
+	//in FX hit means hit to be set?
 	public enum FXState {
 		READY, TOBEDRAWN
 	}

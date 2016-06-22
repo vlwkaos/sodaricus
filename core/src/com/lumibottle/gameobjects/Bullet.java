@@ -16,7 +16,7 @@ public class Bullet extends GameEvent {
 	private Vector2 acceleration;
 
 	public Bullet() {
-		super(12, 12,new Polygon(new float[]{4,4,8,4,8,8,4,8}));
+		super(12, 12,new Polygon(new float[]{4,4,8,4,8,8,4,8}),0);
 		getHitbox().setOrigin(getWidth()/2f,getHeight()/2f);
 		acceleration = new Vector2(0, -460);
 	}
@@ -30,7 +30,7 @@ public class Bullet extends GameEvent {
 			this.theta-= delta*1000;
 
 			if (isOutOfScreen(false))
-				ready();
+				dead();
 		}
 	}
 
