@@ -219,9 +219,9 @@ public class GameRenderer {
 
 		}
 //
-		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
-		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
-		mySquirrel.getSodaburst().draw(spriteBatch);
+//		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
+//		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
+//		mySquirrel.getSodaburst().draw(spriteBatch);
 
 	}
 
@@ -268,6 +268,10 @@ public class GameRenderer {
     }
 
 
+
+	//Enemies
+
+
     private void drawRoadRollers(float runTime){
 		for (RoadRoller r: myRoadRollers) {
 			if (r.isVISIBLE()) {
@@ -277,6 +281,7 @@ public class GameRenderer {
 				r.getParticle().draw(spriteBatch);
 				if (r.getParticle().isComplete())
 					r.getParticle().reset();
+
 				spriteBatch.draw(roadroller, r.getX(), r.getY());
 				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),r.getX(),r.getY());
 

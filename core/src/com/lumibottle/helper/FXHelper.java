@@ -16,7 +16,7 @@ public class FXHelper {
 	private FX[] myFXs;
 
 	private FXHelper() {
-		myFXs = new FX[20];
+		myFXs = new FX[20];// max number of FXs to be drawn on screen at the moment
 		for (int i=0;i<myFXs.length;i++)
 			myFXs[i] = new FX();
 	}

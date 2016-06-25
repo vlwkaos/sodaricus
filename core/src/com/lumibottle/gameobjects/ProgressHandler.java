@@ -104,8 +104,8 @@ public class ProgressHandler {
 		 */
 //		updateRoadRollers(delta);
 //		updateBombs(delta);
-//		updateMustaches(delta);
-		updateLaserCrayons(delta);
+		updateMustaches(delta);
+//		updateLaserCrayons(delta);
 //		updateCowboy(delta);
 //		updateEnemyBullets(delta);
 //		updateBlackholes(delta);
@@ -114,21 +114,20 @@ public class ProgressHandler {
 
 	/*
 			Organize
-
 	    //TODO cowboy는 블럭 단위로?
 	   */// how to spawn?
 
 	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
 			r.update(delta);
-			if (r.isREADY())
+			if (r.isDEAD())
 				r.reset(250);
 		}
 	}
 	private void updateBombs(float delta) {
 		for (Bomb b : bombs) {
 			b.update(delta);
-			if (b.isREADY())
+			if (b.isDEAD())
 				b.reset(250);
 		}
 	}
@@ -136,7 +135,7 @@ public class ProgressHandler {
 		private void updateMustaches(float delta){
 		for (Mustache m : mustaches) {
 			m.update(delta);
-			if (m.isREADY())
+			if (m.isDEAD())
 				m.reset(250);
 		}
 
@@ -146,7 +145,7 @@ public class ProgressHandler {
 		for (LaserCrayon l : laserCrayons) {
 			l.update(delta);
 
-			if (l.isREADY())
+			if (l.isDEAD())
 				l.reset(250);
 		}
 	}
@@ -157,7 +156,7 @@ public class ProgressHandler {
 			c.update(delta);
 			if(c.isShooting())
 				for (EnemyBullet h: enemyBullets)
-					if (h.isREADY()) {
+					if (h.isDEAD()) {
 						float theta= MathUtils.atan2((c.getY()+23)-mySquirrel.getY(),c.getX()-mySquirrel.getX());
 						float dx = -hatspeed* MathUtils.cos(theta);
 						float dy = -hatspeed* MathUtils.sin(theta);
@@ -166,7 +165,7 @@ public class ProgressHandler {
 						break;
 					}
 
-			if (c.isREADY())
+			if (c.isDEAD())
 				c.reset(250);
 		}
 	}
@@ -181,7 +180,7 @@ public class ProgressHandler {
 	private void updateBlackholes(float delta){
 		for (Blackhole b: blackholes) {
 			b.update(delta);
-			if (b.isREADY())
+			if (b.isDEAD())
 				b.reset(250);
 		}
 	}

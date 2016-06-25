@@ -14,7 +14,7 @@ public class FX {
 	public enum FXState {
 		READY, TOBEDRAWN
 	}
-	//F
+
 
 	private FXState currentState;
 
@@ -69,7 +69,7 @@ public class FX {
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;
 		position.set(x,y);
-		animNo=animationNumber;
+		animNo=animationNumber;// needed for discrening drawing batch (e.g anim4 need rotation)
 		currentState = FXState.TOBEDRAWN;
 		switch (animationNumber){
 			case 0:

@@ -128,8 +128,6 @@ public class AssetHelper {
 	    cowboythrowTexture.dispose();
 	    //16
 
-
-
 //particle
 	    rainbowPool.clear();
 	    rainbowParticle.dispose();
@@ -200,30 +198,29 @@ public class AssetHelper {
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //Game Objects
+	    //Squirrel
         sqdown = new TextureRegion(squirrelTexture, 0, 0, 20, 20);
         sqmid = new TextureRegion(squirrelTexture, 20, 0, 20, 20);
         squp = new TextureRegion(squirrelTexture, 40, 0, 20, 20);
+	    TextureRegion[] sqs = {squp, sqmid, sqdown};
+	    sqAnim = new Animation(1 / 16f, sqs);
+	    sqAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
+	    bacon1 = new TextureRegion(bacon, 0, 0, 32, 32);
+	    bacon2 = new TextureRegion(bacon, 32, 0, 32, 32);
+	    TextureRegion[] bacons = {bacon1, bacon2};
+	    baconAnim = new Animation(1 / 8f, bacons);
+	    baconAnim.setPlayMode(Animation.PlayMode.LOOP);
+
+	    //For enemies
 	    eyes = new TextureRegion[4];
 	    for (int i=0;i<4;i++)
 		    eyes[i] = new TextureRegion(eyeTexture,i*6,0,6,6);
 	    eyeAnim = new Animation(1/15f, eyes);
 	    eyeAnim.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] sqs = {squp, sqmid, sqdown};
-        sqAnim = new Animation(1 / 16f, sqs);
-        sqAnim.setPlayMode(Animation.PlayMode.NORMAL);
-        bacon1 = new TextureRegion(bacon, 0, 0, 32, 32);
-        bacon2 = new TextureRegion(bacon, 32, 0, 32, 32);
-
-        TextureRegion[] bacons = {bacon1, bacon2};
-        baconAnim = new Animation(1 / 8f, bacons);
-        baconAnim.setPlayMode(Animation.PlayMode.LOOP);
-
-
         roadroller = new TextureRegion(enemyTexture, 0, 0, 20, 12);
 		tanklorry = new TextureRegion(enemyTexture,21,0,32,14);
-
 
         mustaches = new TextureRegion[5];
         for (int i=0;i<5;i++)

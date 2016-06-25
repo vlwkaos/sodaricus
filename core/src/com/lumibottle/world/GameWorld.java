@@ -40,13 +40,13 @@ public class GameWorld {
         if (delta > .15f)
             delta = .15f;
 
-
 		if (mySquirrel.isDead())
 			mySquirrel.updateDead(delta);
 		else {
 			mySquirrel.update(delta);
 			myStage.checkCollision();
 		}
+
         myStage.update(delta);
 
 

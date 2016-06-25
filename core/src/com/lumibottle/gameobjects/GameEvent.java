@@ -15,8 +15,8 @@ import com.lumibottle.helper.FXHelper;
 public abstract class GameEvent {
 
 	private enum EventState{
-		READY, VISIBLE
-	}//READY state notifies that it went out of screen and is now hit to be reset
+		DEAD, VISIBLE
+	}//DEAD state notifies that it went out of screen and is now hit to be reset
 
 	public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 240);
 	//runtime for enemy
@@ -39,7 +39,7 @@ public abstract class GameEvent {
 		this.width = width;
 		this.height = height;
 		this.theta = 0;
-		currentState = EventState.READY;
+		currentState = EventState.DEAD;
 		this.hitbox = hitbox;
 		this.maxhp = hp;
 		this.hitpoint = hp;
@@ -84,7 +84,7 @@ public abstract class GameEvent {
 	// if using particle, free particle here
 	public void dead(){
 		position.set(-255, -255);
-		currentState = EventState.READY; // hit to deploy
+		currentState = EventState.DEAD; // hit to deploy
 
 	}
 	
@@ -120,8 +120,8 @@ public abstract class GameEvent {
 	/*
 		GETTER & SETTER
 	 */
-	public boolean isREADY(){
-		return currentState==EventState.READY;
+	public boolean isDEAD(){
+		return currentState==EventState.DEAD;
 	}
 	public boolean isVISIBLE(){
 		return currentState==EventState.VISIBLE;

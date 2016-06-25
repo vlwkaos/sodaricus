@@ -1,11 +1,10 @@
 package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
@@ -64,6 +63,7 @@ public class Squirrel {
 			bullets[i] = new Bullet();
 
 		runTime=0;
+
 		sodaburst = AssetHelper.sodaburstPool.obtain();
 	}
 
@@ -94,7 +94,7 @@ public class Squirrel {
 			animRunTime = 0;
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
-				if (b.isREADY()){
+				if (b.isDEAD()){
 					b.reset(position.x+getWidth()/2f,position.y+getHeight()/2f,250,rotation);
 					break;
 				}
@@ -165,7 +165,9 @@ public class Squirrel {
 
 		currentState = SquirrelState.DEAD;
 		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,(short)4);
+		AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
 		position.set(-255f,-255f);
+
 	}
 
 
