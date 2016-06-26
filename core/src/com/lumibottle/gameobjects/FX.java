@@ -69,7 +69,7 @@ public class FX {
 	public void reset(float x, float y, short animationNumber){
 		runTime=0;
 		position.set(x,y);
-		animNo=animationNumber;// needed for discrening drawing batch (e.g anim4 need rotation)
+		animNo=animationNumber;// needed for discrening drawing batch (e.g anim4 need rotation draw function)
 		currentState = FXState.TOBEDRAWN;
 		switch (animationNumber){
 			case 0:
