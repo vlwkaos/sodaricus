@@ -95,7 +95,7 @@ public class Squirrel {
 			currentState=SquirrelState.SHOOTING;
 			for (Bullet b: bullets){
 				if (b.isDEAD()){
-					b.reset(position.x+getWidth()/2f,position.y+getHeight()/2f,250,rotation);
+					b.reset(position.x+getWidth()/2f,position.y+getHeight()/2f,200,rotation); // speed
 					break;
 				}
 			}
