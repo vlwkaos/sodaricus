@@ -12,6 +12,9 @@ public class InputHelper implements InputProcessor{
     private Squirrel mySquirrel;
 
     public InputHelper(GameWorld myWorld){
+
+
+    if (myWorld.isPLAYING())
         mySquirrel = myWorld.getMySquirrel();
 
     }
@@ -33,6 +36,7 @@ public class InputHelper implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+
 
         mySquirrel.onClick();
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -103,10 +104,15 @@ public class AssetHelper {
 	public static ParticleEffectPool nitro2Pool;
 
 
+
+    //FONT
+    public static BitmapFont font;
+
     public static void load() {
         loadParticles();
         loadTextures();
         loadSounds();
+        loadFonts();
     }
 
     public static void dispose() {
@@ -128,7 +134,8 @@ public class AssetHelper {
 	    cowboythrowTexture.dispose();
 	    //16
 
-//particle
+
+    //particle
 	    rainbowPool.clear();
 	    rainbowParticle.dispose();
 	    nitroPool.clear();
@@ -141,6 +148,9 @@ public class AssetHelper {
 	    sodaburstParticle.dispose();
 	    nitro2Pool.clear();
 	    nitro2Particle.dispose();
+
+        //font
+        font.dispose();
     }
 
     private static void loadTextures() {
@@ -330,6 +340,11 @@ public class AssetHelper {
     }
 
     private static void loadSounds() {
+
+    }
+
+    private static void loadFonts(){
+        font = new BitmapFont(Gdx.files.internal("data/font/8bitfont.fnt"));
 
     }
 

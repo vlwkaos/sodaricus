@@ -37,7 +37,6 @@ public class ProgressHandler {
 
 	public ProgressHandler(Squirrel s) {
 		stageNumber=0;
-
 		mySquirrel = s;
 		/*
 			Initialize enemy objects

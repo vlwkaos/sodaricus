@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -84,11 +85,11 @@ public class GameRenderer {
 
 
 
-    public GameRenderer(GameWorld myWorld, int gameHeight, float midPointY){
+
+    public GameRenderer(GameWorld myWorld, int gameHeight){
         Gdx.app.log("GameRenderer", "created");
         this.myWorld = myWorld;
         this.gameHeight = gameHeight;
-        this.midPointY = midPointY;
 
         bgOffset = (256-gameHeight)/(-2);
 
@@ -205,17 +206,25 @@ public class GameRenderer {
 
 	private void drawSquirrel(){
 		//draw main actor
-		if (mySquirrel.isShooting()) {
+
+		if (mySquirrel.IsInvincible()){
+			spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f);
+		}
+
+		if (mySquirrel.isSHOOTING()) {
 			spriteBatch.draw(squirrelAnimation.getKeyFrame(mySquirrel.getAnimRunTime()), mySquirrel.getX(),
 					mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
 					mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
 					1, 1, mySquirrel.getRotation());
 
 		} else {
+
+
 			spriteBatch.draw(squirrelDown, mySquirrel.getX(),
 					mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
 					mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
 					1, 1, mySquirrel.getRotation());
+
 
 		}
 //
@@ -223,6 +232,7 @@ public class GameRenderer {
 //		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
 //		mySquirrel.getSodaburst().draw(spriteBatch);
 
+		spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);//reset
 	}
 
 	private void drawBullets(){

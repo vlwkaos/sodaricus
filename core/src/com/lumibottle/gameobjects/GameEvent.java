@@ -106,7 +106,7 @@ public abstract class GameEvent {
 			}
 
 			//When squirrel is hit by event
-			if (squirrel.getX() + squirrel.getWidth() > getX()) {
+			if (squirrel.getX() + squirrel.getWidth() > getX() && !squirrel.IsInvincible()) {
 				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
 					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
 					squirrel.dead();

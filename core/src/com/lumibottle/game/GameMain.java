@@ -13,6 +13,8 @@ public class GameMain extends Game {
 	public void create () {
 		Gdx.app.log("GameMain", "created");
 		AssetHelper.load();
+
+
 		setScreen(new GameScreen());
 		//switching screen needs disposal too.
 	}

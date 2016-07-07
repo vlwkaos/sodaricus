@@ -15,7 +15,9 @@ public class GameScreen implements Screen{
 	private GameRenderer myRenderer;
 	private float runTime;
 
-
+	final public static float gameWidth = 240;//fixed width
+	final public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth()/gameWidth);
+	final public static int midPointY =(int) (gameHeight/2);
 	/*
     *  set screen size, set mid point,
     *  introduce GameWorld and GameRenderer, pass Gameworld to Renderer
@@ -25,21 +27,11 @@ public class GameScreen implements Screen{
 
 	public GameScreen(){
 		runTime = 0;
-		float screenWidth = Gdx.graphics.getWidth();//device pixel
-		float screenHeight = Gdx.graphics.getHeight();
-		float gameWidth = 240;//fixed width
-		float gameHeight = screenHeight / (screenWidth / gameWidth);
 
-		Gdx.app.log("screenwidth", ""+screenWidth);
+		Gdx.app.log("GameScreen", "gameHeight="+gameHeight);
 
-		Gdx.app.log("screenHeight", ""+screenHeight);
-
-		Gdx.app.log("gameHeight", ""+gameHeight);
-
-		int midPointY = (int) (gameHeight / 2);
-
-		myWorld = new GameWorld(midPointY);
-		myRenderer = new GameRenderer(myWorld, (int) gameHeight, midPointY);
+		myWorld = new GameWorld();
+		myRenderer = new GameRenderer(myWorld, (int) gameHeight);
 
 		Gdx.input.setInputProcessor(new InputHelper(myWorld));
 	}
@@ -52,9 +44,12 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
-
 		runTime+=delta;
+
+		//state is in GameWorld, because if it is in here.. we have to stop the world.
 		myWorld.update(delta);
+
+
 		myRenderer.render(runTime);
 	}
 

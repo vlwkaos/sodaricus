@@ -36,7 +36,7 @@ public class Cowboy extends GameEvent{
 			if (getX()>240-getWidth()*2f)
 			getPosition().add(getVelocity().cpy().scl(delta));
 
-			//switch here, then when bullet is fired in ProgressHandler, it will put isShooting to false
+			//switch here, then when bullet is fired in ProgressHandler, it will put isSHOOTING to false
 			runTime+=delta;
 			switch (currentState){
 				case IDLE :if (runTime >= 2.0f) {
