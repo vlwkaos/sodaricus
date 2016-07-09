@@ -20,7 +20,7 @@ public class Mustache extends GameEvent {
 	private float runTime;
 
 	public Mustache() {
-		super(33, 16,new Polygon(new float[]{3, 0, 30, 0, 30, 16, 3, 16}),5);
+		super(33, 16,new Polygon(new float[]{3, 3, 30, 3, 23, 16, 12, 16}),5);
 
 	}
 
@@ -92,6 +92,7 @@ public class Mustache extends GameEvent {
 	public float getRunTime() {
 		return runTime;
 	}
+
 
 	//checks in progress handler, then call squirrel's dead, reset method
 }

@@ -48,8 +48,6 @@ public class GameScreen implements Screen{
 
 		//state is in GameWorld, because if it is in here.. we have to stop the world.
 		myWorld.update(delta);
-
-
 		myRenderer.render(runTime);
 	}
 

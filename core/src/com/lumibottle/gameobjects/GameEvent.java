@@ -28,7 +28,7 @@ public abstract class GameEvent {
 	private int maxhp;
 	private int hitpoint;
 
-	private int width, height;
+	private int width, height; // mostly for rendering...?
 	private float theta;
 
 	private Polygon hitbox;
@@ -157,9 +157,7 @@ public abstract class GameEvent {
 		return width;
 	}
 
-	public int getHeight() {
-		return height;
-	}
+	public int getHeight() {return height;}
 
 	public Vector2 getPosition() {
 		return position;

@@ -15,12 +15,12 @@ import com.lumibottle.screen.GameScreen;
 public class Squirrel {
 
 	private enum SquirrelState {
-		IDLE, SHOOTING, DEAD,SPAWNING
+		IDLE, SHOOTING,SPAWNING
 	}
 
 	private SquirrelState currentState;
 	private boolean isInvincible;
-
+    private short life;
 
 	private float runTime;
 	private float animRunTime;
@@ -36,7 +36,7 @@ public class Squirrel {
 	private int width, height;
 	private float ceiling;
 
-	final private float shootFreq = 0.05f;
+	final private float shootFreq = 0.15f;
 
 	private Bullet[] bullets;// hold for optimum performance
 	private ParticleEffect sodaburst;
@@ -44,16 +44,17 @@ public class Squirrel {
 
 	private Polygon hitbox;
 
-	public Squirrel(float x, float y, int width, int height) {
+	public Squirrel( int width, int height) {
 		this.width = width;
 		this.height = height;
-		position = new Vector2(x, y);
+		position = new Vector2(-1.5f*width, GameScreen.midPointY);
 		velocity = new Vector2(0, 0);
 		rotation = 0;
 		acceleration = new Vector2(0, -460);
-		currentState=SquirrelState.DEAD;
+		currentState=SquirrelState.SPAWNING;
+        invincTime=0;
 		isInvincible = true;// 나중에 바꿔 무적시간.
-
+        life = 2;
 
 		ceiling = GameScreen.gameHeight-getHeight();// temporary
 		//TODO: is this device independent?
@@ -71,21 +72,10 @@ public class Squirrel {
 			bullets[i] = new Bullet();
 
 		runTime=0;
-
 		sodaburst = AssetHelper.sodaburstPool.obtain();
 	}
 
 
-
-	public void updateDead(float delta){
-		// constant delta
-		if (delta > .15f)
-			delta = .15f;
-
-		for (Bullet b: bullets)
-			b.update(delta);
-
-	}
 
 	public void update(float delta){
 		// constant delta
@@ -99,11 +89,13 @@ public class Squirrel {
 		for (Bullet b: bullets)
 			b.update(delta);
 
+        if (life<0){
+            //actual gameover
 
+
+        } else
 		if (!isSPAWNING()) {
-
 			runTime += delta; // used for timing
-
 			animRunTime += delta; // timing of animation
 
 		/*
@@ -195,27 +187,21 @@ public class Squirrel {
 	public void onClick(){
 
 		//change how respawn is handled later
-		if (isDEAD()){
-			currentState = SquirrelState.SPAWNING;
-			position.set(-1*width, GameScreen.midPointY);
-			isInvincible = true;
-			invincTime=0;
-		}
-			else if (isSPAWNING()){
-			//?
-		} else
+        if (!isSPAWNING())
 		velocity.y=160; // jump
 	}
 
 	public void dead(){
 		//TODO white flash
 
-		currentState = SquirrelState.DEAD;
 		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,(short)4);
 		AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
-		position.set(-255f,-255f);
 		rotation=0;
-
+        currentState = SquirrelState.SPAWNING;
+        position.set(-5.0f*width, GameScreen.midPointY);
+        isInvincible = true;
+        invincTime=0;
+        life--;
 	}
 
 
@@ -266,9 +252,6 @@ public class Squirrel {
 		return sodaburst;
 	}
 
-	public boolean isDEAD(){
-		return currentState==SquirrelState.DEAD;
-	}
 
 	public boolean isSHOOTING(){
 		return currentState==SquirrelState.SHOOTING;

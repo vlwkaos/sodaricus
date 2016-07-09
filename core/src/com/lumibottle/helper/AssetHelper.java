@@ -18,6 +18,10 @@ public class AssetHelper {
     /*
         Textures - logical mapping with TextureRegion
      */
+    public static Texture splashTexture;
+
+    //
+
     public static Texture backgroundTexture;
     public static Texture starTexture;
     public static Texture sodaTexture;
@@ -34,11 +38,16 @@ public class AssetHelper {
 	public static Texture eyeTexture;
 	public static Texture holeTexture;
 	public static Texture deadTexture;
+
+
 	//16
 
     /*
         Texture Region
      */
+    public static TextureRegion splash;
+
+
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
 	public static TextureRegion[] eyes;
@@ -116,6 +125,10 @@ public class AssetHelper {
     }
 
     public static void dispose() {
+
+        splashTexture.dispose();
+        //
+
         backgroundTexture.dispose();
         starTexture.dispose();
         sodaTexture.dispose();
@@ -154,6 +167,10 @@ public class AssetHelper {
     }
 
     private static void loadTextures() {
+        //Splash
+        splashTexture = new Texture(Gdx.files.internal("data/splash.png"));
+
+
         //INIT TEXTURE
         //Game Objects
         squirrelTexture = new Texture(Gdx.files.internal("data/squirrel.png"));
@@ -207,6 +224,12 @@ public class AssetHelper {
 
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
+        //splash
+        splash = new TextureRegion(splashTexture,0,0,240,240);
+
+
+
+
         //Game Objects
 	    //Squirrel
         sqdown = new TextureRegion(squirrelTexture, 0, 0, 20, 20);

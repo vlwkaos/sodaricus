@@ -62,6 +62,8 @@ public class GameRenderer {
 	private Blackhole[] myBlackholes;
 
     //ASSET
+    private TextureRegion splash;
+    //
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
@@ -99,6 +101,7 @@ public class GameRenderer {
 
         //renderer
         shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setAutoShapeType(true);
         shapeRenderer.setProjectionMatrix(cam.combined);
         spriteBatch = new SpriteBatch();
         spriteBatch.setProjectionMatrix(cam.combined);
@@ -111,7 +114,7 @@ public class GameRenderer {
 
 
     public void render(float runTime){
-        Gdx.gl.glClearColor(100, 100, 100, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
@@ -143,7 +146,20 @@ public class GameRenderer {
 	    //fx
 	    drawFXs();
 
+
+        //splash
+        drawSplash();
+
         spriteBatch.end();
+
+        shapeRenderer.begin();
+        shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
+        for (Mustache m : myMustaches)
+            shapeRenderer.polygon(m.getHitbox().getTransformedVertices());
+
+        for (Bullet b : myBullets)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        shapeRenderer.end();
 
 
 
@@ -169,6 +185,8 @@ public class GameRenderer {
 
     }
     private void initAsset(){
+        splash = AssetHelper.splash;
+
         squirrelDown = AssetHelper.sqdown;
         squirrelAnimation = AssetHelper.sqAnim;
         baconAnimation = AssetHelper.baconAnim;
@@ -203,6 +221,20 @@ public class GameRenderer {
 	/*
 		Drawing methods
 	 */
+    private void drawSplash(){
+        if (myWorld.isSPLASH()){
+            if (myWorld.getRunTime()>1.0f)
+                spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
+            else if (myWorld.getRunTime()<0.0f)
+                spriteBatch.setColor(1.0f,1.0f,1.0f,0.0f);
+            else
+                spriteBatch.setColor(1.0f,1.0f,1.0f,myWorld.getRunTime());
+
+            spriteBatch.draw(splash,0,-(240-gameHeight)/2,240,240);
+        }
+    }
+
+
 
 	private void drawSquirrel(){
 		//draw main actor
@@ -218,8 +250,6 @@ public class GameRenderer {
 					1, 1, mySquirrel.getRotation());
 
 		} else {
-
-
 			spriteBatch.draw(squirrelDown, mySquirrel.getX(),
 					mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
 					mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
