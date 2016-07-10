@@ -52,6 +52,9 @@ public class GameWorld {
             delta = .15f;
 
 
+        /*
+            SPLASH
+         */
         if (myGameState == GameState.SPLASH) {
             if (skipSplash)
                 runTime -= delta;
@@ -63,7 +66,6 @@ public class GameWorld {
                 runTime=0;
             }
         } else {
-
             if (myGameState == GameState.TITLE) {
                 runTime += delta;
             }
@@ -76,8 +78,6 @@ public class GameWorld {
                 myStage.checkCollision();
                 myStage.update(delta);
                 //gameover
-
-
             }
 
             for (FX f : FXHelper.getInstance().getMyFXs())

@@ -27,7 +27,7 @@ public class GameScreen implements Screen{
 
 	public GameScreen(){
 		runTime = 0;
-
+        Gdx.app.log("GameScreen", "screenheight="+Gdx.graphics.getHeight());
 		Gdx.app.log("GameScreen", "gameHeight="+gameHeight);
 
 		myWorld = new GameWorld();

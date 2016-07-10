@@ -155,7 +155,7 @@ public class ProgressHandler {
 			c.update(delta);
 			if(c.isShooting())
 				for (EnemyBullet h: enemyBullets)
-					if (h.isDEAD()) {
+					if (h.isDEAD()) { // find available bullet from pool
 						float theta= MathUtils.atan2((c.getY()+23)-mySquirrel.getY(),c.getX()-mySquirrel.getX());
 						float dx = -hatspeed* MathUtils.cos(theta);
 						float dy = -hatspeed* MathUtils.sin(theta);
