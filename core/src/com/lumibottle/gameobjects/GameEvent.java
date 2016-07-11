@@ -51,6 +51,8 @@ public abstract class GameEvent {
 					  set to hit state when Out of screen.
 					  set to hit state when hit by bullet.
 					  visible state starts when reset.
+
+					  set hitbox position at the last part
 	 */
 	public abstract void update(float delta);
 
@@ -138,6 +140,14 @@ public abstract class GameEvent {
 	public void setTheta(float theta) {
 		this.theta = theta;
 	}
+
+    public void setX(float x){
+        this.position.x = x;
+    }
+
+    public void setY(float y){
+        this.position.y = y;
+    }
 
 	public void addTheta(float theta) {this.theta += theta;}
 

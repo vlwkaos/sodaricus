@@ -107,7 +107,7 @@ public class Squirrel {
 				currentState = SquirrelState.SHOOTING;
 				for (Bullet b : bullets) {
 					if (b.isDEAD()) {
-						b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 200, rotation); // speed
+						b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 250, rotation); // speed
 						break;
 					}
 				}
@@ -130,17 +130,14 @@ public class Squirrel {
 				Gdx.app.log("Squirrel", "hit head");
 			}
 
-
+            velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
 			//temporary bottom
 			if (position.y < 0) {
-				position.y = 0;
+                position.y=0;
 				rotation = 0;
 			}
-		/*
-		Physics
-		 */
-			velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
-			position.add(velocity.cpy().scl(delta));//add velo to position
+
+
 
 			//         _|_ angle
 			//rotation
@@ -160,17 +157,20 @@ public class Squirrel {
 			//simulate appearing from left
 			if (position.x > 50) {
 				position.x = 50;
+                velocity.x = 0;
 				currentState = SquirrelState.IDLE;
 			}
-				else
-				position.x += 1;
+				else {
+                velocity.y=0;
+                velocity.x = 50;
+            }
 		}
 
 		/*
 			invincible
 		 */
 		if (isInvincible){
-			if (invincTime >3.0f)
+			if (invincTime >5.0f)
 				isInvincible=false;
 			else
 				invincTime+=delta;
@@ -179,8 +179,10 @@ public class Squirrel {
 		/*
 			collision
 		 */
-			hitbox.setPosition(position.x, position.y);
-			hitbox.setRotation(rotation);
+
+        position.add(velocity.cpy().scl(delta));//add velo to position
+        hitbox.setPosition(position.x, position.y);
+        hitbox.setRotation(rotation);
 
 	}
 

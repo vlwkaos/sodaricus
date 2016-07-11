@@ -22,6 +22,7 @@ import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
+import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
@@ -61,6 +62,10 @@ public class GameRenderer {
 	private Cowboy[] myCowboys;
 	private Blackhole[] myBlackholes;
 
+
+    private BoxBoss myBoxboss;
+
+
     //ASSET
     private TextureRegion splash;
     //
@@ -81,6 +86,7 @@ public class GameRenderer {
 	private Animation cowboyhatspawnAnimation;
 	private TextureRegion hole;
 
+    private Animation boxchargeAnimation;
 
 	private TextureRegion star1,star2;
     private TextureRegion background;
@@ -136,6 +142,7 @@ public class GameRenderer {
 	    drawCowboy(runTime);
 		drawEnemyBullets();
 
+        drawBoxBoss();
 
 
 		//main
@@ -152,6 +159,7 @@ public class GameRenderer {
 
         spriteBatch.end();
 
+        //for debugging
         shapeRenderer.begin();
         shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
         for (Mustache m : myMustaches)
@@ -183,6 +191,7 @@ public class GameRenderer {
 	    myCowboys = myStage.getCowboys();
 	    myBlackholes = myStage.getBlackholes();
 
+        myBoxboss = myStage.getBoxboss();
     }
     private void initAsset(){
         splash = AssetHelper.splash;
@@ -208,8 +217,11 @@ public class GameRenderer {
 
 		cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
 	    cowboyhatspawnAnimation = AssetHelper.cowboyhatsspawnAnim;
-	 //TODO  cowboysausage = AssetHelper.cowboy
+
 	    hole = AssetHelper.hole;
+
+        //BOSS
+        boxchargeAnimation = AssetHelper.boxchargeAnim;
 
 	    //bg
         star1 = AssetHelper.star1;
@@ -428,6 +440,16 @@ public class GameRenderer {
 				spriteBatch.draw(hole, b.getX(), b.getY(),b.getWidth()/2f,b.getHeight()/2f,b.getWidth(),b.getHeight(),0.5f,0.5f,b.getTheta());
 			}
 	}
+
+
+    private void drawBoxBoss(){
+        if (myBoxboss.isVISIBLE()){
+            spriteBatch.draw(boxchargeAnimation.getKeyFrame(0),myBoxboss.getX(),myBoxboss.getY(),myBoxboss.getWidth(),myBoxboss.getHeight());
+        }
+    }
+
+
+
 
 	public void dispose(){
 		spriteBatch.dispose();

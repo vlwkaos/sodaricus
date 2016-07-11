@@ -21,7 +21,6 @@ public class AssetHelper {
     public static Texture splashTexture;
 
     //
-
     public static Texture backgroundTexture;
     public static Texture starTexture;
     public static Texture sodaTexture;
@@ -39,8 +38,10 @@ public class AssetHelper {
 	public static Texture holeTexture;
 	public static Texture deadTexture;
 
+    //
+    public static Texture boxbossTexture;
 
-	//16
+	//
 
     /*
         Texture Region
@@ -79,6 +80,10 @@ public class AssetHelper {
 	public static Animation cowboythrowAnim;
 
 	public static TextureRegion hole;
+
+    //boss
+    public static TextureRegion[] boxcharges;
+    public static Animation boxchargeAnim;
 
 	//FX
 	public static TextureRegion[] explosion1;
@@ -146,7 +151,7 @@ public class AssetHelper {
 	    deadTexture.dispose();
 	    cowboythrowTexture.dispose();
 	    //16
-
+        boxbossTexture.dispose();
 
     //particle
 	    rainbowPool.clear();
@@ -207,6 +212,10 @@ public class AssetHelper {
 
         starTexture = new Texture(Gdx.files.internal("data/stars.png"));
         starTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        //BOSS
+        boxbossTexture = new Texture(Gdx.files.internal("data/boxboss.png"));
+        boxbossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
         //FX
@@ -284,6 +293,13 @@ public class AssetHelper {
 
 
 	    hole = new TextureRegion(holeTexture,0,0,32,32);
+
+        //
+        boxcharges = new TextureRegion[8];
+        for (int i=0;i<8;i++)
+            boxcharges[i] = new TextureRegion(boxbossTexture,i*64,0,64,64);
+        boxchargeAnim = new Animation(1/30f,boxcharges);
+        boxchargeAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
 	    //
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);

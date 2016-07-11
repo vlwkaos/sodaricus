@@ -8,6 +8,7 @@ import com.lumibottle.gameobjects.enemies.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
+import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -31,6 +32,7 @@ public class ProgressHandler {
 	private EnemyBullet[] enemyBullets;
 	private Blackhole[] blackholes;
 
+    private BoxBoss boxBoss;
 
 	private float hatspeed = 100f;
 	private boolean squirrelHit;
@@ -50,7 +52,7 @@ public class ProgressHandler {
 		bombs = new Bomb[4];
 		for (int i = 0; i < bombs.length; i++) {
 			bombs[i] = new Bomb();
-			bombs[i].reset(240 + i * 50); //later, with runtime.
+			bombs[i].reset(250 + i * 50); //later, with runtime.
 		}
 
 
@@ -85,9 +87,23 @@ public class ProgressHandler {
 			blackholes[i].reset(240+i*20);
 		}
 
-		myFXs = new FX[10];
+
+        // BOSS
+        boxBoss = new BoxBoss(mySquirrel);
+        boxBoss.reset();
+
+
+
+        myFXs = new FX[10];
 		for (int i=0; i< myFXs.length;i++)
 			myFXs[i]= new FX();
+
+
+
+
+
+
+
 
 	}
 
@@ -103,11 +119,13 @@ public class ProgressHandler {
 		 */
 //		updateRoadRollers(delta);
 //		updateBombs(delta);
-		updateMustaches(delta);
+//		updateMustaches(delta);
 //		updateLaserCrayons(delta);
 //		updateCowboy(delta);
 //		updateEnemyBullets(delta);
 //		updateBlackholes(delta);
+        boxBoss.update(delta);
+
 	}
 
 
@@ -241,4 +259,6 @@ public class ProgressHandler {
 	public Blackhole[] getBlackholes() {
 		return blackholes;
 	}
+
+    public BoxBoss getBoxboss() {return boxBoss;}
 }
