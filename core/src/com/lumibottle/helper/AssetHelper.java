@@ -84,6 +84,7 @@ public class AssetHelper {
     //boss
     public static TextureRegion[] boxcharges;
     public static Animation boxchargeAnim;
+    public static TextureRegion boxhitFace;
 
 	//FX
 	public static TextureRegion[] explosion1;
@@ -300,7 +301,7 @@ public class AssetHelper {
             boxcharges[i] = new TextureRegion(boxbossTexture,i*64,0,64,64);
         boxchargeAnim = new Animation(1/30f,boxcharges);
         boxchargeAnim.setPlayMode(Animation.PlayMode.NORMAL);
-
+        boxhitFace = new TextureRegion(boxbossTexture,8*64,0,64,64);
 	    //
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
 

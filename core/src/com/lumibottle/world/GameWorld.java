@@ -55,6 +55,7 @@ public class GameWorld {
         /*
             SPLASH
          */
+
         if (myGameState == GameState.SPLASH) {
             if (skipSplash)
                 runTime -= delta;

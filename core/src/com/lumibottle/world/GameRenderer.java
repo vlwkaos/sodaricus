@@ -87,6 +87,7 @@ public class GameRenderer {
 	private TextureRegion hole;
 
     private Animation boxchargeAnimation;
+    private TextureRegion boxgotHit;
 
 	private TextureRegion star1,star2;
     private TextureRegion background;
@@ -222,7 +223,7 @@ public class GameRenderer {
 
         //BOSS
         boxchargeAnimation = AssetHelper.boxchargeAnim;
-
+        boxgotHit = AssetHelper.boxhitFace;
 	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -444,7 +445,16 @@ public class GameRenderer {
 
     private void drawBoxBoss(){
         if (myBoxboss.isVISIBLE()){
-            spriteBatch.draw(boxchargeAnimation.getKeyFrame(0),myBoxboss.getX(),myBoxboss.getY(),myBoxboss.getWidth(),myBoxboss.getHeight());
+
+            if (myBoxboss.gotHit()){
+                spriteBatch.draw(boxgotHit, myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
+            }else
+            if (myBoxboss.isPREPARE()){
+                spriteBatch.draw(boxchargeAnimation.getKeyFrame(myBoxboss.getRunTime()/8), myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
+            } else {
+                spriteBatch.draw(boxchargeAnimation.getKeyFrame(0), myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
+            }
+
         }
     }
 

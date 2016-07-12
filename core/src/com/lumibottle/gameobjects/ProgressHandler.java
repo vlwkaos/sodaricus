@@ -115,24 +115,28 @@ public class ProgressHandler {
 		for (FX f:myFXs)
 				f.update(delta);
 		/*
-			Movements
+			Enemy Updates
 		 */
 //		updateRoadRollers(delta);
 //		updateBombs(delta);
 //		updateMustaches(delta);
 //		updateLaserCrayons(delta);
 //		updateCowboy(delta);
-//		updateEnemyBullets(delta);
 //		updateBlackholes(delta);
-        boxBoss.update(delta);
 
+        /*
+            Boss Updates
+         */
+        updateBoxBoss(delta);
+
+        updateEnemyBullets(delta);
 	}
 
 
 	/*
 			Organize
-	    //TODO cowboy는 블럭 단위로?
-	   */// how to spawn?
+	    //TODO how to spawn?
+	*/
 
 	private void updateRoadRollers(float delta) {
 		for (RoadRoller r : roadRollers) {
@@ -227,7 +231,22 @@ public class ProgressHandler {
 	}
 
 
+    /*
+        BOSS UPDATES
 
+     */
+    public void updateBoxBoss(float delta){
+        boxBoss.update(delta);
+        if (boxBoss.isSHOOT()){
+            for (EnemyBullet h: enemyBullets)
+                if (h.isDEAD()) { // find available bullet from pool
+                    h.reset(boxBoss.getX(),boxBoss.getY(),-50,0,0,1);//sprite type0
+                    //TODO h.setMinXpos(); 쌓이게
+                    boxBoss.doneShooting();
+                    break;
+                }
+        }
+    }
 
 	/*
 		GETTER SETTER

@@ -12,15 +12,23 @@ import com.lumibottle.gameobjects.Squirrel;
 public class EnemyBullet extends GameEvent {
 
 
+    /*
+        0 = cowboyhat
+        1 = Block
+     */
 	private int type;
 	private float runTime;
+
+    private float minXpos;
 
 	public EnemyBullet() {
 		super(32, 16, new Polygon(new float[]{  4,4,
 												28,4,
 												28,12,
 												4,12}),0);
-
+        type=0;
+        runTime=0;
+        minXpos=0;
 	}
 
 	@Override
@@ -29,7 +37,15 @@ public class EnemyBullet extends GameEvent {
 			runTime+=delta;
 			getHitbox().setPosition(getX(), getY());
 			getHitbox().setRotation(getTheta());
-			getPosition().add(getVelocity().cpy().scl(delta));
+			if (type == 1){
+                if (getX()<minXpos) {
+                    setX(minXpos);
+
+                }
+                else
+                    getPosition().add(getVelocity().cpy().scl(delta));
+            } else
+            getPosition().add(getVelocity().cpy().scl(delta));
 
 			if (isOutOfScreen(true))
 				dead();
@@ -37,7 +53,7 @@ public class EnemyBullet extends GameEvent {
 	}
 /*
 	when reset, calculate theta from squirrel and mob
-
+    theta for local rotation of the texture
  */
 
 	public void reset(float x, float y, float dx, float dy, float theta, int type) {
@@ -57,6 +73,9 @@ public class EnemyBullet extends GameEvent {
 		}
 	}
 
+    public void setMinXpos(float x){
+        minXpos = x;
+    }
 	public float getRunTime() {
 		return runTime;
 	}

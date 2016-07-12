@@ -57,7 +57,6 @@ public class Squirrel {
         life = 2;
 
 		ceiling = GameScreen.gameHeight-getHeight();// temporary
-		//TODO: is this device independent?
 		Gdx.app.log("Squirrel", "ceiling="+ceiling);
 
 
@@ -89,11 +88,8 @@ public class Squirrel {
 		for (Bullet b: bullets)
 			b.update(delta);
 
-        if (life<0){
-            //actual gameover
 
-
-        } else
+        if (life >=0)
 		if (!isSPAWNING()) {
 			runTime += delta; // used for timing
 			animRunTime += delta; // timing of animation
@@ -158,9 +154,11 @@ public class Squirrel {
 			if (position.x > 50) {
 				position.x = 50;
                 velocity.x = 0;
+
 				currentState = SquirrelState.IDLE;
 			}
 				else {
+                rotation=0;
                 velocity.y=0;
                 velocity.x = 50;
             }
@@ -191,10 +189,15 @@ public class Squirrel {
 		//change how respawn is handled later
         if (!isSPAWNING())
 		velocity.y=160; // jump
+
+
+        //if (life <0 하고 일정 시간이 지나면(UI가 나오면))
+        // 재시작?
+
 	}
 
 	public void dead(){
-		//TODO white flash
+		//TODO white flash maybe not?
 
 		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,(short)4);
 		AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
@@ -269,5 +272,8 @@ public class Squirrel {
 		return isInvincible;
 	}
 
+    public short getLife(){
+        return life;
+    }
 	}
 
