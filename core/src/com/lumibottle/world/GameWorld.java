@@ -76,8 +76,8 @@ public class GameWorld {
          */
             if (myGameState == GameState.PLAYING) {
                 mySquirrel.update(delta);
-                myStage.checkCollision();
                 myStage.update(delta);
+                myStage.checkCollision();
                 //gameover
             }
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetHelper;
@@ -109,15 +110,9 @@ public class LaserCrayon extends GameEvent {
     }
 
 	@Override
-	public void collide(Squirrel squirrel) {
-		if (isVISIBLE()) {
-				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
-					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.dead();
-				}
-
-		}
-	}
+	public void bottleHitsEnemy(Bullet b){
+        //do nothing. bad object orientation?( inverted)
+    }
 
 
 //getter setter

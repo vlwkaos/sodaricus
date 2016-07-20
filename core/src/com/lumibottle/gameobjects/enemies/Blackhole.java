@@ -3,7 +3,7 @@ package com.lumibottle.gameobjects.enemies;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 
@@ -36,34 +36,13 @@ public class Blackhole extends GameEvent {
 		super.reset(x, (GameEvent.gameHeight/20f)*MathUtils.random(5,13), -15, 0, 0);
 	}
 
-	//TODO
-	public void collide(Squirrel squirrel) {
-		if (isVISIBLE()) {
-			for (Bullet b : squirrel.getBullets()) {
-//				if (b.getX() + b.getWidth() > getX())
-					if (Intersector.overlapConvexPolygons(b.getHitbox(), getHitbox()) && b.isVISIBLE()) {
-						float theta= MathUtils.atan2(getY()-b.getY(),getX()-b.getX());
-						float dx = acc* MathUtils.cos(theta);
-						float dy = acc* MathUtils.sin(theta);
-						b.getVelocity().add(acc*dx,acc*dy);
-						break;
-					}
-			}
-
-/*
-				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
-					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					//squirrel.dead();
-					float theta= MathUtils.atan2(getY()-squirrel.getY(),getX()-squirrel.getX());
-					float dy = acc* MathUtils.sin(theta);
-					squirrel.getVelocity().add(0,acc*dy);
-				}
-			//
-*/
 
 
-		}
-	}
-
-
+    @Override
+    public void bottleHitsEnemy(Bullet b){
+        float theta= MathUtils.atan2(getY()-b.getY(),getX()-b.getX());
+        float dx = acc* MathUtils.cos(theta);
+        float dy = acc* MathUtils.sin(theta);
+        b.getVelocity().add(acc*dx,acc*dy);
+    }
 }

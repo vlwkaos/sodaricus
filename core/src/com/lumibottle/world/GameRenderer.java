@@ -5,17 +5,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Cowboy;
-import com.lumibottle.gameobjects.enemies.EnemyBullet;
+import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -23,6 +22,7 @@ import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 
@@ -64,7 +64,7 @@ public class GameRenderer {
 
 
     private BoxBoss myBoxboss;
-
+    private PipeBoss myPipeboss;
 
     //ASSET
     private TextureRegion splash;
@@ -75,8 +75,8 @@ public class GameRenderer {
     private TextureRegion gb;
 	private Animation eyeAnmimation;
 	//
-    private TextureRegion roadroller;
-	private TextureRegion bomb;
+    private TextureRegion bomb;
+	private TextureRegion roadroller;
 	private Animation cowboy;
 	private TextureRegion cowboyidle;
     private TextureRegion mustacheIdle;
@@ -88,6 +88,11 @@ public class GameRenderer {
 
     private Animation boxchargeAnimation;
     private TextureRegion boxgotHit;
+    private TextureRegion boxvulface;
+    private TextureRegion blockbullet;
+
+    private TextureRegion pipeboss;
+    private Animation forceshieldAnimation;
 
 	private TextureRegion star1,star2;
     private TextureRegion background;
@@ -141,10 +146,11 @@ public class GameRenderer {
 		drawBlueCrayons(runTime);
 		drawBombs(runTime);
 	    drawCowboy(runTime);
+
 		drawEnemyBullets();
 
         drawBoxBoss();
-
+        drawPipeBoss();
 
 		//main
 	   // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
@@ -163,11 +169,16 @@ public class GameRenderer {
         //for debugging
         shapeRenderer.begin();
         shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
-        for (Mustache m : myMustaches)
-            shapeRenderer.polygon(m.getHitbox().getTransformedVertices());
-
+        for (Mustache b : myMustaches)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        for (Bomb b : myBombs)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
         for (Bullet b : myBullets)
             shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        for (EnemyBullet b : myEnemyBullets)
+            if (b !=null)
+            shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+
         shapeRenderer.end();
 
 
@@ -193,6 +204,7 @@ public class GameRenderer {
 	    myBlackholes = myStage.getBlackholes();
 
         myBoxboss = myStage.getBoxboss();
+        myPipeboss = myStage.getPipeBoss();
     }
     private void initAsset(){
         splash = AssetHelper.splash;
@@ -206,8 +218,8 @@ public class GameRenderer {
 
 
 	    //en
-        roadroller = AssetHelper.roadroller;
-	    bomb = AssetHelper.tanklorry;
+        bomb = AssetHelper.roadroller;
+	    roadroller = AssetHelper.tanklorry;
         mustacheIdle = AssetHelper.mustaches[4];
         mustacheAnimation = AssetHelper.mustacheAnim;
 		cowboy = AssetHelper.cowboythrowAnim;
@@ -224,6 +236,11 @@ public class GameRenderer {
         //BOSS
         boxchargeAnimation = AssetHelper.boxchargeAnim;
         boxgotHit = AssetHelper.boxhitFace;
+        boxvulface = AssetHelper.boxvulFace;
+        blockbullet = AssetHelper.blockbullet;
+
+        pipeboss = AssetHelper.pipeBoss;
+        forceshieldAnimation = AssetHelper.forceshieldAnim;
 	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -328,16 +345,14 @@ public class GameRenderer {
     private void drawRoadRollers(float runTime){
 		for (RoadRoller r: myRoadRollers) {
 			if (r.isVISIBLE()) {
-
-				r.getParticle().setPosition(r.getX()+2*r.getWidth()/3f,r.getY()+r.getHeight()/2f);
+				r.getParticle().setPosition(r.getX()+r.getWidth()/2f,r.getY()+r.getHeight());
 				r.getParticle().update(Gdx.graphics.getDeltaTime());
 				r.getParticle().draw(spriteBatch);
 				if (r.getParticle().isComplete())
 					r.getParticle().reset();
 
 				spriteBatch.draw(roadroller, r.getX(), r.getY());
-				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),r.getX(),r.getY());
-
+				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),r.getX(),r.getY()+r.getHeight()/2f);
 
 			}
 		}
@@ -347,15 +362,19 @@ public class GameRenderer {
 		for (Bomb b: myBombs) {
 			if (b.isVISIBLE()) {
 
-				if (!b.isExploding())
-				spriteBatch.draw(bomb, b.getX(), b.getY());
+				if (!b.isExploding()) {
 
-				b.getParticle().setPosition(b.getX()+b.getWidth()/2f,b.getY()+b.getHeight());
-				b.getParticle().update(Gdx.graphics.getDeltaTime());
-				b.getParticle().draw(spriteBatch);
-				if (b.getParticle().isComplete())
-					b.getParticle().reset();
-				spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),b.getX(),b.getY()+b.getHeight()/2f);
+					b.getParticle().setPosition(b.getX()+2*b.getWidth()/3f,b.getY()+b.getHeight()/2f);
+					b.getParticle().update(Gdx.graphics.getDeltaTime());
+					b.getParticle().draw(spriteBatch);
+					if (b.getParticle().isComplete())
+						b.getParticle().reset();
+
+					spriteBatch.draw(bomb, b.getX(), b.getY());
+					spriteBatch.draw(eyeAnmimation.getKeyFrame(runTime),b.getX(),b.getY());
+
+				}
+
 			}
 		}
 	}
@@ -408,7 +427,6 @@ public class GameRenderer {
 				c.getParticle().draw(spriteBatch);
 
 
-
 			if (c.isPreparing())
 				spriteBatch.draw(cowboy.getKeyFrame(c.getRunTime()), c.getX(), c.getY());
 				else
@@ -426,11 +444,14 @@ public class GameRenderer {
 
 	private void  drawEnemyBullets(){
 		for (EnemyBullet c : myEnemyBullets)
-			if (c.isVISIBLE()) {
-				switch( c.getType()){
-					case 0: 	spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY()); break;
-
-				}
+			if (c !=null && c.isVISIBLE()) {
+                String s = c.getClass().getSimpleName();
+                if (s.equals("HatEnemyBullet")) {
+                    spriteBatch.draw(cowboyhatAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY());
+                }
+                if (s.equals("BlockEnemyBullet")){
+                    spriteBatch.draw(blockbullet, c.getX(), c.getY(),myBoxboss.getWidth(),myBoxboss.getWidth());
+                }
 
 			}
 	}
@@ -449,16 +470,27 @@ public class GameRenderer {
             if (myBoxboss.gotHit()){
                 spriteBatch.draw(boxgotHit, myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
             }else
-            if (myBoxboss.isPREPARE()){
+            if (myBoxboss.isIDLE()){
                 spriteBatch.draw(boxchargeAnimation.getKeyFrame(myBoxboss.getRunTime()/8), myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
-            } else {
-                spriteBatch.draw(boxchargeAnimation.getKeyFrame(0), myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
-            }
-
+            } else if (myBoxboss.isVULNERABLE()){
+                spriteBatch.draw(boxvulface, myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
+            } else
+                spriteBatch.draw(boxchargeAnimation.getKeyFrame(7), myBoxboss.getX(), myBoxboss.getY(), myBoxboss.getWidth(), myBoxboss.getHeight());
         }
     }
 
 
+    private void drawPipeBoss(){
+        if (myPipeboss.isVISIBLE()){
+
+
+            spriteBatch.draw(pipeboss,myPipeboss.getX(),myPipeboss.getY());
+
+            if (myPipeboss.gotHit()){
+                spriteBatch.draw(forceshieldAnimation.getKeyFrame(myPipeboss.getHitAnimRunTime()),myPipeboss.getX(),myPipeboss.getY());
+            }
+        }
+    }
 
 
 	public void dispose(){

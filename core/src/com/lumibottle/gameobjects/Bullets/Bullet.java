@@ -1,9 +1,10 @@
-package com.lumibottle.gameobjects;
+package com.lumibottle.gameobjects.Bullets;
 
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.gameobjects.GameEvent;
 
 
 /**
@@ -16,7 +17,7 @@ public class Bullet extends GameEvent {
 	private Vector2 acceleration;
 
 	public Bullet() {
-		super(12, 12,new Polygon(new float[]{4,4,8,4,8,8,4,8}),0);
+		super(12, 12,new Polygon(new float[]{2,6,2,12,6,12,6,6}),1);
 		getHitbox().setOrigin(getWidth()/2f,getHeight()/2f);
 		acceleration = new Vector2(0, -460);
 	}
@@ -27,7 +28,8 @@ public class Bullet extends GameEvent {
 			getHitbox().setRotation(getTheta());
 			getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
 			getPosition().add(getVelocity().cpy().scl(delta));
-			this.theta-= delta*1000;
+
+            this.theta-= delta*1000;//1-000
 
 			if (isOutOfScreen(false))
 				dead();

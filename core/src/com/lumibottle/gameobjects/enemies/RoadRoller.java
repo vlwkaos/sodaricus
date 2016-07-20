@@ -13,12 +13,12 @@ import com.lumibottle.helper.AssetHelper;
  */
 public class RoadRoller extends GameEvent {
 
-	private ParticleEffect nitroParticle;
 
+	private ParticleEffect popcornParticle;
 
 
 	public RoadRoller() {
-		super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}), 4);
+		super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}),3);
 	}
 
 	@Override
@@ -33,12 +33,12 @@ public class RoadRoller extends GameEvent {
 	}
 
 	public ParticleEffect getParticle() {
-		return nitroParticle;
+		return popcornParticle;
 	}
 
 	public void reset(float x) {
 		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
-		nitroParticle = AssetHelper.nitroPool.obtain();
+		popcornParticle = AssetHelper.popcornPool.obtain();
 
 	}
 
@@ -46,7 +46,7 @@ public class RoadRoller extends GameEvent {
 	@Override
 	public void dead(){
 		super.dead();
-		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
+		AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
 	}
 }
 

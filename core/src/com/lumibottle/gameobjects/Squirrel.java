@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
@@ -36,8 +37,7 @@ public class Squirrel {
 	private int width, height;
 	private float ceiling;
 
-	final private float shootFreq = 0.15f;
-
+	final private float shootFreq = 0.1f;
 	private Bullet[] bullets;// hold for optimum performance
 	private ParticleEffect sodaburst;
 
@@ -68,7 +68,7 @@ public class Squirrel {
 		 */
 		bullets = new Bullet[20];
 		for (int i=0;i<bullets.length;i++)
-			bullets[i] = new Bullet();
+            bullets[i] = new Bullet();
 
 		runTime=0;
 		sodaburst = AssetHelper.sodaburstPool.obtain();
@@ -85,7 +85,7 @@ public class Squirrel {
 		/*
 				Bullet Update
 		 */
-		for (Bullet b: bullets)
+		for (com.lumibottle.gameobjects.Bullets.Bullet b: bullets)
 			b.update(delta);
 
 
@@ -101,7 +101,7 @@ public class Squirrel {
 				runTime -= shootFreq;
 				animRunTime = 0;
 				currentState = SquirrelState.SHOOTING;
-				for (Bullet b : bullets) {
+				for (com.lumibottle.gameobjects.Bullets.Bullet b : bullets) {
 					if (b.isDEAD()) {
 						b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 250, rotation); // speed
 						break;
@@ -199,7 +199,7 @@ public class Squirrel {
 	public void dead(){
 		//TODO white flash maybe not?
 
-		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,(short)4);
+		FXHelper.getInstance().newFX(getX()-108/2f,getY()-108/2f,FX.QUANTUM_EXPLOSION);
 		AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
 		rotation=0;
         currentState = SquirrelState.SPAWNING;

@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
-import com.lumibottle.gameobjects.Bullet;
+import com.lumibottle.gameobjects.Bullets.Bullet;
+import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetHelper;
@@ -17,22 +18,32 @@ import com.lumibottle.helper.FXHelper;
  */
 public class Bomb extends GameEvent{
 
-	private ParticleEffect popcornParticle;
+
+	private ParticleEffect nitroParticle;
+
 	private boolean isExploding;
 	 private float explodingCounter;
 
 	private float bomb_x=40;
 	private float bomb_y=40;
 
+	private float[] normalhitbox;
+	private float[] xplhitbox;
+
+
 	public Bomb() {
-		super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}),3);
+		super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}),3);
+
+		normalhitbox = new float[]{0, 0, 20, 0, 20, 12, 0, 12};
+		xplhitbox = new float[]{0-(bomb_x-getWidth())/2f, 0-(bomb_y-getHeight())/2f,
+				getWidth()+(bomb_x-getWidth())/2, 0-(bomb_y-getHeight())/2f,
+				getWidth()+(bomb_x-getWidth())/2f, getHeight()+(bomb_y-getHeight())/2f,
+				0-(bomb_x-getWidth())/2f, getHeight()+(bomb_y-getHeight())/2f};
 
 	}
 
 	@Override
 	public void update(float delta) {
-
-
 		if (isVISIBLE()) {
 			getHitbox().setPosition(getX(), getY());
 
@@ -41,72 +52,50 @@ public class Bomb extends GameEvent{
 			else
 				getPosition().add(getVelocity().cpy().scl(delta));
 
-			if (isExploding && explodingCounter > 3/15f)
-				dead();
+			if (isExploding && explodingCounter > 7/60f)
+				super.dead();
+
 
 			if (isOutOfScreen(true))
-				dead();
+				super.dead();
 		}
 
 	}
 
 	public ParticleEffect getParticle() {
-		return popcornParticle;
+		return nitroParticle;
 	}
 
 	public void reset(float x) {
-//		super.reset(x, getHeight(), -70, 0, 0);
-		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -70, 0, 0);
+		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -40, 0, 0);
+		setHitbox(normalhitbox); // reset hitbox
 		isExploding=false;
-		popcornParticle = AssetHelper.popcornPool.obtain();
+		nitroParticle = AssetHelper.nitroPool.obtain();
 
 	}
 
 
 	@Override
 	public void dead(){
-		super.dead();
 		explode();
-		AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
-		setHitbox(new float[]{0, 0, 32, 0, 32, 14, 0, 14});
 	}
 
 
 
 	public void explode(){
-		FXHelper.getInstance().newFX(getX()-(bomb_x-getWidth())/2f,getY()-(bomb_y-getHeight())/2f,(short) 3);
-		explodingCounter=0;
+		FXHelper.getInstance().newFX(getX()-(bomb_x-getWidth())/2f,getY()-(bomb_y-getHeight())/2f, FX.BOMB_EXPLOSION);
 		isExploding=true;
-		setHitbox(new float[]{0-(bomb_x-getWidth()/2f), 0-(bomb_y-getHeight()/2f),
-							32+(bomb_x-getWidth()/2f), 0-(bomb_y-getHeight()/2f),
-							32+(bomb_x-getWidth()/2f), 14+(bomb_y-getHeight()/2f),
-							0-(bomb_x-getWidth()/2f), 14+(bomb_y-getHeight()/2f)});
+		AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
+		//폭발 카운트를 시작한다.
+		explodingCounter=0;
+		setHitbox(xplhitbox);
 	}
 
 
 
-	public void collide(Squirrel squirrel) {
-		if (isVISIBLE()) {
-			// explosion occurs only once
-			if (!isExploding)
-			for (Bullet b : squirrel.getBullets()) {
-				if (b.getX() + b.getWidth() > getX())
-					if (Intersector.overlapConvexPolygons(b.getHitbox(), getHitbox()) && b.isVISIBLE()) {
-						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
-						//bomb fx
-						b.hit();
-						break;
-					}
-			}
-
-			//explosion will enlarge the hitbox
-			if (squirrel.getX() + squirrel.getWidth() > getX()) {
-				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), getHitbox())) {
-					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.dead();
-				}
-			}
-		}
+	public void bottleHitsEnemy(Bullet b){
+		if (!isExploding)// 터지는 도중에는 맞으면 안되죠
+			super.bottleHitsEnemy(b);
 	}
 
 	public boolean isExploding() {

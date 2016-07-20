@@ -1,14 +1,18 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;
+import com.lumibottle.gameobjects.Bullets.EnemyBullet;
+import com.lumibottle.gameobjects.Bullets.HatEnemyBullet;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Cowboy;
-import com.lumibottle.gameobjects.enemies.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -29,17 +33,24 @@ public class ProgressHandler {
 	private Mustache[] mustaches;
 	private LaserCrayon[] laserCrayons;
 	private Cowboy[] cowboys;
-	private EnemyBullet[] enemyBullets;
 	private Blackhole[] blackholes;
 
     private BoxBoss boxBoss;
+    private int[] blockspace;
+    private int blockspaceCnt;
+    private PipeBoss pipeBoss;
+
+    //Bullet
+    private EnemyBullet[] enemyBullets;
+
 
 	private float hatspeed = 100f;
-	private boolean squirrelHit;
 
 	public ProgressHandler(Squirrel s) {
 		stageNumber=0;
 		mySquirrel = s;
+        blockspace = new int[5];
+        blockspaceCnt = 0;
 		/*
 			Initialize enemy objects
 		 */
@@ -76,10 +87,18 @@ public class ProgressHandler {
 
 		}
 
-		enemyBullets = new EnemyBullet[10];
-		for (int i = 0; i< enemyBullets.length; i++){
-			enemyBullets[i] = new EnemyBullet();
-		}
+        Gdx.app.log("ProgressHandler","Trying to create bullets");
+        int j=0;
+		enemyBullets = new EnemyBullet[40];
+        for (int i=0;i<10;i++){
+            enemyBullets[j] = new HatEnemyBullet();
+            j++;
+        }
+        for (int i=0;i<15;i++){
+            enemyBullets[j] = new BlockEnemyBullet(blockspace);
+            j++;
+        }
+        Gdx.app.log("ProgressHandler","Bullets created");
 
 		blackholes = new Blackhole[3];
 		for (int i=0; i< blackholes.length; i++){
@@ -92,17 +111,13 @@ public class ProgressHandler {
         boxBoss = new BoxBoss(mySquirrel);
         boxBoss.reset();
 
+        pipeBoss = new PipeBoss();
+        pipeBoss.reset();
 
 
         myFXs = new FX[10];
 		for (int i=0; i< myFXs.length;i++)
 			myFXs[i]= new FX();
-
-
-
-
-
-
 
 
 	}
@@ -127,8 +142,8 @@ public class ProgressHandler {
         /*
             Boss Updates
          */
-        updateBoxBoss(delta);
-
+//        updateBoxBoss(delta);
+		updatePipeBoss(delta);
         updateEnemyBullets(delta);
 	}
 
@@ -177,11 +192,9 @@ public class ProgressHandler {
 			c.update(delta);
 			if(c.isShooting())
 				for (EnemyBullet h: enemyBullets)
-					if (h.isDEAD()) { // find available bullet from pool
+					if (h instanceof HatEnemyBullet && h.isDEAD()) { // find available bullet from pool
 						float theta= MathUtils.atan2((c.getY()+23)-mySquirrel.getY(),c.getX()-mySquirrel.getX());
-						float dx = -hatspeed* MathUtils.cos(theta);
-						float dy = -hatspeed* MathUtils.sin(theta);
-						h.reset(c.getX()-6,c.getY()+23,dx,dy,0,0);//sprite type
+						h.reset(c.getX()-6,c.getY()+23,hatspeed,theta);//sprite type
 						c.doneShooting();
 						break;
 					}
@@ -193,7 +206,8 @@ public class ProgressHandler {
 
 	private void updateEnemyBullets(float delta){
 		for (EnemyBullet c: enemyBullets)
-			c.update(delta);
+            if (c != null)
+	    		c.update(delta);
 
 
 	}
@@ -224,10 +238,14 @@ public class ProgressHandler {
 			c.collide(mySquirrel);
 
 		for (EnemyBullet c : enemyBullets)
-			c.collide(mySquirrel);
+            if (c!=null)
+		    	c.collide(mySquirrel);
 
 		for (Blackhole b : blackholes)
 			b.collide(mySquirrel);
+
+        boxBoss.collide(mySquirrel);
+        pipeBoss.collide(mySquirrel);
 	}
 
 
@@ -236,17 +254,42 @@ public class ProgressHandler {
 
      */
     public void updateBoxBoss(float delta){
+
+        blockspaceCnt=0;
+        for (int i: blockspace)
+            if (i>0)
+                blockspaceCnt++;
+        if (blockspaceCnt==5){
+            boxBoss.setVul();
+            //총알도 삭제
+            for (EnemyBullet h: enemyBullets)
+                if (h instanceof BlockEnemyBullet)
+                    h.dead();
+            //space reset
+            for (int i=0;i<blockspace.length;i++)
+                blockspace[i] = 0;
+            /*
+                   It is reset here, or gameover
+                   boxboss can only die when vulnerable -> blockspace is already reset, so do not need to reset again.
+             */
+        }
+
         boxBoss.update(delta);
         if (boxBoss.isSHOOT()){
             for (EnemyBullet h: enemyBullets)
-                if (h.isDEAD()) { // find available bullet from pool
-                    h.reset(boxBoss.getX(),boxBoss.getY(),-50,0,0,1);//sprite type0
-                    //TODO h.setMinXpos(); 쌓이게
+                if (h instanceof BlockEnemyBullet && h.isDEAD()) { // find available bullet from pool
+                    h.reset(boxBoss.getX(),boxBoss.getY(),50,0);//sprite type0
                     boxBoss.doneShooting();
                     break;
                 }
         }
     }
+    public void updatePipeBoss(float delta){
+        pipeBoss.update(delta);
+    }
+
+
+    //TODO restart, initialize
 
 	/*
 		GETTER SETTER
@@ -280,4 +323,6 @@ public class ProgressHandler {
 	}
 
     public BoxBoss getBoxboss() {return boxBoss;}
+
+    public PipeBoss getPipeBoss(){return pipeBoss;}
 }

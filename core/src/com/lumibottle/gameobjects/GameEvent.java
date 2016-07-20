@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.helper.FXHelper;
 
 /**
@@ -75,8 +76,9 @@ public abstract class GameEvent {
 	}
 
 
+
 	public void hit(){
-		if (hitpoint == 0){
+		if (hitpoint == 1){
 			dead();
 		} else {
 			hitpoint--;
@@ -96,27 +98,33 @@ public abstract class GameEvent {
 	 */
 	public void collide(Squirrel squirrel) {
 		if (isVISIBLE()) {
-			for (Bullet b : squirrel.getBullets()) {
-				if (b.getX() + b.getWidth() > getX())
-					if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
-						//When bullet hits Event
-						FXHelper.getInstance().newFX(b.getX(), b.getY(), (short) 0);
-						hit();
-						b.hit();//dead fx goes in hit?
-						break;
-					}
-			}
-
+            for (Bullet b : squirrel.getBullets()) {
+                if (b.getX() + b.getWidth() > getX())
+                    if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
+                        //When bullet hits Event
+                        bottleHitsEnemy(b);
+                        break;
+                    }
+            }
 			//When squirrel is hit by event
-			if (squirrel.getX() + squirrel.getWidth() > getX() && !squirrel.IsInvincible()) {
-				if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
-					Gdx.app.log("squirrel is hit by: ", this.getClass().toString());
-					squirrel.dead();
-				}
-			}
+
+            if (squirrel.getX() + squirrel.getWidth() > getX() && !squirrel.IsInvincible()) {
+                if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
+                    enemyHitsSquirrel(squirrel);
+                }
+            }
 		}
 	}
 
+    public void enemyHitsSquirrel(Squirrel squirrel){
+        Gdx.app.log("squirrel is hit by: ", this.getClass().getSimpleName());
+        squirrel.dead();
+    }
+    public void bottleHitsEnemy(Bullet b){
+        FXHelper.getInstance().newFX(b.getX(), b.getY(), FX.SODA_EXPLOSION);
+        hit();
+        b.hit();
+    }
 
 
 	/*

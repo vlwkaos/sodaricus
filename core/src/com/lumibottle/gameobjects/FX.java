@@ -15,6 +15,12 @@ public class FX {
 		READY, TOBEDRAWN
 	}
 
+    public static final short SODA_EXPLOSION = 0;
+    public static final short LASER_LINE = 1;
+    public static final short LASER_SHOT = 2;
+    public static final short BOMB_EXPLOSION = 3;
+    public static final short QUANTUM_EXPLOSION = 4;
+
 
 	private FXState currentState;
 
@@ -82,7 +88,7 @@ public class FX {
 				myAnimation = AssetHelper.redlaserAnim;
 				break;
 			case 3:
-				myAnimation = AssetHelper.explosionAnim2;
+				myAnimation = AssetHelper.bombexplosionAnim;
 				break;
 			case 4:
 				myAnimation = AssetHelper.deadAnim;

@@ -1,6 +1,5 @@
 package com.lumibottle.helper;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -37,17 +36,18 @@ public class AssetHelper {
 	public static Texture eyeTexture;
 	public static Texture holeTexture;
 	public static Texture deadTexture;
-
+    public static Texture blockTexture;
     //
     public static Texture boxbossTexture;
-
+    public static Texture pipebossTexture;
+    private static Texture forceshieldTexture;
+	private static Texture redsodapillarTexture;
 	//
 
     /*
         Texture Region
      */
     public static TextureRegion splash;
-
 
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
@@ -81,17 +81,24 @@ public class AssetHelper {
 
 	public static TextureRegion hole;
 
+
     //boss
     public static TextureRegion[] boxcharges;
     public static Animation boxchargeAnim;
     public static TextureRegion boxhitFace;
+    public static TextureRegion boxvulFace;
+    public static TextureRegion blockbullet;
+
+    public static TextureRegion pipeBoss;
+	public static TextureRegion[] redsodapillar;
+	public static Animation redsodapillarAnim;
 
 	//FX
 	public static TextureRegion[] explosion1;
 	public static Animation explosionAnim1;
 
-	public static TextureRegion[] explosion2;
-	public static Animation explosionAnim2;
+	public static TextureRegion[] bombexplosion;
+	public static Animation bombexplosionAnim;
 
 	public static TextureRegion[] redlaser;
 	public static Animation redlaserinit;
@@ -100,6 +107,8 @@ public class AssetHelper {
 	public static TextureRegion[] deadplosion;
     public static Animation deadAnim;
 
+    private static TextureRegion[] forceshield;
+    public static Animation forceshieldAnim;
 
 
 	/*
@@ -151,8 +160,12 @@ public class AssetHelper {
 	    holeTexture.dispose();
 	    deadTexture.dispose();
 	    cowboythrowTexture.dispose();
-	    //16
+	    blockTexture.dispose();
+        //
         boxbossTexture.dispose();
+        pipebossTexture.dispose();
+        forceshieldTexture.dispose();
+	    redsodapillarTexture.dispose();
 
     //particle
 	    rainbowPool.clear();
@@ -207,6 +220,9 @@ public class AssetHelper {
 
 	    cowboyhatTexture = new Texture(Gdx.files.internal("data/cowboyhat.png"));
 		cowboyhatTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        blockTexture = new Texture(Gdx.files.internal("data/boss/blockbullet.png"));
+        blockTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //Aesthetic Objects/image
         backgroundTexture = new Texture(Gdx.files.internal("data/spacebg.png"));
         backgroundTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -214,9 +230,14 @@ public class AssetHelper {
         starTexture = new Texture(Gdx.files.internal("data/stars.png"));
         starTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+
         //BOSS
-        boxbossTexture = new Texture(Gdx.files.internal("data/boxboss.png"));
+        boxbossTexture = new Texture(Gdx.files.internal("data/boss/boxboss.png"));
         boxbossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        pipebossTexture = new Texture(Gdx.files.internal("data/boss/daramvader.png"));
+        pipebossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		redsodapillarTexture = new Texture(Gdx.files.internal("data/boss/redsodapillar.png"));
+	    redsodapillarTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
         //FX
@@ -232,12 +253,12 @@ public class AssetHelper {
 	    deadTexture = new Texture(Gdx.files.internal("data/gfx/dead.png"));
 	    deadTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+        forceshieldTexture = new Texture(Gdx.files.internal("data/gfx/forceshield.png"));
+        forceshieldTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //splash
         splash = new TextureRegion(splashTexture,0,0,240,240);
-
-
 
 
         //Game Objects
@@ -295,14 +316,25 @@ public class AssetHelper {
 
 	    hole = new TextureRegion(holeTexture,0,0,32,32);
 
-        //
+        //BoxBoss
         boxcharges = new TextureRegion[8];
         for (int i=0;i<8;i++)
             boxcharges[i] = new TextureRegion(boxbossTexture,i*64,0,64,64);
         boxchargeAnim = new Animation(1/30f,boxcharges);
         boxchargeAnim.setPlayMode(Animation.PlayMode.NORMAL);
         boxhitFace = new TextureRegion(boxbossTexture,8*64,0,64,64);
-	    //
+        boxvulFace = new TextureRegion(boxbossTexture,9*64,0,64,64);
+        blockbullet = new TextureRegion(blockTexture,0,0,64,64);
+
+        pipeBoss = new TextureRegion(pipebossTexture,0,0,32,32);
+
+	    redsodapillar = new TextureRegion[3];
+	    for (int i=0;i<3;i++)
+		    redsodapillar[i] = new TextureRegion(redsodapillarTexture,i*25,0,25,120);
+	    redsodapillarAnim = new Animation(1/30f,redsodapillar);
+	    redsodapillarAnim.setPlayMode(Animation.PlayMode.LOOP);
+
+	    //SODA!
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
 
         //Aesthetic Objects/image
@@ -318,11 +350,11 @@ public class AssetHelper {
         explosionAnim1 = new Animation(1 / 30f, explosion1);
         explosionAnim1.setPlayMode(Animation.PlayMode.NORMAL);
 
-	    explosion2 = new TextureRegion[10];
-	    for (int i = 0; i < 10; i++)
-		    explosion2[i] = new TextureRegion(bombexplosionTexture, i * 40, 0, 40, 40);
-	    explosionAnim2 = new Animation(1/30f, explosion2);
-	    explosionAnim2.setPlayMode(Animation.PlayMode.NORMAL);
+	    bombexplosion = new TextureRegion[8];
+	    for (int i = 0; i < 8; i++)
+		    bombexplosion[i] = new TextureRegion(bombexplosionTexture, i * 40, 0, 40, 40);
+	    bombexplosionAnim = new Animation(1/30f, bombexplosion);
+	    bombexplosionAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
 	    redlaser = new TextureRegion[7];
 	    for (int i=0; i<7;i++) {
@@ -342,7 +374,11 @@ public class AssetHelper {
 	    deadAnim = new Animation(1/30f,deadplosion);
 	    deadAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
-
+        forceshield = new TextureRegion[4];
+        for (int i=0;i<4;i++)
+            forceshield[i] = new TextureRegion(forceshieldTexture,i*32,0,32,32);
+        forceshieldAnim = new Animation(4/60f,forceshield);
+        forceshieldAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
     }
 
