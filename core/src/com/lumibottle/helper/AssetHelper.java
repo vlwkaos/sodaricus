@@ -89,7 +89,8 @@ public class AssetHelper {
     public static TextureRegion boxvulFace;
     public static TextureRegion blockbullet;
 
-    public static TextureRegion pipeBoss;
+    private static TextureRegion[] pipeBoss;
+	public static Animation pipeBossAnim;
 	public static TextureRegion[] redsodapillar;
 	public static Animation redsodapillarAnim;
 
@@ -326,7 +327,12 @@ public class AssetHelper {
         boxvulFace = new TextureRegion(boxbossTexture,9*64,0,64,64);
         blockbullet = new TextureRegion(blockTexture,0,0,64,64);
 
-        pipeBoss = new TextureRegion(pipebossTexture,0,0,32,32);
+		pipeBoss = new TextureRegion[3];
+	    for (int i=0 ;i<3 ;i++)
+		    pipeBoss[i] = new TextureRegion(pipebossTexture,i*32,0,32,32);
+	    pipeBossAnim = new Animation(1/10f,pipeBoss);
+	    pipeBossAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
 
 	    redsodapillar = new TextureRegion[3];
 	    for (int i=0;i<3;i++)

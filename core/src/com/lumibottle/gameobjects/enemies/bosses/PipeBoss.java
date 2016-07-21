@@ -1,12 +1,13 @@
 package com.lumibottle.gameobjects.enemies.bosses;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
-import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.helper.FXHelper;
+
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -19,8 +20,6 @@ public class PipeBoss extends GameEvent{
     private float shootRunTime;
     private int shootCount;
 
-    private float period;
-
 	private enum PipeState{
 		IDLE,PREPARE,SHOOT
 	};
@@ -30,12 +29,11 @@ public class PipeBoss extends GameEvent{
     private float hitAnimRunTime;
 
     public PipeBoss() {
-        super(32, 32, new Polygon(new float[]{4,9,4,25,25,25,25,9}), 50);
+        super(32, 32, new Polygon(new float[]{4,9,4,25,25,25,25,9}), 50); // render height is different
         gotHit=false;
         hitAnimRunTime=0;
         shootCount=0;
         shootRunTime=0;
-        period = 1;
 	    currentState = PipeState.IDLE;
     }
 
@@ -45,10 +43,9 @@ public class PipeBoss extends GameEvent{
             if (getX() < 240 - getWidth()) {// fully appeared
                 runTime+=delta;
 
-                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime*period)));
+                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime)));
 	            if (currentState == PipeState.IDLE){
 		            if (shootRunTime> 5.0f){
-                        period = MathUtils.random(1.0f,2.0f);
                         shootRunTime=0;
                         currentState = PipeState.PREPARE;
                     } else
@@ -94,6 +91,12 @@ public class PipeBoss extends GameEvent{
 
     }
 
+	@Override
+	public void dead(){
+		super.dead();
+
+
+	}
     public void bottleHitsEnemy(Bullet b){
         super.bottleHitsEnemy(b);
         //force shield 지지직하는 sprite만들 FX
@@ -103,12 +106,16 @@ public class PipeBoss extends GameEvent{
         }
     }
 
-    //TODO maybe integrate in event as default
+
+    //TODO maybe integrate gotHit() in event as default
     public boolean gotHit(){return gotHit;}
     public float getHitAnimRunTime(){return hitAnimRunTime;}
+
+	public float getShootRunTime(){return shootRunTime;}
     public boolean isSHOOT(){
         return currentState == PipeState.SHOOT;
     }
+	public boolean isIDLE(){return currentState == PipeState.IDLE;}
 
     public void doneShooting(){
         currentState = PipeState.PREPARE;

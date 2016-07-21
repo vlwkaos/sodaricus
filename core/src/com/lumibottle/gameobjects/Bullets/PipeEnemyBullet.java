@@ -50,8 +50,8 @@ public class PipeEnemyBullet extends EnemyBullet{
 
 	public void reset(float targetYpos, boolean up){
 		this.targetYpos = targetYpos+16;//pipeboss origin
-		if (this.targetYpos > gameHeight-margin*3)
-			this.targetYpos = gameHeight-margin*3;
+		if (this.targetYpos > gameHeight-margin*4)
+			this.targetYpos = gameHeight-margin*4;
 		if (this.targetYpos < margin*2)
 			this.targetYpos = margin*2;
 

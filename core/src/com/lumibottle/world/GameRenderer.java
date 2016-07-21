@@ -92,7 +92,7 @@ public class GameRenderer {
     private TextureRegion boxvulface;
     private TextureRegion blockbullet;
 
-    private TextureRegion pipeboss;
+    private Animation pipebossAnimation;
     private Animation forceshieldAnimation;
 	private Animation redsodapillarAnimation;
 
@@ -168,20 +168,7 @@ public class GameRenderer {
 
         spriteBatch.end();
 
-        //for debugging
-        shapeRenderer.begin();
-        shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
-        for (Mustache b : myMustaches)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
-        for (Bomb b : myBombs)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
-        for (Bullet b : myBullets)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
-        for (EnemyBullet b : myEnemyBullets)
-            if (b !=null)
-            shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
-
-        shapeRenderer.end();
+//		drawDebugMode();
 
 
 
@@ -241,7 +228,7 @@ public class GameRenderer {
         boxvulface = AssetHelper.boxvulFace;
         blockbullet = AssetHelper.blockbullet;
 
-        pipeboss = AssetHelper.pipeBoss;
+        pipebossAnimation = AssetHelper.pipeBossAnim;
         forceshieldAnimation = AssetHelper.forceshieldAnim;
 	    redsodapillarAnimation = AssetHelper.redsodapillarAnim;
 
@@ -492,15 +479,33 @@ public class GameRenderer {
     private void drawPipeBoss(){
         if (myPipeboss.isVISIBLE()){
 
+			if (myPipeboss.isIDLE())
+				spriteBatch.draw(pipebossAnimation.getKeyFrame(0),myPipeboss.getX(),myPipeboss.getY());
+			else {
+				spriteBatch.draw(pipebossAnimation.getKeyFrame(myPipeboss.getShootRunTime()), myPipeboss.getX(), myPipeboss.getY());
+			}
 
-            spriteBatch.draw(pipeboss,myPipeboss.getX(),myPipeboss.getY());
-
-            if (myPipeboss.gotHit()){
+	        if (myPipeboss.gotHit()){
                 spriteBatch.draw(forceshieldAnimation.getKeyFrame(myPipeboss.getHitAnimRunTime()),myPipeboss.getX(),myPipeboss.getY());
             }
         }
     }
 
+	private void drawDebugMode(){
+		//for debugging
+        shapeRenderer.begin();
+        shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
+        for (Mustache b : myMustaches)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        for (Bomb b : myBombs)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        for (Bullet b : myBullets)
+            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+        for (EnemyBullet b : myEnemyBullets)
+            if (b !=null)
+            shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+        shapeRenderer.end();
+	}
 
 	public void dispose(){
 		spriteBatch.dispose();
