@@ -67,12 +67,17 @@ public abstract class GameEvent {
 		this.currentState = EventState.VISIBLE;
 	}// re deploy, set to visible
 
-	public boolean isOutOfScreen(boolean toLeft){
+	public boolean isOutOfScreen(boolean left,boolean right, boolean top, boolean bottom){
 		//was visible but is out of screen, so move it else where hit to be re deployed
-		if (toLeft)
-			return (position.x+width*2<0 || position.y>gameHeight + height || position.y < 0-height );
-		else
-			return (  position.y>gameHeight + height || position.y < 0-height || position.x>240 );
+		if (left)
+			return (position.x+width<0);
+		if (right)
+			return position.x>240;
+		if (top)
+			return position.y> (gameHeight);
+		if (bottom)
+			return (position.y+height)<0;
+		return false;
 	}
 
 

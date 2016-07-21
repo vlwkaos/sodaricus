@@ -294,15 +294,16 @@ public class ProgressHandler {
     public void updatePipeBoss(float delta){
         pipeBoss.update(delta);
 		if (pipeBoss.isSHOOT()){
+			float ypos = pipeBoss.getY();
 			boolean bulletcount = false;
 			for (EnemyBullet h: enemyBullets)
 				if (h instanceof PipeEnemyBullet && h.isDEAD()){
 					if (bulletcount) {
-						((PipeEnemyBullet) h).reset(pipeBoss.getY(), true);
+						((PipeEnemyBullet) h).reset(ypos, true);
 						pipeBoss.doneShooting();
 						break;
 					} else{
-						((PipeEnemyBullet) h).reset(pipeBoss.getY(), false);
+						((PipeEnemyBullet) h).reset(ypos, false);
 						bulletcount=true;//둘중 먼놈이 ..?
 					}
 				}

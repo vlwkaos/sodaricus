@@ -20,7 +20,7 @@ public class Star extends GameEvent {
 		if (isVISIBLE()) {
 			getPosition().add(getVelocity().cpy().scl(delta));
 
-			if (isOutOfScreen(true)) {
+			if (isOutOfScreen(true,false,true,true)) {
 				reset();
 			}
 		}

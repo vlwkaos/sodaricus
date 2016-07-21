@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import com.lumibottle.gameobjects.Bullets.Bullet;
+import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
@@ -93,6 +94,7 @@ public class GameRenderer {
 
     private TextureRegion pipeboss;
     private Animation forceshieldAnimation;
+	private Animation redsodapillarAnimation;
 
 	private TextureRegion star1,star2;
     private TextureRegion background;
@@ -241,6 +243,8 @@ public class GameRenderer {
 
         pipeboss = AssetHelper.pipeBoss;
         forceshieldAnimation = AssetHelper.forceshieldAnim;
+	    redsodapillarAnimation = AssetHelper.redsodapillarAnim;
+
 	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -452,7 +456,12 @@ public class GameRenderer {
                 if (s.equals("BlockEnemyBullet")){
                     spriteBatch.draw(blockbullet, c.getX(), c.getY(),myBoxboss.getWidth(),myBoxboss.getWidth());
                 }
-
+				if (s.equals("PipeEnemyBullet")){
+					if (((PipeEnemyBullet)c).isUp())
+						spriteBatch.draw(redsodapillarAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY());
+					else
+						spriteBatch.draw(redsodapillarAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY(),c.getWidth()/2,c.getHeight()/2,c.getWidth(),c.getHeight(),1.0f,1.0f,180);
+				}
 			}
 	}
 

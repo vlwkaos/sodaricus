@@ -26,8 +26,8 @@ public class RoadRoller extends GameEvent {
 		if (isVISIBLE()) {
 			getHitbox().setPosition(getX(), getY());
 			getPosition().add(getVelocity().cpy().scl(delta));
-			if (isOutOfScreen(true))
-				hit();
+			if (isOutOfScreen(true,false,true,true))
+				dead();
 		}
 
 	}

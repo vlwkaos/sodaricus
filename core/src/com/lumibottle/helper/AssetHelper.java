@@ -331,7 +331,7 @@ public class AssetHelper {
 	    redsodapillar = new TextureRegion[3];
 	    for (int i=0;i<3;i++)
 		    redsodapillar[i] = new TextureRegion(redsodapillarTexture,i*25,0,25,120);
-	    redsodapillarAnim = new Animation(1/30f,redsodapillar);
+	    redsodapillarAnim = new Animation(1/10f,redsodapillar);
 	    redsodapillarAnim.setPlayMode(Animation.PlayMode.LOOP);
 
 	    //SODA!

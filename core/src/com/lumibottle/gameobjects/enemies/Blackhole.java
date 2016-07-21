@@ -26,7 +26,7 @@ public class Blackhole extends GameEvent {
 			addTheta(delta*10f);
 			getHitbox().setPosition(getX(), getY());
 			getPosition().add(getVelocity().cpy().scl(delta));
-			if (isOutOfScreen(true))
+			if (isOutOfScreen(true,false,true,true))
 				dead();
 		}
 

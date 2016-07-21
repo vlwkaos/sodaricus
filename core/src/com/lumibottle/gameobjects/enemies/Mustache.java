@@ -51,8 +51,8 @@ public class Mustache extends GameEvent {
 
 			getPosition().add(getVelocity().cpy().scl(delta));
 
-			if (isOutOfScreen(true))
-				hit();
+			if (isOutOfScreen(true,false,true,true))
+				dead();
 		}
 
 	}

@@ -31,7 +31,7 @@ public class Bullet extends GameEvent {
 
             this.theta-= delta*1000;//1-000
 
-			if (isOutOfScreen(false))
+			if (isOutOfScreen(false,true,false,false))
 				dead();
 		}
 	}

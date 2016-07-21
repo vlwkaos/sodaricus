@@ -56,7 +56,7 @@ public class Bomb extends GameEvent{
 				super.dead();
 
 
-			if (isOutOfScreen(true))
+			if (isOutOfScreen(true,false,true,true))
 				super.dead();
 		}
 

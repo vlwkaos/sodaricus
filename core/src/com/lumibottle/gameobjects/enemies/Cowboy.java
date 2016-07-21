@@ -50,7 +50,7 @@ public class Cowboy extends GameEvent{
 			}
 
 
-			if (isOutOfScreen(true))
+			if (isOutOfScreen(true,false,true,true))
 				dead();
 		}
 

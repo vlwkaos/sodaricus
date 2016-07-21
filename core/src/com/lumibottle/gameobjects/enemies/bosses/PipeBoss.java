@@ -19,6 +19,7 @@ public class PipeBoss extends GameEvent{
     private float shootRunTime;
     private int shootCount;
 
+    private float period;
 
 	private enum PipeState{
 		IDLE,PREPARE,SHOOT
@@ -34,6 +35,7 @@ public class PipeBoss extends GameEvent{
         hitAnimRunTime=0;
         shootCount=0;
         shootRunTime=0;
+        period = 1;
 	    currentState = PipeState.IDLE;
     }
 
@@ -43,9 +45,10 @@ public class PipeBoss extends GameEvent{
             if (getX() < 240 - getWidth()) {// fully appeared
                 runTime+=delta;
 
-                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime)));
+                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime*period)));
 	            if (currentState == PipeState.IDLE){
-		            if (shootRunTime> 3.0f){
+		            if (shootRunTime> 5.0f){
+                        period = MathUtils.random(1.0f,2.0f);
                         shootRunTime=0;
                         currentState = PipeState.PREPARE;
                     } else
@@ -53,7 +56,7 @@ public class PipeBoss extends GameEvent{
 	            }
 
                 if (currentState == PipeState.PREPARE){
-                    if (shootRunTime > 2.0f){
+                    if (shootRunTime > 3.0f){
                         if (shootCount == 3){
                             shootRunTime = 0;
                             shootCount=0;
