@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.Bullets.HatEnemyBullet;
+import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Cowboy;
@@ -98,7 +99,13 @@ public class ProgressHandler {
             enemyBullets[j] = new BlockEnemyBullet(blockspace);
             j++;
         }
-        Gdx.app.log("ProgressHandler","Bullets created");
+		for (int i=0;i<12;i++){
+			enemyBullets[j] = new PipeEnemyBullet();
+			j++;
+		}
+
+
+		Gdx.app.log("ProgressHandler","Bullets created");
 
 		blackholes = new Blackhole[3];
 		for (int i=0; i< blackholes.length; i++){
@@ -286,6 +293,21 @@ public class ProgressHandler {
     }
     public void updatePipeBoss(float delta){
         pipeBoss.update(delta);
+		if (pipeBoss.isSHOOT()){
+			boolean bulletcount = false;
+			for (EnemyBullet h: enemyBullets)
+				if (h instanceof PipeEnemyBullet && h.isDEAD()){
+					if (bulletcount) {
+						((PipeEnemyBullet) h).reset(pipeBoss.getY(), true);
+						pipeBoss.doneShooting();
+						break;
+					} else{
+						((PipeEnemyBullet) h).reset(pipeBoss.getY(), false);
+						bulletcount=true;//둘중 먼놈이 ..?
+					}
+				}
+
+		}
     }
 
 

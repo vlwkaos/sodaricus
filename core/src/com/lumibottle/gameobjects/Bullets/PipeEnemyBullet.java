@@ -1,5 +1,6 @@
 package com.lumibottle.gameobjects.Bullets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.screen.GameScreen;
 
@@ -22,7 +23,8 @@ public class PipeEnemyBullet extends EnemyBullet{
     @Override
     public void specificUpdate(float delta) {
 	    if (up){
-			if (getY()>(targetYpos+20)){ // 20 is squirrel height, make space
+			if (getY()<(targetYpos+20)){ // 20 is squirrel height, make space
+
 				setY(targetYpos+20);
 				setVelocity(-50,0);
 			} else{
@@ -30,7 +32,8 @@ public class PipeEnemyBullet extends EnemyBullet{
 				setVelocity(0,-50);
 			}
 	    } else {
-		    if (getY()<(targetYpos-getHeight()-20)){ // 20 is squirrel height, make space
+		    if (getY()>(targetYpos-getHeight()-20)){ // 20 is squirrel height, make space
+				Gdx.app.log(getClass().getSimpleName(),"밑에꺼딱");
 			    setY(targetYpos-getHeight()-20);
 			    setVelocity(-50,0);
 		    } else{
@@ -41,7 +44,7 @@ public class PipeEnemyBullet extends EnemyBullet{
     }
 
 	public void reset(float targetYpos, boolean up){
-		this.targetYpos = targetYpos;
+		this.targetYpos = targetYpos+getHeight()/2;
 		this.up = up;
 		if (this.up){
 			super.reset(240-getWidth()*2, GameScreen.gameHeight, 0, 0, 0);

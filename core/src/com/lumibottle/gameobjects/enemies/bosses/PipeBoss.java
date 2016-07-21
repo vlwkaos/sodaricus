@@ -16,9 +16,12 @@ import com.lumibottle.screen.GameScreen;
 public class PipeBoss extends GameEvent{
 
     private float runTime;
+    private float shootRunTime;
+    private int shootCount;
+
 
 	private enum PipeState{
-		IDLE,SHOOT
+		IDLE,PREPARE,SHOOT
 	};
 
 	private PipeState currentState;
@@ -29,6 +32,8 @@ public class PipeBoss extends GameEvent{
         super(32, 32, new Polygon(new float[]{4,9,4,25,25,25,25,9}), 50);
         gotHit=false;
         hitAnimRunTime=0;
+        shootCount=0;
+        shootRunTime=0;
 	    currentState = PipeState.IDLE;
     }
 
@@ -37,11 +42,30 @@ public class PipeBoss extends GameEvent{
         if (isVISIBLE()) {
             if (getX() < 240 - getWidth()) {// fully appeared
                 runTime+=delta;
-	            if (currentState == PipeState.IDLE){
-		            setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime)));
 
-		            if (runTime )
+                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime)));
+	            if (currentState == PipeState.IDLE){
+		            if (shootRunTime> 3.0f){
+                        shootRunTime=0;
+                        currentState = PipeState.PREPARE;
+                    } else
+                        shootRunTime+=delta;
 	            }
+
+                if (currentState == PipeState.PREPARE){
+                    if (shootRunTime > 2.0f){
+                        if (shootCount == 3){
+                            shootRunTime = 0;
+                            shootCount=0;
+                            currentState = PipeState.IDLE;
+                        } else {
+                            shootCount++;
+                            shootRunTime = 0;
+                            currentState = PipeState.SHOOT;
+                        }
+                    } else
+                        shootRunTime+=delta;
+                }
 
 
             } else { // yet to be on screen
@@ -79,4 +103,11 @@ public class PipeBoss extends GameEvent{
     //TODO maybe integrate in event as default
     public boolean gotHit(){return gotHit;}
     public float getHitAnimRunTime(){return hitAnimRunTime;}
+    public boolean isSHOOT(){
+        return currentState == PipeState.SHOOT;
+    }
+
+    public void doneShooting(){
+        currentState = PipeState.PREPARE;
+    }
 }
