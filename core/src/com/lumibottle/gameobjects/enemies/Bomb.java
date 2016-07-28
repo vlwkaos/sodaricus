@@ -12,6 +12,7 @@ import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.screen.GameScreen;
 
 /**
  *  So you thought RoadRoller was too easy?
@@ -67,7 +68,7 @@ public class Bomb extends GameEvent{
 	}
 
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -40, 0, 0);
+		super.reset(x, MathUtils.random(GameScreen.gameHeight)-getHeight(), -40, 0, 0);
 		setHitbox(normalhitbox); // reset hitbox
 		isExploding=false;
 		nitroParticle = AssetHelper.nitroPool.obtain();

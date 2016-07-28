@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -45,7 +46,6 @@ public class GameRenderer {
 
     // vars
     private int gameHeight;
-    private float midPointY;
     private float bgOffset;
 
     private GameWorld myWorld;
@@ -95,11 +95,12 @@ public class GameRenderer {
     private Animation pipebossAnimation;
     private Animation forceshieldAnimation;
 	private Animation redsodapillarAnimation;
+	private Animation redsodapillarbotAnimation;
 
 	private TextureRegion star1,star2;
     private TextureRegion background;
 
-
+	private BitmapFont font;
 
 
     public GameRenderer(GameWorld myWorld, int gameHeight){
@@ -166,9 +167,11 @@ public class GameRenderer {
         //splash
         drawSplash();
 
+
+//		font.draw(spriteBatch,"FPS:"+Gdx.graphics.getFramesPerSecond(),0,40);
         spriteBatch.end();
 
-//		drawDebugMode();
+		drawDebugMode();
 
 
 
@@ -231,12 +234,14 @@ public class GameRenderer {
         pipebossAnimation = AssetHelper.pipeBossAnim;
         forceshieldAnimation = AssetHelper.forceshieldAnim;
 	    redsodapillarAnimation = AssetHelper.redsodapillarAnim;
-
+		redsodapillarbotAnimation = AssetHelper.redsodapillarbotAnim;
 	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
         background = AssetHelper.spacebg;
 
+
+		font = AssetHelper.font;
     }
 
 	/*
@@ -444,10 +449,13 @@ public class GameRenderer {
                     spriteBatch.draw(blockbullet, c.getX(), c.getY(),myBoxboss.getWidth(),myBoxboss.getWidth());
                 }
 				if (s.equals("PipeEnemyBullet")){
-					if (((PipeEnemyBullet)c).isUp())
+					if (((PipeEnemyBullet)c).isUp()) {
 						spriteBatch.draw(redsodapillarAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY());
-					else
-						spriteBatch.draw(redsodapillarAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY(),c.getWidth()/2,c.getHeight()/2,c.getWidth(),c.getHeight(),1.0f,1.0f,180);
+						spriteBatch.draw(redsodapillarbotAnimation.getKeyFrame(c.getRunTime()), c.getX()-4, c.getY()-3);
+					}else {
+						spriteBatch.draw(redsodapillarAnimation.getKeyFrame(c.getRunTime()), c.getX(), c.getY(), c.getWidth() / 2, c.getHeight() / 2, c.getWidth(), c.getHeight(), 1.0f, 1.0f, 180);
+						spriteBatch.draw(redsodapillarbotAnimation.getKeyFrame(c.getRunTime()), c.getX()-5, c.getY()+c.getHeight()-13, 33 / 2.0f, 16 / 2.0f, 33, 16, 1.0f, 1.0f, 180);
+					}
 				}
 			}
 	}

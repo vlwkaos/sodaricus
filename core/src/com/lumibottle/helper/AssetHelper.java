@@ -92,7 +92,9 @@ public class AssetHelper {
     private static TextureRegion[] pipeBoss;
 	public static Animation pipeBossAnim;
 	public static TextureRegion[] redsodapillar;
+	public static TextureRegion[] redsodapillarbot;
 	public static Animation redsodapillarAnim;
+	public static Animation redsodapillarbotAnim;
 
 	//FX
 	public static TextureRegion[] explosion1;
@@ -339,6 +341,12 @@ public class AssetHelper {
 		    redsodapillar[i] = new TextureRegion(redsodapillarTexture,i*25,0,25,120);
 	    redsodapillarAnim = new Animation(1/10f,redsodapillar);
 	    redsodapillarAnim.setPlayMode(Animation.PlayMode.LOOP);
+		redsodapillarbot = new TextureRegion[3];
+		for (int i=0;i<3; i++)
+			redsodapillarbot[i] = new TextureRegion(redsodapillarTexture,77,i*16,33,16);
+		redsodapillarbotAnim = new Animation(1/10f,redsodapillarbot);
+		redsodapillarbotAnim.setPlayMode(Animation.PlayMode.LOOP);
+
 
 	    //SODA!
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);

@@ -11,6 +11,7 @@ import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.screen.GameScreen;
 
 /**
  *  LaserCrayon is a deadly weapon that cannot be eliminated. It is used to confine Player's movement
@@ -26,6 +27,7 @@ public class LaserCrayon extends GameEvent {
 	private float delay;
 
 	private ParticleEffect energyParticle;
+
 
 
 
@@ -94,9 +96,9 @@ public class LaserCrayon extends GameEvent {
 
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
+        super.reset(x, MathUtils.random(GameScreen.gameHeight)-getHeight(), -50, 0, 0);
 	    energyParticle = AssetHelper.energyPool.obtain();
-    runTime = 0;
+    	runTime = 0;
 	    delay=0;
 	    currentState = LaserCrayonState.INIT;
     }

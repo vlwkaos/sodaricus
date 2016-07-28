@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
+import com.lumibottle.screen.GameScreen;
 
 /**
  *  RoadRoller is the most basic type of an enemy; it just moves with a constant speed
@@ -37,7 +38,7 @@ public class RoadRoller extends GameEvent {
 	}
 
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
+		super.reset(x, MathUtils.random(GameScreen.gameHeight)-getHeight(), -50, 0, 0);
 		popcornParticle = AssetHelper.popcornPool.obtain();
 
 	}

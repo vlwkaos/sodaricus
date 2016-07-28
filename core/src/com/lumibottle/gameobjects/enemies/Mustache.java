@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
+import com.lumibottle.screen.GameScreen;
 
 /**
  *  Mustache moves in a jelly-fish-like fashion, it is slightly unpredictable.
@@ -58,7 +59,7 @@ public class Mustache extends GameEvent {
 	}
 
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameEvent.gameHeight)-getHeight(), -50, 0, 0);
+		super.reset(x, MathUtils.random(GameScreen.gameHeight)-getHeight(), -50, 0, 0);
 		rainbowParticle = AssetHelper.rainbowPool.obtain();
 		runTime=MathUtils.random(0,0.5f);
 		doneMoving=false;
@@ -82,7 +83,7 @@ public class Mustache extends GameEvent {
 	private void nextTheta(){
 		if (getY() < getHeight())
 			setTheta(MathUtils.random(100,120));
-		else if ( getY() > GameEvent.gameHeight-getHeight())
+		else if ( getY() > GameScreen.gameHeight-getHeight())
 			setTheta(MathUtils.random(240,260));
 		else
 			setTheta(MathUtils.random(110,250));// set direction for the next move

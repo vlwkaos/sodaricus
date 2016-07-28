@@ -50,17 +50,17 @@ public class PipeEnemyBullet extends EnemyBullet{
 
 	public void reset(float targetYpos, boolean up){
 		this.targetYpos = targetYpos+16;//pipeboss origin
-		if (this.targetYpos > gameHeight-margin*4)
-			this.targetYpos = gameHeight-margin*4;
+		if (this.targetYpos > GameScreen.gameHeight-margin*4)
+			this.targetYpos = GameScreen.gameHeight-margin*4;
 		if (this.targetYpos < margin*2)
 			this.targetYpos = margin*2;
 
 
 		this.up = up;
 		if (this.up){
-			super.reset(240-getWidth()*3, this.targetYpos+gameHeight, 0, 0, 0);
+			super.reset(240-getWidth()*3, this.targetYpos+GameScreen.gameHeight, 0, 0, 0);
 		} else {
-			super.reset(240-getWidth()*3, this.targetYpos-gameHeight-getHeight(), 0, 0, 0);
+			super.reset(240-getWidth()*3, this.targetYpos-GameScreen.gameHeight-getHeight(), 0, 0, 0);
 		}
 	}
 

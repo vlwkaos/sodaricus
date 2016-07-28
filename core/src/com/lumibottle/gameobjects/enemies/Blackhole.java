@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.screen.GameScreen;
 
 
 /**
@@ -33,7 +34,7 @@ public class Blackhole extends GameEvent {
 	}
 
 	public void reset(float x) {
-		super.reset(x, (GameEvent.gameHeight/20f)*MathUtils.random(5,13), -15, 0, 0);
+		super.reset(x, (GameScreen.gameHeight/20f)*MathUtils.random(5,13), -15, 0, 0);
 	}
 
 

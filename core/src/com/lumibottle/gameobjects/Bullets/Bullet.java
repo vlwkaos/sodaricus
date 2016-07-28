@@ -24,6 +24,8 @@ public class Bullet extends GameEvent {
 
 	public void update(float delta) {
 		if (isVISIBLE()) {
+//			setX(100);
+//			setY(100);
 			getHitbox().setPosition(getX(), getY());
 			getHitbox().setRotation(getTheta());
 			getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.screen.GameScreen;
 
 /**
  * 		OOP
@@ -19,7 +20,6 @@ public abstract class GameEvent {
 		DEAD, VISIBLE
 	}//DEAD state notifies that it went out of screen and is now hit to be reset
 
-	public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / 240);
 	//runtime for enemy
 	private Vector2 position;
 	private Vector2 velocity;
@@ -74,7 +74,7 @@ public abstract class GameEvent {
 		if (right)
 			return position.x>240;
 		if (top)
-			return position.y> (gameHeight);
+			return position.y> (GameScreen.gameHeight);
 		if (bottom)
 			return (position.y+height)<0;
 		return false;

@@ -56,7 +56,7 @@ public class Squirrel {
 		isInvincible = true;// 나중에 바꿔 무적시간.
         life = 2;
 
-		ceiling = GameScreen.gameHeight-getHeight();// temporary
+		ceiling = GameScreen.gameHeight-getHeight()/2.0f;// temporary
 		Gdx.app.log("Squirrel", "ceiling="+ceiling);
 
 
@@ -66,7 +66,7 @@ public class Squirrel {
 		/*
 		init bullet
 		 */
-		bullets = new Bullet[20];
+		bullets = new Bullet[15];
 		for (int i=0;i<bullets.length;i++)
             bullets[i] = new Bullet();
 
@@ -128,9 +128,8 @@ public class Squirrel {
 
             velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
 			//temporary bottom
-			if (position.y < 0) {
-                position.y=0;
-				rotation = 0;
+			if (position.y < -getHeight()) {
+     			dead();
 			}
 
 

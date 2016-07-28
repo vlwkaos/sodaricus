@@ -15,9 +15,9 @@ public class GameScreen implements Screen{
 	private GameRenderer myRenderer;
 	private float runTime;
 
-	final public static float gameWidth = 240;//fixed width
-	final public static float gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth()/gameWidth);
-	final public static int midPointY =(int) (gameHeight/2);
+	public static float gameWidth;//fixed width
+	public static float gameHeight;
+	public static int midPointY;
 	/*
     *  set screen size, set mid point,
     *  introduce GameWorld and GameRenderer, pass Gameworld to Renderer
@@ -27,8 +27,10 @@ public class GameScreen implements Screen{
 
 	public GameScreen(){
 		runTime = 0;
-        Gdx.app.log("GameScreen", "screenheight="+Gdx.graphics.getHeight());
-		Gdx.app.log("GameScreen", "gameHeight="+gameHeight);
+
+		gameWidth = 240;//fixed width
+		gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth()/gameWidth);
+		midPointY =(int) (gameHeight/2);
 
 		myWorld = new GameWorld();
 		myRenderer = new GameRenderer(myWorld, (int) gameHeight);
