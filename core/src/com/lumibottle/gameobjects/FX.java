@@ -94,6 +94,7 @@ public class FX {
 				myAnimation = AssetHelper.deadAnim;
 				break;
 			default:
+				//5,6,7 same but render, different size
 		}
 
 	}

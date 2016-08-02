@@ -24,6 +24,7 @@ import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
@@ -66,6 +67,7 @@ public class GameRenderer {
 
     private BoxBoss myBoxboss;
     private PipeBoss myPipeboss;
+	private PangBoss[] myPangbosses;
 
     //ASSET
     private TextureRegion splash;
@@ -97,13 +99,16 @@ public class GameRenderer {
 	private Animation redsodapillarAnimation;
 	private Animation redsodapillarbotAnimation;
 
+	private Animation pangbossAnimation;
+
 	private TextureRegion star1,star2;
     private TextureRegion background;
 
 	private BitmapFont font;
 
 
-    public GameRenderer(GameWorld myWorld, int gameHeight){
+
+	public GameRenderer(GameWorld myWorld, int gameHeight){
         Gdx.app.log("GameRenderer", "created");
         this.myWorld = myWorld;
         this.gameHeight = gameHeight;
@@ -154,6 +159,7 @@ public class GameRenderer {
 
         drawBoxBoss();
         drawPipeBoss();
+		drawPangBoss(runTime);
 
 		//main
 	   // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
@@ -168,10 +174,10 @@ public class GameRenderer {
         drawSplash();
 
 
-//		font.draw(spriteBatch,"FPS:"+Gdx.graphics.getFramesPerSecond(),0,40);
+		font.draw(spriteBatch,"FPS:"+Gdx.graphics.getFramesPerSecond(),0,40);
         spriteBatch.end();
 
-		drawDebugMode();
+//		drawDebugMode();
 
 
 
@@ -197,6 +203,7 @@ public class GameRenderer {
 
         myBoxboss = myStage.getBoxboss();
         myPipeboss = myStage.getPipeBoss();
+		myPangbosses = myStage.getPangBosses();
     }
     private void initAsset(){
         splash = AssetHelper.splash;
@@ -235,6 +242,8 @@ public class GameRenderer {
         forceshieldAnimation = AssetHelper.forceshieldAnim;
 	    redsodapillarAnimation = AssetHelper.redsodapillarAnim;
 		redsodapillarbotAnimation = AssetHelper.redsodapillarbotAnim;
+
+		pangbossAnimation = AssetHelper.pangBossAnim;
 	    //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -498,6 +507,13 @@ public class GameRenderer {
             }
         }
     }
+
+
+	private void drawPangBoss(float runTime){
+		for (PangBoss a : myPangbosses)
+			if (a.isVISIBLE())
+				spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime),a.getX(),a.getY());
+	}
 
 	private void drawDebugMode(){
 		//for debugging

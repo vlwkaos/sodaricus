@@ -46,6 +46,9 @@ public class GameScreen implements Screen{
 
 	@Override
 	public void render(float delta) {
+		if (delta > .15f)
+			delta = .15f;
+
 		runTime+=delta;
 
 		//state is in GameWorld, because if it is in here.. we have to stop the world.

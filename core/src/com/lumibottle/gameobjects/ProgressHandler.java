@@ -1,5 +1,6 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;
@@ -13,7 +14,9 @@ import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
+import com.lumibottle.screen.GameScreen;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -40,6 +43,7 @@ public class ProgressHandler {
     private int[] blockspace;
     private int blockspaceCnt;
     private PipeBoss pipeBoss;
+	private PangBoss[] pangBosses;
 
     //Bullet
     private EnemyBullet[] enemyBullets;
@@ -99,7 +103,7 @@ public class ProgressHandler {
             enemyBullets[j] = new BlockEnemyBullet(blockspace);
             j++;
         }
-		for (int i=0;i<12;i++){
+		for (int i=0;i<10;i++){
 			enemyBullets[j] = new PipeEnemyBullet();
 			j++;
 		}
@@ -120,6 +124,12 @@ public class ProgressHandler {
 
         pipeBoss = new PipeBoss();
         pipeBoss.reset();
+
+		pangBosses = new PangBoss[1];
+		for (int i=0; i < pangBosses.length;i++){
+			pangBosses[i] = new PangBoss();
+		}
+		pangBosses[0].reset(240, GameScreen.gameHeight/2f-pangBosses[0].getHeight()/2f,1);
 
 
         myFXs = new FX[10];
@@ -150,7 +160,8 @@ public class ProgressHandler {
             Boss Updates
          */
 //        updateBoxBoss(delta);
-		updatePipeBoss(delta);
+//		updatePipeBoss(delta);
+		updatePangBoss(delta);
         updateEnemyBullets(delta);
 	}
 
@@ -253,6 +264,7 @@ public class ProgressHandler {
 
         boxBoss.collide(mySquirrel);
         pipeBoss.collide(mySquirrel);
+
 	}
 
 
@@ -260,7 +272,7 @@ public class ProgressHandler {
         BOSS UPDATES
 
      */
-    public void updateBoxBoss(float delta){
+    private void updateBoxBoss(float delta){
 
         blockspaceCnt=0;
         for (int i: blockspace)
@@ -291,7 +303,7 @@ public class ProgressHandler {
                 }
         }
     }
-    public void updatePipeBoss(float delta){
+    private void updatePipeBoss(float delta){
         pipeBoss.update(delta);
 		if (pipeBoss.isSHOOT()){
 			float ypos = pipeBoss.getY();
@@ -310,6 +322,11 @@ public class ProgressHandler {
 
 		}
     }
+
+	private void updatePangBoss(float delta){
+		for (PangBoss a : pangBosses)
+			a.update(delta);
+	}
 
 
     //TODO restart, initialize
@@ -348,4 +365,7 @@ public class ProgressHandler {
     public BoxBoss getBoxboss() {return boxBoss;}
 
     public PipeBoss getPipeBoss(){return pipeBoss;}
+
+	public PangBoss[] getPangBosses() {return pangBosses;
+	}
 }

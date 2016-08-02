@@ -162,6 +162,18 @@ public abstract class GameEvent {
         this.position.y = y;
     }
 
+	public void setWidth(int w){
+		this.width = w;
+	}
+
+	public void setHeight(int h){
+		this.height = h;
+	}
+
+	public void setMaxhp(int hp){
+		this.maxhp = hp;
+	}
+
 	public void addTheta(float theta) {this.theta += theta;}
 
 	public float getX() {
@@ -196,6 +208,10 @@ public abstract class GameEvent {
 
 	public float getdX(){
 		return velocity.x;
+	}
+
+	public float getdY(){
+		return velocity.y;
 	}
 
 

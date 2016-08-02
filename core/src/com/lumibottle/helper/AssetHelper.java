@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.lumibottle.screen.GameScreen;
 
 
 /**
@@ -42,6 +43,7 @@ public class AssetHelper {
     public static Texture pipebossTexture;
     private static Texture forceshieldTexture;
 	private static Texture redsodapillarTexture;
+	private static Texture pangbossTexture;
 	//
 
     /*
@@ -91,10 +93,13 @@ public class AssetHelper {
 
     private static TextureRegion[] pipeBoss;
 	public static Animation pipeBossAnim;
-	public static TextureRegion[] redsodapillar;
-	public static TextureRegion[] redsodapillarbot;
+	private static TextureRegion[] redsodapillar;
+	private static TextureRegion[] redsodapillarbot;
 	public static Animation redsodapillarAnim;
 	public static Animation redsodapillarbotAnim;
+
+	private static TextureRegion[] pangBoss;
+	public static Animation pangBossAnim;
 
 	//FX
 	public static TextureRegion[] explosion1;
@@ -169,6 +174,7 @@ public class AssetHelper {
         pipebossTexture.dispose();
         forceshieldTexture.dispose();
 	    redsodapillarTexture.dispose();
+		pangbossTexture.dispose();
 
     //particle
 	    rainbowPool.clear();
@@ -191,7 +197,7 @@ public class AssetHelper {
     private static void loadTextures() {
         //Splash
         splashTexture = new Texture(Gdx.files.internal("data/splash.png"));
-
+		splashTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //INIT TEXTURE
         //Game Objects
@@ -241,7 +247,8 @@ public class AssetHelper {
         pipebossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 		redsodapillarTexture = new Texture(Gdx.files.internal("data/boss/redsodapillar.png"));
 	    redsodapillarTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
-
+		pangbossTexture = new Texture(Gdx.files.internal("data/boss/pangboss.png"));
+		pangbossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //FX
         limeexplosionTexture = new Texture(Gdx.files.internal("data/gfx/limexplosion.png"));
@@ -347,6 +354,11 @@ public class AssetHelper {
 		redsodapillarbotAnim = new Animation(1/10f,redsodapillarbot);
 		redsodapillarbotAnim.setPlayMode(Animation.PlayMode.LOOP);
 
+		pangBoss = new TextureRegion[6];
+		for (int i=0; i<6;i++)
+			pangBoss[i] = new TextureRegion(pangbossTexture,i*64,0,64,64);
+		pangBossAnim = new Animation(6/60f,pangBoss);
+		pangBossAnim.setPlayMode(Animation.PlayMode.LOOP);
 
 	    //SODA!
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
@@ -435,6 +447,7 @@ public class AssetHelper {
 
     private static void loadFonts(){
         font = new BitmapFont(Gdx.files.internal("data/font/8bitfont.fnt"));
+		font.getData().setScale(0.3f);
 
     }
 

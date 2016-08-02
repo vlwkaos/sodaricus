@@ -78,8 +78,7 @@ public class Squirrel {
 
 	public void update(float delta){
 		// constant delta
-		if (delta > .15f)
-			delta = .15f;
+
 
 
 		/*
