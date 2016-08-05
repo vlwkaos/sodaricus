@@ -57,7 +57,7 @@ public class Cowboy extends GameEvent{
 
 	}
 	public void reset(float x) {
-		super.reset(x, MathUtils.random(GameScreen.gameHeight)-getHeight()*2, -50, 0, 0);
+		super.reset(x, MathUtils.random(GameScreen.gameHeight-getHeight()), -50, 0, 0);
 		runTime=0;
 		nitroParticle = AssetHelper.nitro2Pool.obtain();
 		currentState = CowboyState.IDLE;

@@ -125,7 +125,7 @@ public class ProgressHandler {
         pipeBoss = new PipeBoss();
         pipeBoss.reset();
 
-		pangBosses = new PangBoss[1];
+		pangBosses = new PangBoss[8]; // cyclic array가 아니라서 한칸 여분이 필요..
 		for (int i=0; i < pangBosses.length;i++){
 			pangBosses[i] = new PangBoss();
 		}
@@ -265,8 +265,9 @@ public class ProgressHandler {
         boxBoss.collide(mySquirrel);
         pipeBoss.collide(mySquirrel);
 
+		for (PangBoss a: pangBosses)
+			a.collide(mySquirrel);
 	}
-
 
     /*
         BOSS UPDATES
@@ -324,8 +325,29 @@ public class ProgressHandler {
     }
 
 	private void updatePangBoss(float delta){
-		for (PangBoss a : pangBosses)
+		for (PangBoss a : pangBosses) {
 			a.update(delta);
+
+			if (a.isBreeding() && a.getGeneration() < 4){
+				boolean breed = false;
+				for (PangBoss b : pangBosses)
+					if (!b.equals(a)) // 자신은 제외
+						if (breed){
+							if (b.isDEAD()) {
+								b.reset(a.getPrevX()+a.getWidth()/2f, a.getPrevY()+a.getHeight()/2f, a.getGeneration()+1);
+								a.doneBreeding();
+								break;
+							}
+						} else {
+							if (b.isDEAD()) {
+								b.reset(a.getPrevX()+a.getWidth()/2f, a.getPrevY()+a.getHeight()/2f, a.getGeneration() +1);
+								breed = true;
+							}
+						}
+
+
+			}
+		}
 	}
 
 

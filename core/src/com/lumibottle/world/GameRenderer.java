@@ -178,9 +178,7 @@ public class GameRenderer {
         spriteBatch.end();
 
 //		drawDebugMode();
-
-
-
+		
     }
 
 
@@ -512,7 +510,7 @@ public class GameRenderer {
 	private void drawPangBoss(float runTime){
 		for (PangBoss a : myPangbosses)
 			if (a.isVISIBLE())
-				spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime),a.getX(),a.getY());
+				spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime),a.getX(),a.getY(),a.getWidth()/2f,a.getHeight()/2f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getAestheticTheta());
 	}
 
 	private void drawDebugMode(){
@@ -520,14 +518,21 @@ public class GameRenderer {
         shapeRenderer.begin();
         shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
         for (Mustache b : myMustaches)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+			if (b.isVISIBLE())
+         	   shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
         for (Bomb b : myBombs)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+			if (b.isVISIBLE())
+				shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
         for (Bullet b : myBullets)
-            shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+			if (b.isVISIBLE())
+            	shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
         for (EnemyBullet b : myEnemyBullets)
             if (b !=null)
             shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+		for (PangBoss b: myPangbosses)
+			if (b.isVISIBLE())
+				shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+
         shapeRenderer.end();
 	}
 

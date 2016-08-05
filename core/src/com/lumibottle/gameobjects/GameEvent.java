@@ -21,6 +21,7 @@ public abstract class GameEvent {
 	}//DEAD state notifies that it went out of screen and is now hit to be reset
 
 	//runtime for enemy
+	private Vector2 prev_pos;
 	private Vector2 position;
 	private Vector2 velocity;
 	private EventState currentState;
@@ -35,6 +36,7 @@ public abstract class GameEvent {
 	private Polygon hitbox;
 
 	public GameEvent(int width, int height, Polygon hitbox, int hp){
+		prev_pos = new Vector2(0,0);
 		position = new Vector2(-255,-255);
 		velocity = new Vector2(0,0);
 		this.width = width;
@@ -44,6 +46,7 @@ public abstract class GameEvent {
 		this.hitbox = hitbox;
 		this.maxhp = hp;
 		this.hitpoint = hp;
+
 	}
 
 
@@ -92,6 +95,7 @@ public abstract class GameEvent {
 
 	// if using particle, free particle here
 	public void dead(){
+		prev_pos.set(getPosition());
 		position.set(-255, -255);
 		currentState = EventState.DEAD; // hit to deploy
 
@@ -108,7 +112,7 @@ public abstract class GameEvent {
                     if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
                         //When bullet hits Event
                         bottleHitsEnemy(b);
-                        break;
+                        //break;
                     }
             }
 			//When squirrel is hit by event
@@ -214,6 +218,8 @@ public abstract class GameEvent {
 		return velocity.y;
 	}
 
+	public float getPrevX(){return prev_pos.x;} // adding this can improve some of other codes.. particle?
 
+	public float getPrevY(){return prev_pos.y;}
 
 }

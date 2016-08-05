@@ -54,7 +54,7 @@ public class Squirrel {
 		currentState=SquirrelState.SPAWNING;
         invincTime=0;
 		isInvincible = true;// 나중에 바꿔 무적시간.
-        life = 2;
+        life = 5;
 
 		ceiling = GameScreen.gameHeight-getHeight()/2.0f;// temporary
 		Gdx.app.log("Squirrel", "ceiling="+ceiling);
