@@ -98,6 +98,7 @@ public class GameRenderer {
     private Animation forceshieldAnimation;
 	private Animation redsodapillarAnimation;
 	private Animation redsodapillarbotAnimation;
+	private Animation cloudexplosionAnimation;
 
 	private Animation pangbossAnimation;
 
@@ -142,34 +143,35 @@ public class GameRenderer {
         spriteBatch.draw(background, 0, bgOffset);
         //Gdx.app.log("runTime",runTime+"");
 		//rendering order
-		drawStars();
-	    drawBlackholes();
-		drawBacon(runTime);
+		if (!myWorld.isSPLASH()) {
+			drawStars();
+			drawBlackholes();
+			drawBacon(runTime);
 		/*
 		Draw enemies below here
 		 */
 
-        drawRoadRollers(runTime);
-        drawMustaches(runTime);
-		drawBlueCrayons(runTime);
-		drawBombs(runTime);
-	    drawCowboy(runTime);
+			drawRoadRollers(runTime);
+			drawMustaches(runTime);
+			drawBlueCrayons(runTime);
+			drawBombs(runTime);
+			drawCowboy(runTime);
 
-		drawEnemyBullets();
+			drawEnemyBullets();
 
-        drawBoxBoss();
-        drawPipeBoss();
-		drawPangBoss(runTime);
+			drawBoxBoss();
+			drawPipeBoss();
+			drawPangBoss(runTime);
 
-		//main
-	   // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
-	    drawSquirrel();
-	    drawBullets();
+			//main
+			// spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
+			drawSquirrel();
+			drawBullets();
 
-	    //fx
-	    drawFXs();
+			//fx
+			drawFXs();
 
-
+		}
         //splash
         drawSplash();
 
@@ -228,6 +230,7 @@ public class GameRenderer {
 		cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
 	    cowboyhatspawnAnimation = AssetHelper.cowboyhatsspawnAnim;
 
+		cloudexplosionAnimation = AssetHelper.cloudexplosionAnim;
 	    hole = AssetHelper.hole;
 
         //BOSS
@@ -332,11 +335,11 @@ public class GameRenderer {
     private void drawFXs(){
 	    for (FX f: FXHelper.getInstance().getMyFXs()){
 		    if (f.isTOBEDRAWN())
-		        if (f.getAnimNo()==(short)4)
-			        spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY(),128/2f,128/2f,128,128,1.0f,1.0f,mySquirrel.getRotation());
-			        else
-			    spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
-
+				switch (f.getAnimNo()){
+					case 4: spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY(),128/2f,128/2f,128,128,1.0f,1.0f,mySquirrel.getRotation()); break;
+					case 5: spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY(),f.getSize(),f.getSize()); break;
+					default: spriteBatch.draw(f.getAnimation().getKeyFrame(f.getRunTime()),f.getX(),f.getY());
+				}
 	    }
     }
 

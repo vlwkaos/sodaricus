@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -94,8 +95,7 @@ public class PipeBoss extends GameEvent{
 	@Override
 	public void dead(){
 		super.dead();
-
-
+        FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
 	}
     public void bottleHitsEnemy(Bullet b){
         super.bottleHitsEnemy(b);

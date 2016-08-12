@@ -38,6 +38,7 @@ public class AssetHelper {
 	public static Texture holeTexture;
 	public static Texture deadTexture;
     public static Texture blockTexture;
+	public static Texture cloudTexture;
     //
     public static Texture boxbossTexture;
     public static Texture pipebossTexture;
@@ -118,6 +119,8 @@ public class AssetHelper {
     private static TextureRegion[] forceshield;
     public static Animation forceshieldAnim;
 
+	private static TextureRegion[] cloudexplosion;
+	public static Animation cloudexplosionAnim;
 
 	/*
         Particles
@@ -169,6 +172,7 @@ public class AssetHelper {
 	    deadTexture.dispose();
 	    cowboythrowTexture.dispose();
 	    blockTexture.dispose();
+		cloudTexture.dispose();
         //
         boxbossTexture.dispose();
         pipebossTexture.dispose();
@@ -265,6 +269,9 @@ public class AssetHelper {
 
         forceshieldTexture = new Texture(Gdx.files.internal("data/gfx/forceshield.png"));
         forceshieldTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		cloudTexture = new Texture(Gdx.files.internal("data/gfx/cloud.png"));
+		cloudTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         //--------------------------------------------------------------------------------
         //INIT TEXTUREREGION
         //splash
@@ -403,8 +410,14 @@ public class AssetHelper {
         forceshield = new TextureRegion[4];
         for (int i=0;i<4;i++)
             forceshield[i] = new TextureRegion(forceshieldTexture,i*32,0,32,32);
-        forceshieldAnim = new Animation(4/60f,forceshield);
+        forceshieldAnim = new Animation(1/30f,forceshield);
         forceshieldAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+		cloudexplosion = new TextureRegion[6];
+		for (int i=0;i<6;i++)
+			cloudexplosion[i] = new TextureRegion(cloudTexture,i*64,0,64,64);
+		cloudexplosionAnim = new Animation(1/30f,cloudexplosion);
+		cloudexplosionAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
     }
 

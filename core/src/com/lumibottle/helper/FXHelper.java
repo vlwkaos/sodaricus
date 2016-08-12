@@ -30,6 +30,17 @@ public class FXHelper {
 		}
 
 	}
+
+	public void newFX(float x, float y, float size, short animNo){
+		for (FX f: myFXs){
+			if (f.isREADY()) {
+				f.reset(x, y, size,animNo);
+				break;
+			}
+		}
+
+	}
+
 	public FX[] getMyFXs() {
 		return myFXs;
 	}

@@ -26,6 +26,7 @@ public class FX {
 
 	private Vector2 position;
 
+	private float size;
 	private float runTime;
 
 	private Animation myAnimation;
@@ -36,6 +37,7 @@ public class FX {
 		runTime=0;
 		currentState = FXState.READY;
 		position = new Vector2(-255,-255);
+		size=0;
 	}
 
 
@@ -73,6 +75,7 @@ public class FX {
 
 	 */
 	public void reset(float x, float y, short animationNumber){
+		this.size = 0;
 		runTime=0;
 		position.set(x,y);
 		animNo=animationNumber;// needed for discrening drawing batch (e.g anim4 need rotation draw function)
@@ -99,6 +102,36 @@ public class FX {
 
 	}
 
+	public void reset(float x, float y, float size, short animationNumber){
+		this.size = size;
+		runTime=0;
+		position.set(x,y);
+		animNo=animationNumber;// needed for discrening drawing batch (e.g anim4 need rotation draw function)
+		currentState = FXState.TOBEDRAWN;
+		switch (animationNumber){
+			case 0:
+				myAnimation = AssetHelper.explosionAnim1;
+				break;
+			case 1:
+				myAnimation = AssetHelper.redlaserinit;
+				break;
+			case 2:
+				myAnimation = AssetHelper.redlaserAnim;
+				break;
+			case 3:
+				myAnimation = AssetHelper.bombexplosionAnim;
+				break;
+			case 4:
+				myAnimation = AssetHelper.deadAnim;
+				break;
+			case 5:
+				myAnimation = AssetHelper.cloudexplosionAnim;
+			default:
+				//5,6,7 same but render, different size
+		}
+
+	}
+
 
 	public float getX(){
 		return position.x;
@@ -114,4 +147,5 @@ public class FX {
 	public short getAnimNo() {
 		return animNo;
 	}
+	public float getSize() {return size;}
 }

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -74,6 +75,7 @@ public class Mustache extends GameEvent {
 	public void dead(){
 		super.dead();
 		AssetHelper.rainbowPool.free((ParticleEffectPool.PooledEffect)rainbowParticle);
+		FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
 	}
 
 	public boolean isDoneMoving(){

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -125,6 +126,11 @@ public class BoxBoss extends GameEvent {
         hitAnimRunTime=0;
     }
 
+    @Override
+    public void dead(){
+        super.dead();
+        FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
+    }
 
     private int closestBlock(){
         int closest = 5;

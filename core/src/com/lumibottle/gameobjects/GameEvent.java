@@ -2,6 +2,7 @@ package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
@@ -36,7 +37,7 @@ public abstract class GameEvent {
 	private Polygon hitbox;
 
 	public GameEvent(int width, int height, Polygon hitbox, int hp){
-		prev_pos = new Vector2(0,0);
+		prev_pos = new Vector2(-255,-255);
 		position = new Vector2(-255,-255);
 		velocity = new Vector2(0,0);
 		this.width = width;

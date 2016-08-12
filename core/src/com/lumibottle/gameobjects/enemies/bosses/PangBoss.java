@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.GameEvent;
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 
@@ -38,7 +39,7 @@ public class PangBoss extends GameEvent {
             if (!fullyVisible){
                 if  (getX()<240-getWidth()){
                     setX(240-getWidth());
-                    float deg = MathUtils.random(0,360);
+                    float deg = randDeg();
                     aestheticTheta = deg;
                     setTheta(deg);
                     setVelocity(speed*MathUtils.cosDeg(deg),speed*MathUtils.sinDeg(deg));
@@ -84,20 +85,21 @@ public class PangBoss extends GameEvent {
     @Override
     public void hit(){
         super.hit();
-        addTheta(MathUtils.random(-20,20));
+        addTheta(MathUtils.random(-15,15));
         setVelocity(speed*MathUtils.cosDeg(getTheta()),speed*MathUtils.sinDeg(getTheta()));
     }
 
     @Override
     public void dead(){
         super.dead();
+        FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
         breeding = true;
     }
 
 
     public void reset(float x,float y,int n){
         breeding = false;
-        float deg = MathUtils.random(0,360);
+        float deg = randDeg();
         aestheticTheta = deg;
         super.reset(x,y,speed*MathUtils.cosDeg(deg),speed*MathUtils.sinDeg(deg),deg);
 
@@ -118,6 +120,16 @@ public class PangBoss extends GameEvent {
 
     }
 
+    private float randDeg(){
+        float deg = MathUtils.random(135,225);
+        int dir = MathUtils.random(1);
+        if (dir==1){
+            return deg;
+        }else{
+            return deg-180;
+        }
+
+    }
 
     public boolean isBreeding(){return breeding;}
     public void doneBreeding(){breeding = false;}
