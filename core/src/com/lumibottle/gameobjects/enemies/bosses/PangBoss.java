@@ -15,6 +15,8 @@ import com.lumibottle.screen.GameScreen;
 
 public class PangBoss extends GameEvent {
 
+
+    final public int max_gen = 4;
     private int generation;
     private float speed;
     private float aestheticTheta;
@@ -98,6 +100,7 @@ public class PangBoss extends GameEvent {
 
 
     public void reset(float x,float y,int n){
+        setMaxhp(-n+max_gen+2);
         breeding = false;
         float deg = randDeg();
         aestheticTheta = deg;

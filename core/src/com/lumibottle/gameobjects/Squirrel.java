@@ -21,6 +21,7 @@ public class Squirrel {
 
 	private SquirrelState currentState;
 	private boolean isInvincible;
+	private boolean isTransparent;
     private short life;
 
 	private float runTime;
@@ -54,7 +55,8 @@ public class Squirrel {
 		currentState=SquirrelState.SPAWNING;
         invincTime=0;
 		isInvincible = true;// 나중에 바꿔 무적시간.
-        life = 5;
+		isTransparent = false;
+        life = 5;//life
 
 		ceiling = GameScreen.gameHeight-getHeight()/2.0f;// temporary
 		Gdx.app.log("Squirrel", "ceiling="+ceiling);
@@ -166,10 +168,16 @@ public class Squirrel {
 			invincible
 		 */
 		if (isInvincible){
-			if (invincTime >5.0f)
-				isInvincible=false;
-			else
-				invincTime+=delta;
+			if (invincTime >5.0f) {
+				isInvincible = false;
+				isTransparent = false;
+			} else {
+				invincTime += delta;
+				Gdx.app.log("delta",(int)(invincTime*100)+"");
+				if ((int)(invincTime*100)%6==0){
+					isTransparent = !isTransparent;
+				}
+			}
 		}
 
 		/*
@@ -203,6 +211,7 @@ public class Squirrel {
         currentState = SquirrelState.SPAWNING;
         position.set(-5.0f*width, GameScreen.midPointY);
         isInvincible = true;
+		isTransparent = true;
         invincTime=0;
         life--;
 	}
@@ -211,6 +220,7 @@ public class Squirrel {
 	/*
 	GETTER and SETTER
 	 */
+
 	public float getX(){
 		return position.x;
 	}
@@ -269,6 +279,8 @@ public class Squirrel {
 	public boolean IsInvincible(){
 		return isInvincible;
 	}
+
+	public boolean IsTransparent() {return isTransparent;}
 
     public short getLife(){
         return life;

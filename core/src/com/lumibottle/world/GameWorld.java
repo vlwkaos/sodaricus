@@ -22,7 +22,7 @@ public class GameWorld {
     //click
     private boolean skipSplash;
 
-    //for calc
+    //for drawing static images
     private float runTime;
 
     private Squirrel mySquirrel;

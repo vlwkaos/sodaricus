@@ -26,7 +26,7 @@ public class ProgressHandler {
     private int numOfEnemies;
     private float runTime;
 
-	private int stageNumber;
+	private int stageNumber; //TODO dead flag for bossesw
 
 	private Squirrel mySquirrel;
 
@@ -328,7 +328,7 @@ public class ProgressHandler {
 		for (PangBoss a : pangBosses) {
 			a.update(delta);
 
-			if (a.isBreeding() && a.getGeneration() < 4){
+			if (a.isBreeding() && a.getGeneration() < a.max_gen){
 				boolean breed = false;
 				for (PangBoss b : pangBosses)
 					if (!b.equals(a)) // 자신은 제외

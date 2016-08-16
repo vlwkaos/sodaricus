@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
@@ -275,8 +276,10 @@ public class GameRenderer {
 	private void drawSquirrel(){
 		//draw main actor
 
-		if (mySquirrel.IsInvincible()){
-			spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f);
+		if (mySquirrel.IsTransparent()){
+			spriteBatch.setColor(1.0f,1.0f,1.0f,0.0f);
+		}else{
+			spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
 		}
 
 		if (mySquirrel.isSHOOTING()) {
@@ -297,8 +300,7 @@ public class GameRenderer {
 //		mySquirrel.getSodaburst().setPosition(mySquirrel.getX()+mySquirrel.getWidth()/2f,mySquirrel.getY()+mySquirrel.getHeight()/2f);
 //		mySquirrel.getSodaburst().update(Gdx.graphics.getDeltaTime());
 //		mySquirrel.getSodaburst().draw(spriteBatch);
-
-		spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);//reset
+		spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
 	}
 
 	private void drawBullets(){
@@ -325,11 +327,22 @@ public class GameRenderer {
 	}
 
 	private void drawBacon(float runTime){
+
+		if (mySquirrel.IsTransparent()){
+			spriteBatch.setColor(1.0f,1.0f,1.0f,0.0f);
+		}else{
+			spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
+		}
+
+
+
 		spriteBatch.draw(baconAnimation.getKeyFrame(runTime),
 				(mySquirrel.getX()-6), (mySquirrel.getY()-6),
 				32 / 2.0f, 32 / 2.0f,
 				32, 32,
 				1, 1, mySquirrel.getRotation());
+
+		spriteBatch.setColor(1.0f,1.0f,1.0f,1.0f);
 	}
 
     private void drawFXs(){
