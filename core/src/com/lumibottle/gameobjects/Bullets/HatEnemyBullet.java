@@ -9,9 +9,9 @@ import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 
 public class HatEnemyBullet extends EnemyBullet {
     public HatEnemyBullet() {
-        super(32,16,new Polygon(new float[]{  4,4,
-                28,4,
-                28,12,
-                4,12}));
+        super(32, 16, new Polygon(new float[]{4, 4,
+                28, 4,
+                28, 12,
+                4, 12}));
     }
 }

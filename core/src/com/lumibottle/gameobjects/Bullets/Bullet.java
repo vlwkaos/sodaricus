@@ -12,45 +12,45 @@ import com.lumibottle.gameobjects.GameEvent;
  */
 public class Bullet extends GameEvent {
 
-	private float theta;
-	//load in gameworld first, the move
-	private Vector2 acceleration;
+    private float theta;
+    //load in gameworld first, the move
+    private Vector2 acceleration;
 
-	public Bullet() {
-		super(12, 12,new Polygon(new float[]{2,6,2,12,6,12,6,6}),1);
-		getHitbox().setOrigin(getWidth()/2f,getHeight()/2f);
-		acceleration = new Vector2(0, -460);
-	}
+    public Bullet() {
+        super(12, 12, new Polygon(new float[]{2, 6, 2, 12, 6, 12, 6, 6}), 1);
+        getHitbox().setOrigin(getWidth() / 2f, getHeight() / 2f);
+        acceleration = new Vector2(0, -460);
+    }
 
-	public void update(float delta) {
-		if (isVISIBLE()) {
+    public void update(float delta) {
+        if (isVISIBLE()) {
 //			setX(100);
 //			setY(100);
-			getHitbox().setPosition(getX(), getY());
-			getHitbox().setRotation(getTheta());
-			getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
-			getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
+            getHitbox().setRotation(getTheta());
+            getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
+            getPosition().add(getVelocity().cpy().scl(delta));
 
-            this.theta-= delta*1000;//1-000
+            this.theta -= delta * 1000;//1-000
 
-			if (isOutOfScreen(false,true,false,false))
-				dead();
-		}
-	}
+            if (isOutOfScreen(false, true, false, false))
+                dead();
+        }
+    }
 
-	public void reset(float x, float y, float speed, float theta) {
+    public void reset(float x, float y, float speed, float theta) {
 //		if (theta > 0)
 //			this.theta=5*MathUtils.log2(theta);
 //		else if (theta <0)
 //			this.theta=(-5)*MathUtils.log2((-1)*theta);
 //		else
-			this.theta=theta;
+        this.theta = theta;
 
-		super.reset(x,y,speed * MathUtils.cos(MathUtils.degreesToRadians*this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians*this.theta), this.theta);
-	}
+        super.reset(x, y, speed * MathUtils.cos(MathUtils.degreesToRadians * this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians * this.theta), this.theta);
+    }
 
-	@Override
-	public float getTheta() {
-		return theta;
-	}
+    @Override
+    public float getTheta() {
+        return theta;
+    }
 }

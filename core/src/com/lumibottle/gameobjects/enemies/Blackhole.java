@@ -14,36 +14,35 @@ import com.lumibottle.screen.GameScreen;
  */
 public class Blackhole extends GameEvent {
 
-	private float acc= 5f;
+    private float acc = 5f;
 
-	public Blackhole() {
-		super(32, 32, new Polygon(new float[]{-6,-24,22,-24,22,-6,40,22,22,40,-6,40,-24,22,-24,-6}),0);
+    public Blackhole() {
+        super(32, 32, new Polygon(new float[]{-6, -24, 22, -24, 22, -6, 40, 22, 22, 40, -6, 40, -24, 22, -24, -6}), 0);
 
-	}
+    }
 
-	@Override
-	public void update(float delta) {
-		if (isVISIBLE()) {
-			addTheta(delta*10f);
-			getHitbox().setPosition(getX(), getY());
-			getPosition().add(getVelocity().cpy().scl(delta));
-			if (isOutOfScreen(true,false,true,true))
-				dead();
-		}
+    @Override
+    public void update(float delta) {
+        if (isVISIBLE()) {
+            addTheta(delta * 10f);
+            getHitbox().setPosition(getX(), getY());
+            getPosition().add(getVelocity().cpy().scl(delta));
+            if (isOutOfScreen(true, false, true, true))
+                dead();
+        }
 
-	}
+    }
 
-	public void reset(float x) {
-		super.reset(x, (GameScreen.gameHeight/20f)*MathUtils.random(5,13), -15, 0, 0);
-	}
-
+    public void reset(float x) {
+        super.reset(x, (GameScreen.gameHeight / 20f) * MathUtils.random(5, 13), -15, 0, 0);
+    }
 
 
     @Override
-    public void bottleHitsEnemy(Bullet b){
-        float theta= MathUtils.atan2(getY()-b.getY(),getX()-b.getX());
-        float dx = acc* MathUtils.cos(theta);
-        float dy = acc* MathUtils.sin(theta);
-        b.getVelocity().add(acc*dx,acc*dy);
+    public void bottleHitsEnemy(Bullet b) {
+        float theta = MathUtils.atan2(getY() - b.getY(), getX() - b.getX());
+        float dx = acc * MathUtils.cos(theta);
+        float dy = acc * MathUtils.sin(theta);
+        b.getVelocity().add(acc * dx, acc * dy);
     }
 }

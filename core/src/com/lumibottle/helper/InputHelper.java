@@ -8,13 +8,13 @@ import com.lumibottle.world.GameWorld;
 /**
  * Created by MG-UP on 2016-03-10.
  */
-public class InputHelper implements InputProcessor{
+public class InputHelper implements InputProcessor {
 
     private Squirrel mySquirrel;
     private GameWorld myWorld;
 
-    public InputHelper(GameWorld myWorld){
-    this.myWorld = myWorld;
+    public InputHelper(GameWorld myWorld) {
+        this.myWorld = myWorld;
 
 
         mySquirrel = this.myWorld.getMySquirrel();
@@ -39,7 +39,7 @@ public class InputHelper implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-            myWorld.onClick();
+        myWorld.onClick();
 
         if (myWorld.isPLAYING())
             mySquirrel.onClick();

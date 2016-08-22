@@ -18,10 +18,10 @@ public class BlockEnemyBullet extends EnemyBullet {
     private Vector2 acceleration;
 
     public BlockEnemyBullet(int[] blockspace) {
-        super((int)GameScreen.gameHeight/5, (int)GameScreen.gameHeight/5, new Polygon(new float[]{0,0,GameScreen.gameHeight/5,0,GameScreen.gameHeight/5,GameScreen.gameHeight/5,0,GameScreen.gameHeight/5}));
+        super((int) GameScreen.gameHeight / 5, (int) GameScreen.gameHeight / 5, new Polygon(new float[]{0, 0, GameScreen.gameHeight / 5, 0, GameScreen.gameHeight / 5, GameScreen.gameHeight / 5, 0, GameScreen.gameHeight / 5}));
         myBlockspace = blockspace;
-        minPosX=0;
-        acceleration = new Vector2(-50,0);
+        minPosX = 0;
+        acceleration = new Vector2(-50, 0);
     }
 
 
@@ -30,22 +30,21 @@ public class BlockEnemyBullet extends EnemyBullet {
         getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
 
         if (getX() < minPosX) {
-            myBlockspace[(int)getY()/getHeight()]+=getWidth();
-            setVelocity(0,0);
-            acceleration.set(0,0);
+            myBlockspace[(int) getY() / getHeight()] += getWidth();
+            setVelocity(0, 0);
+            acceleration.set(0, 0);
             setX(minPosX);
-            Gdx.app.log("BB ","block "+(int)getY()/getHeight()+": "+myBlockspace[(int)getY()/getHeight()]);
+            Gdx.app.log("BB ", "block " + (int) getY() / getHeight() + ": " + myBlockspace[(int) getY() / getHeight()]);
         }
 
     }
 
     @Override
     public void reset(float x, float y, float speed, float theta) {
-        super.reset(x, y, -speed* MathUtils.cos(theta), -speed* MathUtils.sin(theta), theta);
-        minPosX =  myBlockspace[(int)getY()/getHeight()];
+        super.reset(x, y, -speed * MathUtils.cos(theta), -speed * MathUtils.sin(theta), theta);
+        minPosX = myBlockspace[(int) getY() / getHeight()];
 
     }
-
 
 
 }

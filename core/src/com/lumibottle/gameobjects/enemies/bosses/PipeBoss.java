@@ -15,49 +15,49 @@ import com.lumibottle.screen.GameScreen;
  * Created by MG-POW on 2016-07-10.
  */
 
-public class PipeBoss extends GameEvent{
+public class PipeBoss extends GameEvent {
 
     private float runTime;
     private float shootRunTime;
     private int shootCount;
 
-	private enum PipeState{
-		IDLE,PREPARE,SHOOT
-	};
+    private enum PipeState {
+        IDLE, PREPARE, SHOOT
+    }
 
-	private PipeState currentState;
+    private PipeState currentState;
     private boolean gotHit;
     private float hitAnimRunTime;
 
     public PipeBoss() {
-        super(32, 32, new Polygon(new float[]{4,9,4,25,25,25,25,9}), 50); // render height is different
-        gotHit=false;
-        hitAnimRunTime=0;
-        shootCount=0;
-        shootRunTime=0;
-	    currentState = PipeState.IDLE;
+        super(32, 32, new Polygon(new float[]{4, 9, 4, 25, 25, 25, 25, 9}), 50); // render height is different
+        gotHit = false;
+        hitAnimRunTime = 0;
+        shootCount = 0;
+        shootRunTime = 0;
+        currentState = PipeState.IDLE;
     }
 
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
             if (getX() < 240 - getWidth()) {// fully appeared
-                runTime+=delta;
+                runTime += delta;
 
-                setVelocity(0,  (GameScreen.gameHeight/2 - getHeight())*(MathUtils.cos(runTime)));
-	            if (currentState == PipeState.IDLE){
-		            if (shootRunTime> 5.0f){
-                        shootRunTime=0;
+                setVelocity(0, (GameScreen.gameHeight / 2 - getHeight()) * (MathUtils.cos(runTime)));
+                if (currentState == PipeState.IDLE) {
+                    if (shootRunTime > 5.0f) {
+                        shootRunTime = 0;
                         currentState = PipeState.PREPARE;
                     } else
-                        shootRunTime+=delta;
-	            }
+                        shootRunTime += delta;
+                }
 
-                if (currentState == PipeState.PREPARE){
-                    if (shootRunTime > 3.0f){
-                        if (shootCount == 3){
+                if (currentState == PipeState.PREPARE) {
+                    if (shootRunTime > 3.0f) {
+                        if (shootCount == 3) {
                             shootRunTime = 0;
-                            shootCount=0;
+                            shootCount = 0;
                             currentState = PipeState.IDLE;
                         } else {
                             shootCount++;
@@ -65,21 +65,21 @@ public class PipeBoss extends GameEvent{
                             currentState = PipeState.SHOOT;
                         }
                     } else
-                        shootRunTime+=delta;
+                        shootRunTime += delta;
                 }
 
 
             } else { // yet to be on screen
-                setVelocity(-50,0);
+                setVelocity(-50, 0);
             }
 
 
-            if (gotHit){
-                if (hitAnimRunTime > 5/60f) {
-                    gotHit=false;
-                    hitAnimRunTime=0;
+            if (gotHit) {
+                if (hitAnimRunTime > 5 / 60f) {
+                    gotHit = false;
+                    hitAnimRunTime = 0;
                 } else
-                    hitAnimRunTime+=delta;
+                    hitAnimRunTime += delta;
             }
 
             getPosition().add(getVelocity().cpy().scl(delta));
@@ -88,16 +88,17 @@ public class PipeBoss extends GameEvent{
     }
 
     public void reset() {
-        super.reset(240, GameScreen.gameHeight/2.0f-getHeight()/2, 0, 0, 0);
+        super.reset(240, GameScreen.gameHeight / 2.0f - getHeight() / 2, 0, 0, 0);
 
     }
 
-	@Override
-	public void dead(){
-		super.dead();
-        FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
-	}
-    public void bottleHitsEnemy(Bullet b){
+    @Override
+    public void dead() {
+        super.dead();
+        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
+    }
+
+    public void bottleHitsEnemy(Bullet b) {
         super.bottleHitsEnemy(b);
         //force shield 지지직하는 sprite만들 FX
         if (!gotHit) {
@@ -108,16 +109,27 @@ public class PipeBoss extends GameEvent{
 
 
     //TODO maybe integrate gotHit() in event as default
-    public boolean gotHit(){return gotHit;}
-    public float getHitAnimRunTime(){return hitAnimRunTime;}
+    public boolean gotHit() {
+        return gotHit;
+    }
 
-	public float getShootRunTime(){return shootRunTime;}
-    public boolean isSHOOT(){
+    public float getHitAnimRunTime() {
+        return hitAnimRunTime;
+    }
+
+    public float getShootRunTime() {
+        return shootRunTime;
+    }
+
+    public boolean isSHOOT() {
         return currentState == PipeState.SHOOT;
     }
-	public boolean isIDLE(){return currentState == PipeState.IDLE;}
 
-    public void doneShooting(){
+    public boolean isIDLE() {
+        return currentState == PipeState.IDLE;
+    }
+
+    public void doneShooting() {
         currentState = PipeState.PREPARE;
     }
 }

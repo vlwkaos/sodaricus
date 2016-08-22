@@ -25,9 +25,9 @@ public class PangBoss extends GameEvent {
     private boolean breeding;
 
     public PangBoss() {
-        super(64, 64, new Polygon(new float[]{0,0,0,64,64,64,64,0}), 4);
-        generation=1;
-        speed=70;
+        super(64, 64, new Polygon(new float[]{0, 0, 0, 64, 64, 64, 64, 0}), 4);
+        generation = 1;
+        speed = 70;
         fullyVisible = false;
         aestheticTheta = 0.0f;
         breeding = false;
@@ -38,40 +38,40 @@ public class PangBoss extends GameEvent {
         if (isVISIBLE()) {
             addTheta(delta);
 
-            if (!fullyVisible){
-                if  (getX()<240-getWidth()){
-                    setX(240-getWidth());
+            if (!fullyVisible) {
+                if (getX() < 240 - getWidth()) {
+                    setX(240 - getWidth());
                     float deg = randDeg();
                     aestheticTheta = deg;
                     setTheta(deg);
-                    setVelocity(speed*MathUtils.cosDeg(deg),speed*MathUtils.sinDeg(deg));
-                    fullyVisible=true;
+                    setVelocity(speed * MathUtils.cosDeg(deg), speed * MathUtils.sinDeg(deg));
+                    fullyVisible = true;
                 } else {
-                    setVelocity(-50,0);
+                    setVelocity(-50, 0);
                 }
                 getPosition().add(getVelocity().cpy().scl(delta));
                 getHitbox().setPosition(getX(), getY());
             } else {
-                aestheticTheta += delta*10.0f;
+                aestheticTheta += delta * 10.0f;
                 getPosition().add(getVelocity().cpy().scl(delta));
                 getHitbox().setPosition(getX(), getY());
                 //change velocity first,
-                if (getX()>240-getWidth()){
-                    setX(240-getWidth());
+                if (getX() > 240 - getWidth()) {
+                    setX(240 - getWidth());
                     setVelocity(-getdX(), getdY());
-                    setTheta(180-getTheta());
+                    setTheta(180 - getTheta());
                 }
-                if (getX()<0){
+                if (getX() < 0) {
                     setX(0);
                     setVelocity(-getdX(), getdY());
-                    setTheta(180-getTheta());
+                    setTheta(180 - getTheta());
                 }
-                if (getY()> GameScreen.gameHeight-getHeight()) {
-                    setY(GameScreen.gameHeight-getHeight());
+                if (getY() > GameScreen.gameHeight - getHeight()) {
+                    setY(GameScreen.gameHeight - getHeight());
                     setVelocity(getdX(), -getdY());
                     setTheta(-getTheta());
                 }
-                if (getY()< 0) {
+                if (getY() < 0) {
                     setY(0);
                     setVelocity(getdX(), -getdY());
                     setTheta(-getTheta());
@@ -85,58 +85,66 @@ public class PangBoss extends GameEvent {
     }
 
     @Override
-    public void hit(){
+    public void hit() {
         super.hit();
-        addTheta(MathUtils.random(-15,15));
-        setVelocity(speed*MathUtils.cosDeg(getTheta()),speed*MathUtils.sinDeg(getTheta()));
+        addTheta(MathUtils.random(-15, 15));
+        setVelocity(speed * MathUtils.cosDeg(getTheta()), speed * MathUtils.sinDeg(getTheta()));
     }
 
     @Override
-    public void dead(){
+    public void dead() {
         super.dead();
-        FXHelper.getInstance().newFX(getPrevX(),getPrevY(), Math.max(getWidth(),getHeight()),(short)5);
+        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
         breeding = true;
     }
 
 
-    public void reset(float x,float y,int n){
-        setMaxhp(-n+max_gen+2);
+    public void reset(float x, float y, int n) {
+        setMaxhp(-n + max_gen + 2);
         breeding = false;
         float deg = randDeg();
         aestheticTheta = deg;
-        super.reset(x,y,speed*MathUtils.cosDeg(deg),speed*MathUtils.sinDeg(deg),deg);
+        super.reset(x, y, speed * MathUtils.cosDeg(deg), speed * MathUtils.sinDeg(deg), deg);
 
         generation = n;
-        setWidth(64/n);
-        setHeight(64/n);
-        setHitbox(new float[]{getWidth()*1/3f,0,getWidth()*2/3f,0,
-                              getWidth(),getHeight()*1/3f, getWidth(),getHeight()*2/3f,
-                              getWidth()*2/3f,getHeight(),getWidth()*1/3f,getHeight(),
-                              0,getHeight()*2/3f,0,getHeight()*1/3f});
+        setWidth(64 / n);
+        setHeight(64 / n);
+        setHitbox(new float[]{getWidth() * 1 / 3f, 0, getWidth() * 2 / 3f, 0,
+                getWidth(), getHeight() * 1 / 3f, getWidth(), getHeight() * 2 / 3f,
+                getWidth() * 2 / 3f, getHeight(), getWidth() * 1 / 3f, getHeight(),
+                0, getHeight() * 2 / 3f, 0, getHeight() * 1 / 3f});
 
-        if (generation == 1)
-            fullyVisible = false;
-        else
-            fullyVisible = true;
+        fullyVisible = generation != 1;
 
         //0,0에서
 
     }
 
-    private float randDeg(){
-        float deg = MathUtils.random(135,225);
+    private float randDeg() {
+        float deg = MathUtils.random(135, 225);
         int dir = MathUtils.random(1);
-        if (dir==1){
+        if (dir == 1) {
             return deg;
-        }else{
-            return deg-180;
+        } else {
+            return deg - 180;
         }
 
     }
 
-    public boolean isBreeding(){return breeding;}
-    public void doneBreeding(){breeding = false;}
-    public float getAestheticTheta(){return aestheticTheta;}
-    public int getGeneration(){return generation;}
+    public boolean isBreeding() {
+        return breeding;
+    }
+
+    public void doneBreeding() {
+        breeding = false;
+    }
+
+    public float getAestheticTheta() {
+        return aestheticTheta;
+    }
+
+    public int getGeneration() {
+        return generation;
+    }
 
 }

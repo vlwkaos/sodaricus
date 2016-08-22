@@ -9,75 +9,75 @@ import com.lumibottle.world.GameWorld;
 /**
  * Created by MG-POW on 2016-03-10.
  */
-public class GameScreen implements Screen{
+public class GameScreen implements Screen {
 
-	private GameWorld myWorld;
-	private GameRenderer myRenderer;
-	private float runTime;
+    private GameWorld myWorld;
+    private GameRenderer myRenderer;
+    private float runTime;
 
-	public static float gameWidth;//fixed width
-	public static float gameHeight;
-	public static int midPointY;
-	/*
+    public static float gameWidth;//fixed width
+    public static float gameHeight;
+    public static int midPointY;
+    /*
     *  set screen size, set mid point,
     *  introduce GameWorld and GameRenderer, pass Gameworld to Renderer
     *  does not interfere with any actual work.
     *  call in inputhandler
     * */
 
-	public GameScreen(){
-		runTime = 0;
+    public GameScreen() {
+        runTime = 0;
 
-		gameWidth = 240;//fixed width
-		gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth()/gameWidth);
-		midPointY =(int) (gameHeight/2);
+        gameWidth = 240;//fixed width
+        gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / gameWidth);
+        midPointY = (int) (gameHeight / 2);
 
-		myWorld = new GameWorld();
-		myRenderer = new GameRenderer(myWorld, (int) gameHeight);
+        myWorld = new GameWorld();
+        myRenderer = new GameRenderer(myWorld, (int) gameHeight);
 
-		Gdx.input.setInputProcessor(new InputHelper(myWorld));
-	}
+        Gdx.input.setInputProcessor(new InputHelper(myWorld));
+    }
 
 
-	@Override
-	public void show() {
+    @Override
+    public void show() {
 
-	}
+    }
 
-	@Override
-	public void render(float delta) {
-		if (delta > .15f)
-			delta = .15f;
+    @Override
+    public void render(float delta) {
+        if (delta > .15f)
+            delta = .15f;
 
-		runTime+=delta;
+        runTime += delta;
 
-		//state is in GameWorld, because if it is in here.. we have to stop the world.
-		myWorld.update(delta);
-		myRenderer.render(runTime);
-	}
+        //state is in GameWorld, because if it is in here.. we have to stop the world.
+        myWorld.update(delta);
+        myRenderer.render(runTime);
+    }
 
-	@Override
-	public void resize(int width, int height) {
+    @Override
+    public void resize(int width, int height) {
 
-	}
+    }
 
-	@Override
-	public void pause() {
+    @Override
+    public void pause() {
 
-	}
+    }
 
-	@Override
-	public void resume() {
+    @Override
+    public void resume() {
 
-	}
+    }
 
-	@Override
-	public void hide() {
+    @Override
+    public void hide() {
 
-	}
+    }
 
-	@Override
-	public void dispose() {
-		myRenderer.dispose();
-	}
+    @Override
+    public void dispose() {
+        myRenderer.dispose();
+    }
 }

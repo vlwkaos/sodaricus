@@ -26,96 +26,96 @@ public class ProgressHandler {
     private int numOfEnemies;
     private float runTime;
 
-	private int stageNumber; //TODO dead flag for bossesw
+    private int stageNumber; //TODO dead flag for bossesw
 
-	private Squirrel mySquirrel;
+    private Squirrel mySquirrel;
 
-	private FX[] myFXs;
+    private FX[] myFXs;
     //
-	private RoadRoller[] roadRollers;
-	private Bomb[] bombs;
-	private Mustache[] mustaches;
-	private LaserCrayon[] laserCrayons;
-	private Cowboy[] cowboys;
-	private Blackhole[] blackholes;
+    private RoadRoller[] roadRollers;
+    private Bomb[] bombs;
+    private Mustache[] mustaches;
+    private LaserCrayon[] laserCrayons;
+    private Cowboy[] cowboys;
+    private Blackhole[] blackholes;
 
     private BoxBoss boxBoss;
     private int[] blockspace;
     private int blockspaceCnt;
     private PipeBoss pipeBoss;
-	private PangBoss[] pangBosses;
+    private PangBoss[] pangBosses;
 
     //Bullet
     private EnemyBullet[] enemyBullets;
 
 
-	private float hatspeed = 100f;
+    private float hatspeed = 100f;
 
-	public ProgressHandler(Squirrel s) {
-		stageNumber=0;
-		mySquirrel = s;
+    public ProgressHandler(Squirrel s) {
+        stageNumber = 0;
+        mySquirrel = s;
         blockspace = new int[5];
         blockspaceCnt = 0;
-		/*
+        /*
 			Initialize enemy objects
 		 */
-		roadRollers = new RoadRoller[4];
-		for (int i = 0; i < roadRollers.length; i++) {
-			roadRollers[i] = new RoadRoller();
-			roadRollers[i].reset(240 + i * 50); //later, with runtime.
-		}
+        roadRollers = new RoadRoller[4];
+        for (int i = 0; i < roadRollers.length; i++) {
+            roadRollers[i] = new RoadRoller();
+            roadRollers[i].reset(240 + i * 50); //later, with runtime.
+        }
 
-		bombs = new Bomb[4];
-		for (int i = 0; i < bombs.length; i++) {
-			bombs[i] = new Bomb();
-			bombs[i].reset(250 + i * 50); //later, with runtime.
-		}
-
-
-		mustaches = new Mustache[5];
-		for (int i = 0; i < mustaches.length; i++) {
-			mustaches[i] = new Mustache();
-			mustaches[i].reset(240 + i * 20); //later, with runtime.
-		}
-
-		laserCrayons = new LaserCrayon[5];
-		for (int i=0;i<laserCrayons.length;i++){
-			laserCrayons[i] = new LaserCrayon();
-			laserCrayons[i].reset(240 + i * 20);
-		}
+        bombs = new Bomb[4];
+        for (int i = 0; i < bombs.length; i++) {
+            bombs[i] = new Bomb();
+            bombs[i].reset(250 + i * 50); //later, with runtime.
+        }
 
 
-		cowboys = new Cowboy[3];
-		for (int i = 0; i< cowboys.length; i++){
-			cowboys[i] = new Cowboy();
-			cowboys[i].reset(250);
+        mustaches = new Mustache[5];
+        for (int i = 0; i < mustaches.length; i++) {
+            mustaches[i] = new Mustache();
+            mustaches[i].reset(240 + i * 20); //later, with runtime.
+        }
 
-		}
+        laserCrayons = new LaserCrayon[5];
+        for (int i = 0; i < laserCrayons.length; i++) {
+            laserCrayons[i] = new LaserCrayon();
+            laserCrayons[i].reset(240 + i * 20);
+        }
 
-        Gdx.app.log("ProgressHandler","Trying to create bullets");
-        int j=0;
-		enemyBullets = new EnemyBullet[40];
-        for (int i=0;i<10;i++){
+
+        cowboys = new Cowboy[3];
+        for (int i = 0; i < cowboys.length; i++) {
+            cowboys[i] = new Cowboy();
+            cowboys[i].reset(250);
+
+        }
+
+        Gdx.app.log("ProgressHandler", "Trying to create bullets");
+        int j = 0;
+        enemyBullets = new EnemyBullet[40];
+        for (int i = 0; i < 10; i++) {
             enemyBullets[j] = new HatEnemyBullet();
             j++;
         }
-        for (int i=0;i<15;i++){
+        for (int i = 0; i < 15; i++) {
             enemyBullets[j] = new BlockEnemyBullet(blockspace);
             j++;
         }
-		for (int i=0;i<10;i++){
-			enemyBullets[j] = new PipeEnemyBullet();
-			j++;
-		}
+        for (int i = 0; i < 10; i++) {
+            enemyBullets[j] = new PipeEnemyBullet();
+            j++;
+        }
 
 
-		Gdx.app.log("ProgressHandler","Bullets created");
+        Gdx.app.log("ProgressHandler", "Bullets created");
 
-		blackholes = new Blackhole[3];
-		for (int i=0; i< blackholes.length; i++){
-			blackholes[i] = new Blackhole();
-			blackholes[i].reset(240+i*20);
-		}
+        blackholes = new Blackhole[3];
+        for (int i = 0; i < blackholes.length; i++) {
+            blackholes[i] = new Blackhole();
+            blackholes[i].reset(240 + i * 20);
+        }
 
 
         // BOSS
@@ -125,27 +125,26 @@ public class ProgressHandler {
         pipeBoss = new PipeBoss();
         pipeBoss.reset();
 
-		pangBosses = new PangBoss[8]; // cyclic array가 아니라서 한칸 여분이 필요..
-		for (int i=0; i < pangBosses.length;i++){
-			pangBosses[i] = new PangBoss();
-		}
-		pangBosses[0].reset(240, GameScreen.gameHeight/2f-pangBosses[0].getHeight()/2f,1);
+        pangBosses = new PangBoss[8]; // cyclic array가 아니라서 한칸 여분이 필요..
+        for (int i = 0; i < pangBosses.length; i++) {
+            pangBosses[i] = new PangBoss();
+        }
+        pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
 
 
         myFXs = new FX[10];
-		for (int i=0; i< myFXs.length;i++)
-			myFXs[i]= new FX();
+        for (int i = 0; i < myFXs.length; i++)
+            myFXs[i] = new FX();
 
 
-	}
+    }
 
 
+    public void update(float delta) {
+        runTime += delta;
 
-	public void update(float delta) {
-		runTime += delta;
-
-		for (FX f:myFXs)
-				f.update(delta);
+        for (FX f : myFXs)
+            f.update(delta);
 		/*
 			Enemy Updates
 		 */
@@ -161,9 +160,9 @@ public class ProgressHandler {
          */
 //        updateBoxBoss(delta);
 //		updatePipeBoss(delta);
-		updatePangBoss(delta);
+        updatePangBoss(delta);
         updateEnemyBullets(delta);
-	}
+    }
 
 
 	/*
@@ -171,122 +170,123 @@ public class ProgressHandler {
 	    //TODO how to spawn?
 	*/
 
-	private void updateRoadRollers(float delta) {
-		for (RoadRoller r : roadRollers) {
-			r.update(delta);
-			if (r.isDEAD())
-				r.reset(250);
-		}
-	}
-	private void updateBombs(float delta) {
-		for (Bomb b : bombs) {
-			b.update(delta);
-			if (b.isDEAD())
-				b.reset(250);
-		}
-	}
+    private void updateRoadRollers(float delta) {
+        for (RoadRoller r : roadRollers) {
+            r.update(delta);
+            if (r.isDEAD())
+                r.reset(250);
+        }
+    }
 
-		private void updateMustaches(float delta){
-		for (Mustache m : mustaches) {
-			m.update(delta);
-			if (m.isDEAD())
-				m.reset(250);
-		}
+    private void updateBombs(float delta) {
+        for (Bomb b : bombs) {
+            b.update(delta);
+            if (b.isDEAD())
+                b.reset(250);
+        }
+    }
 
-	}
+    private void updateMustaches(float delta) {
+        for (Mustache m : mustaches) {
+            m.update(delta);
+            if (m.isDEAD())
+                m.reset(250);
+        }
 
-	private void updateLaserCrayons(float delta) {
-		for (LaserCrayon l : laserCrayons) {
-			l.update(delta);
+    }
 
-			if (l.isDEAD())
-				l.reset(250);
-		}
-	}
+    private void updateLaserCrayons(float delta) {
+        for (LaserCrayon l : laserCrayons) {
+            l.update(delta);
+
+            if (l.isDEAD())
+                l.reset(250);
+        }
+    }
 
 
-	private void updateCowboy(float delta){
-		for (Cowboy c : cowboys){
-			c.update(delta);
-			if(c.isShooting())
-				for (EnemyBullet h: enemyBullets)
-					if (h instanceof HatEnemyBullet && h.isDEAD()) { // find available bullet from pool
-						float theta= MathUtils.atan2((c.getY()+23)-mySquirrel.getY(),c.getX()-mySquirrel.getX());
-						h.reset(c.getX()-6,c.getY()+23,hatspeed,theta);//sprite type
-						c.doneShooting();
-						break;
-					}
+    private void updateCowboy(float delta) {
+        for (Cowboy c : cowboys) {
+            c.update(delta);
+            if (c.isShooting())
+                for (EnemyBullet h : enemyBullets)
+                    if (h instanceof HatEnemyBullet && h.isDEAD()) { // find available bullet from pool
+                        float theta = MathUtils.atan2((c.getY() + 23) - mySquirrel.getY(), c.getX() - mySquirrel.getX());
+                        h.reset(c.getX() - 6, c.getY() + 23, hatspeed, theta);//sprite type
+                        c.doneShooting();
+                        break;
+                    }
 
-			if (c.isDEAD())
-				c.reset(250);
-		}
-	}
+            if (c.isDEAD())
+                c.reset(250);
+        }
+    }
 
-	private void updateEnemyBullets(float delta){
-		for (EnemyBullet c: enemyBullets)
+    private void updateEnemyBullets(float delta) {
+        for (EnemyBullet c : enemyBullets)
             if (c != null)
-	    		c.update(delta);
+                c.update(delta);
 
 
-	}
+    }
 
-	private void updateBlackholes(float delta){
-		for (Blackhole b: blackholes) {
-			b.update(delta);
-			if (b.isDEAD())
-				b.reset(250);
-		}
-	}
+    private void updateBlackholes(float delta) {
+        for (Blackhole b : blackholes) {
+            b.update(delta);
+            if (b.isDEAD())
+                b.reset(250);
+        }
+    }
 
 
-	public void checkCollision(){
-		for (RoadRoller r: roadRollers)
-			r.collide(mySquirrel);
+    public void checkCollision() {
+        for (RoadRoller r : roadRollers)
+            r.collide(mySquirrel);
 
-		for (Bomb b: bombs)
-			b.collide(mySquirrel);
+        for (Bomb b : bombs)
+            b.collide(mySquirrel);
 
-		for (Mustache m : mustaches)
-			m.collide(mySquirrel);
+        for (Mustache m : mustaches)
+            m.collide(mySquirrel);
 
-		for (LaserCrayon l : laserCrayons)
-			l.collide(mySquirrel);
+        for (LaserCrayon l : laserCrayons)
+            l.collide(mySquirrel);
 
-		for (Cowboy c : cowboys)
-			c.collide(mySquirrel);
+        for (Cowboy c : cowboys)
+            c.collide(mySquirrel);
 
-		for (EnemyBullet c : enemyBullets)
-            if (c!=null)
-		    	c.collide(mySquirrel);
+        for (EnemyBullet c : enemyBullets)
+            if (c != null)
+                c.collide(mySquirrel);
 
-		for (Blackhole b : blackholes)
-			b.collide(mySquirrel);
+        for (Blackhole b : blackholes)
+            b.collide(mySquirrel);
 
         boxBoss.collide(mySquirrel);
         pipeBoss.collide(mySquirrel);
 
-		for (PangBoss a: pangBosses)
-			a.collide(mySquirrel);
-	}
+        for (PangBoss a : pangBosses)
+            a.collide(mySquirrel);
+    }
 
     /*
         BOSS UPDATES
 
      */
-    private void updateBoxBoss(float delta){
+    private void updateBoxBoss(float delta) {
 
-        blockspaceCnt=0;
-        for (int i: blockspace)
-            if (i>0)
+        blockspaceCnt = 0;
+        for (int i : blockspace)
+            if (i > 0)
                 blockspaceCnt++;
-        if (blockspaceCnt==5){
+        if (blockspaceCnt == 5) {
             boxBoss.setVul();
             //총알도 삭제
-            for (EnemyBullet h: enemyBullets)
+            for (EnemyBullet h : enemyBullets)
                 if (h instanceof BlockEnemyBullet)
                     h.dead();
             //space reset
-            for (int i=0;i<blockspace.length;i++)
+            for (int i = 0; i < blockspace.length; i++)
                 blockspace[i] = 0;
             /*
                    It is reset here, or gameover
@@ -295,99 +295,106 @@ public class ProgressHandler {
         }
 
         boxBoss.update(delta);
-        if (boxBoss.isSHOOT()){
-            for (EnemyBullet h: enemyBullets)
+        if (boxBoss.isSHOOT()) {
+            for (EnemyBullet h : enemyBullets)
                 if (h instanceof BlockEnemyBullet && h.isDEAD()) { // find available bullet from pool
-                    h.reset(boxBoss.getX(),boxBoss.getY(),50,0);//sprite type0
+                    h.reset(boxBoss.getX(), boxBoss.getY(), 50, 0);//sprite type0
                     boxBoss.doneShooting();
                     break;
                 }
         }
     }
-    private void updatePipeBoss(float delta){
-        pipeBoss.update(delta);
-		if (pipeBoss.isSHOOT()){
-			float ypos = pipeBoss.getY();
-			boolean bulletcount = false;
-			for (EnemyBullet h: enemyBullets)
-				if (h instanceof PipeEnemyBullet && h.isDEAD()){
-					if (bulletcount) {
-						((PipeEnemyBullet) h).reset(ypos, true);
-						pipeBoss.doneShooting();
-						break;
-					} else{
-						((PipeEnemyBullet) h).reset(ypos, false);
-						bulletcount=true;//둘중 먼놈이 ..?
-					}
-				}
 
-		}
+    private void updatePipeBoss(float delta) {
+        pipeBoss.update(delta);
+        if (pipeBoss.isSHOOT()) {
+            float ypos = pipeBoss.getY();
+            boolean bulletcount = false;
+            for (EnemyBullet h : enemyBullets)
+                if (h instanceof PipeEnemyBullet && h.isDEAD()) {
+                    if (bulletcount) {
+                        ((PipeEnemyBullet) h).reset(ypos, true);
+                        pipeBoss.doneShooting();
+                        break;
+                    } else {
+                        ((PipeEnemyBullet) h).reset(ypos, false);
+                        bulletcount = true;//둘중 먼놈이 ..?
+                    }
+                }
+
+        }
     }
 
-	private void updatePangBoss(float delta){
-		for (PangBoss a : pangBosses) {
-			a.update(delta);
+    private void updatePangBoss(float delta) {
+        for (PangBoss a : pangBosses) {
+            a.update(delta);
 
-			if (a.isBreeding() && a.getGeneration() < a.max_gen){
-				boolean breed = false;
-				for (PangBoss b : pangBosses)
-					if (!b.equals(a)) // 자신은 제외
-						if (breed){
-							if (b.isDEAD()) {
-								b.reset(a.getPrevX()+a.getWidth()/2f, a.getPrevY()+a.getHeight()/2f, a.getGeneration()+1);
-								a.doneBreeding();
-								break;
-							}
-						} else {
-							if (b.isDEAD()) {
-								b.reset(a.getPrevX()+a.getWidth()/2f, a.getPrevY()+a.getHeight()/2f, a.getGeneration() +1);
-								breed = true;
-							}
-						}
+            if (a.isBreeding() && a.getGeneration() < a.max_gen) {
+                boolean breed = false;
+                for (PangBoss b : pangBosses)
+                    if (!b.equals(a)) // 자신은 제외
+                        if (breed) {
+                            if (b.isDEAD()) {
+                                b.reset(a.getPrevX() + a.getWidth() / 2f, a.getPrevY() + a.getHeight() / 2f, a.getGeneration() + 1);
+                                a.doneBreeding();
+                                break;
+                            }
+                        } else {
+                            if (b.isDEAD()) {
+                                b.reset(a.getPrevX() + a.getWidth() / 2f, a.getPrevY() + a.getHeight() / 2f, a.getGeneration() + 1);
+                                breed = true;
+                            }
+                        }
 
 
-			}
-		}
-	}
+            }
+        }
+    }
 
 
     //TODO restart, initialize
 
-	/*
-		GETTER SETTER
+    /*
+        GETTER SETTER
 
-	 */
-	public RoadRoller[] getRoadRollers() {
-		return roadRollers;
-	}
+     */
+    public RoadRoller[] getRoadRollers() {
+        return roadRollers;
+    }
 
-	public Bomb[] getBombs() {
-		return bombs;
-	}
+    public Bomb[] getBombs() {
+        return bombs;
+    }
 
-	public Mustache[] getMustaches() {
-		return mustaches;
-	}
-	public LaserCrayon[] getLaserCrayons() {
-		return laserCrayons;
-	}
+    public Mustache[] getMustaches() {
+        return mustaches;
+    }
 
-	public EnemyBullet[] getEnemyBullets() {
-		return enemyBullets;
-	}
+    public LaserCrayon[] getLaserCrayons() {
+        return laserCrayons;
+    }
 
-	public Cowboy[] getCowboys() {
-		return cowboys;
-	}
+    public EnemyBullet[] getEnemyBullets() {
+        return enemyBullets;
+    }
 
-	public Blackhole[] getBlackholes() {
-		return blackholes;
-	}
+    public Cowboy[] getCowboys() {
+        return cowboys;
+    }
 
-    public BoxBoss getBoxboss() {return boxBoss;}
+    public Blackhole[] getBlackholes() {
+        return blackholes;
+    }
 
-    public PipeBoss getPipeBoss(){return pipeBoss;}
+    public BoxBoss getBoxboss() {
+        return boxBoss;
+    }
 
-	public PangBoss[] getPangBosses() {return pangBosses;
-	}
+    public PipeBoss getPipeBoss() {
+        return pipeBoss;
+    }
+
+    public PangBoss[] getPangBosses() {
+        return pangBosses;
+    }
 }

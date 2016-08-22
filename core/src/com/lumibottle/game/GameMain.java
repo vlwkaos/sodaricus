@@ -9,21 +9,21 @@ import com.lumibottle.screen.GameScreen;
 
 public class GameMain extends Game {
 
-	@Override
-	public void create () {
-		Gdx.app.log("GameMain", "created");
-		AssetHelper.load();
+    @Override
+    public void create() {
+        Gdx.app.log("GameMain", "created");
+        AssetHelper.load();
 
 
-		setScreen(new GameScreen());
-		//switching screen needs disposal too.
-	}
+        setScreen(new GameScreen());
+        //switching screen needs disposal too.
+    }
 
 
-	@Override
-	public void dispose(){
-		super.dispose();
-		AssetHelper.dispose();
-	}
+    @Override
+    public void dispose() {
+        super.dispose();
+        AssetHelper.dispose();
+    }
 
 }
