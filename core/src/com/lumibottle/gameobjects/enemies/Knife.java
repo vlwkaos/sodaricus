@@ -17,6 +17,8 @@ public class Knife extends GameEvent {
 
     private Squirrel mySquirrel;
 
+    private boolean targetAquired;
+
     private float targetAngle;
     final private float speed = 50;
 
@@ -24,23 +26,24 @@ public class Knife extends GameEvent {
         super(32, 16, new Polygon(new float[]{0,0,32,0,32,16,0,16}), 0);
         mySquirrel = msq;
         targetAngle = 0;
+        targetAquired=false;
     }
 
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
 
-            if (getTheta() < targetAngle){
+            if (getTheta()<720)
                 addTheta(delta);
-            } else {
-                setTheta(targetAngle);
-            }
+            else
+                setTheta(0);
 
             if (getX() < 240 - getWidth() * 2){
-                targetAngle = MathUtils.atan2(mySquirrel.getY()-getY(),getX()-mySquirrel.getX());
-
-                if (getTheta()==targetAngle)
-                setVelocity(-speed * MathUtils.cos(targetAngle), -speed * MathUtils.sin(targetAngle));
+                if (!targetAquired) {
+                    targetAngle = MathUtils.atan2(mySquirrel.getY() - getY(), getX() - mySquirrel.getX());
+                    setVelocity(-speed * MathUtils.cos(targetAngle), -speed * MathUtils.sin(targetAngle));
+                    targetAquired = true;
+                }
             } else {
                 //entering
                 setVelocity(-speed,0);
@@ -58,7 +61,7 @@ public class Knife extends GameEvent {
 
     public void reset(float x) {
         super.reset(x, MathUtils.random(GameScreen.gameHeight) - getHeight(), 0, 0, 0);
-
+        targetAquired=false;
         Gdx.app.log("Knife","target : "+targetAngle);
     }
 
