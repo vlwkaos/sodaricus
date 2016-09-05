@@ -10,7 +10,7 @@ import com.lumibottle.screen.GameScreen;
 
 
 /**
- * Created by MG-POW on 2016-04-01.
+ *  This enemy object will do no harm but make bullet by player go awry
  */
 public class Blackhole extends GameEvent {
 

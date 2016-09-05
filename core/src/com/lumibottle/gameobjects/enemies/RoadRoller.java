@@ -41,7 +41,7 @@ public class RoadRoller extends GameEvent {
     public void reset(float x) {
         super.reset(x, MathUtils.random(GameScreen.gameHeight) - getHeight(), -50, 0, 0);
         popcornParticle = AssetHelper.popcornPool.obtain();
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
+
     }
 
 
@@ -49,6 +49,7 @@ public class RoadRoller extends GameEvent {
     public void dead() {
         super.dead();
         AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
+        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);// puff
     }
 }
 

@@ -8,7 +8,7 @@ import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
 
 /**
- * Created by MG-POW on 2016-04-01.
+ *  Bullets are objects fired, or reset by other Objects
  */
 public class EnemyBullet extends GameEvent {
 

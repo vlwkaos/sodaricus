@@ -10,6 +10,7 @@ import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Cowboy;
+import com.lumibottle.gameobjects.enemies.Knife;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
@@ -38,6 +39,7 @@ public class ProgressHandler {
     private LaserCrayon[] laserCrayons;
     private Cowboy[] cowboys;
     private Blackhole[] blackholes;
+    private Knife[] knives;
 
     private BoxBoss boxBoss;
     private int[] blockspace;
@@ -90,6 +92,12 @@ public class ProgressHandler {
             cowboys[i] = new Cowboy();
             cowboys[i].reset(250);
 
+        }
+
+        knives = new Knife[4];
+        for (int i=0; i<knives.length;i++){
+            knives[i] = new Knife(mySquirrel);
+            knives[i].reset(255);
         }
 
         Gdx.app.log("ProgressHandler", "Trying to create bullets");

@@ -168,8 +168,7 @@ public class Squirrel {
                 isInvincible = false;
                 isTransparent = false;
             } else {
-                invincTime += delta;
-                Gdx.app.log("delta", (int) (invincTime * 100) + "");
+                invincTime += delta; // strobe effect
                 if ((int) (invincTime * 100) % 6 == 0) {
                     isTransparent = !isTransparent;
                 }
