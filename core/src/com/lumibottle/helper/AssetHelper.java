@@ -39,6 +39,7 @@ public class AssetHelper {
     public static Texture deadTexture;
     public static Texture blockTexture;
     public static Texture cloudTexture;
+    private static Texture knifeTexture;
     //
     public static Texture boxbossTexture;
     public static Texture pipebossTexture;
@@ -83,6 +84,7 @@ public class AssetHelper {
     public static Animation cowboythrowAnim;
 
     public static TextureRegion hole;
+    public static TextureRegion knife;
 
 
     //boss
@@ -172,6 +174,7 @@ public class AssetHelper {
         cowboythrowTexture.dispose();
         blockTexture.dispose();
         cloudTexture.dispose();
+        knifeTexture.dispose();
         //
         boxbossTexture.dispose();
         pipebossTexture.dispose();
@@ -219,6 +222,9 @@ public class AssetHelper {
         mustacheTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         bluecrayonTexture = new Texture(Gdx.files.internal("data/bluepastel.png"));
         bluecrayonTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        knifeTexture = new Texture(Gdx.files.internal("data/knife.png"));
+        knifeTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
 
         cowboythrowTexture = new Texture(Gdx.files.internal("data/cowboymotion.png"));
@@ -328,6 +334,8 @@ public class AssetHelper {
             cowboythrow[i] = new TextureRegion(cowboythrowTexture, i * 32, 0, 32, 48);
         cowboythrowAnim = new Animation(1 / 30f, cowboythrow);
         cowboythrowAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
+        knife = new TextureRegion(knifeTexture);
 
 
         hole = new TextureRegion(holeTexture, 0, 0, 32, 32);

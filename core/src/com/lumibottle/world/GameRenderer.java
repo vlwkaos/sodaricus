@@ -91,6 +91,7 @@ public class GameRenderer {
     private Animation cowboyhatAnimation;
     private Animation cowboyhatspawnAnimation;
     private TextureRegion hole;
+    private TextureRegion knife;
 
     private Animation boxchargeAnimation;
     private TextureRegion boxgotHit;
@@ -154,10 +155,10 @@ public class GameRenderer {
 
             drawRoadRollers(runTime);
             drawMustaches(runTime);
-            drawBlueCrayons(runTime);
+            drawBlueCrayons();
             drawBombs(runTime);
             drawCowboy(runTime);
-
+            drawKnife();
             drawEnemyBullets();
 
             drawBoxBoss();
@@ -227,7 +228,7 @@ public class GameRenderer {
         cowboy = AssetHelper.cowboythrowAnim;
         cowboyidle = AssetHelper.cowboythrow[0];
 
-
+        knife = AssetHelper.knife;
         bluecrayon = AssetHelper.bluecrayon;
 
         cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
@@ -259,6 +260,7 @@ public class GameRenderer {
 
     /*
         Drawing methods
+        check if object is VISIBLE for culling
      */
     private void drawSplash() {
         if (myWorld.isSPLASH()) {
@@ -364,6 +366,13 @@ public class GameRenderer {
 
     //Enemies
 
+    private void drawKnife(){
+        for (Knife a : myKnives)
+            if (a.isVISIBLE()){
+                spriteBatch.draw(knife,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+            }
+    }
+
 
     private void drawRoadRollers(float runTime) {
         for (RoadRoller r : myRoadRollers) {
@@ -423,7 +432,7 @@ public class GameRenderer {
         }
     }
 
-    private void drawBlueCrayons(float runTime) {
+    private void drawBlueCrayons() {
         for (LaserCrayon l : myLaserCrayons) {
             if (l.isVISIBLE()) {
 

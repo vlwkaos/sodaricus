@@ -250,6 +250,8 @@ public class ProgressHandler {
     private void updateKnives(float delta){
         for (Knife a : knives) {
             a.update(delta);
+            if (a.isDEAD())
+                a.reset(255);
         }
     }
 
