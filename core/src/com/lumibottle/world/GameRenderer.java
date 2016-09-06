@@ -16,6 +16,7 @@ import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.Boomerang;
 import com.lumibottle.gameobjects.enemies.Cowboy;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.Knife;
@@ -66,7 +67,7 @@ public class GameRenderer {
     private Cowboy[] myCowboys;
     private Blackhole[] myBlackholes;
     private Knife[] myKnives;
-
+    private Boomerang[] myBoomerangs;
 
     private BoxBoss myBoxboss;
     private PipeBoss myPipeboss;
@@ -92,6 +93,7 @@ public class GameRenderer {
     private Animation cowboyhatspawnAnimation;
     private TextureRegion hole;
     private TextureRegion knife;
+    private TextureRegion boomerang;
 
     private Animation boxchargeAnimation;
     private TextureRegion boxgotHit;
@@ -102,7 +104,6 @@ public class GameRenderer {
     private Animation forceshieldAnimation;
     private Animation redsodapillarAnimation;
     private Animation redsodapillarbotAnimation;
-    private Animation cloudexplosionAnimation;
 
     private Animation pangbossAnimation;
 
@@ -158,6 +159,7 @@ public class GameRenderer {
             drawBlueCrayons();
             drawBombs(runTime);
             drawCowboy(runTime);
+            drawBoomerang();
             drawKnife();
             drawEnemyBullets();
 
@@ -181,7 +183,7 @@ public class GameRenderer {
         font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 40);
         spriteBatch.end();
 
-		drawDebugMode();
+//		drawDebugMode();
 
     }
 
@@ -203,6 +205,8 @@ public class GameRenderer {
         myCowboys = myStage.getCowboys();
         myBlackholes = myStage.getBlackholes();
         myKnives = myStage.getKnives();
+        myBoomerangs = myStage.getBoomerangs();
+
 
         myBoxboss = myStage.getBoxboss();
         myPipeboss = myStage.getPipeBoss();
@@ -229,12 +233,13 @@ public class GameRenderer {
         cowboyidle = AssetHelper.cowboythrow[0];
 
         knife = AssetHelper.knife;
+        boomerang = AssetHelper.boomerang;
+
         bluecrayon = AssetHelper.bluecrayon;
 
         cowboyhatAnimation = AssetHelper.cowboyhatsAnim;
         cowboyhatspawnAnimation = AssetHelper.cowboyhatsspawnAnim;
 
-        cloudexplosionAnimation = AssetHelper.cloudexplosionAnim;
         hole = AssetHelper.hole;
 
         //BOSS
@@ -365,6 +370,12 @@ public class GameRenderer {
 
 
     //Enemies
+    private void drawBoomerang(){
+        for (Boomerang a : myBoomerangs)
+            if (a.isVISIBLE()){
+                spriteBatch.draw(boomerang,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+            }
+    }
 
     private void drawKnife(){
         for (Knife a : myKnives)

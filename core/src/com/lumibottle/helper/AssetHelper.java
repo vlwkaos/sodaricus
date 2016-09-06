@@ -40,6 +40,7 @@ public class AssetHelper {
     public static Texture blockTexture;
     public static Texture cloudTexture;
     private static Texture knifeTexture;
+    private static Texture boomerangTexture;
     //
     public static Texture boxbossTexture;
     public static Texture pipebossTexture;
@@ -85,6 +86,7 @@ public class AssetHelper {
 
     public static TextureRegion hole;
     public static TextureRegion knife;
+    public static TextureRegion boomerang;
 
 
     //boss
@@ -175,6 +177,7 @@ public class AssetHelper {
         blockTexture.dispose();
         cloudTexture.dispose();
         knifeTexture.dispose();
+        boomerangTexture.dispose();
         //
         boxbossTexture.dispose();
         pipebossTexture.dispose();
@@ -248,6 +251,8 @@ public class AssetHelper {
         starTexture = new Texture(Gdx.files.internal("data/stars.png"));
         starTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
+        boomerangTexture = new Texture(Gdx.files.internal("data/boomerang.png"));
+        boomerangTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //BOSS
         boxbossTexture = new Texture(Gdx.files.internal("data/boss/boxboss.png"));
@@ -336,7 +341,7 @@ public class AssetHelper {
         cowboythrowAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         knife = new TextureRegion(knifeTexture);
-
+        boomerang = new TextureRegion(boomerangTexture);
 
         hole = new TextureRegion(holeTexture, 0, 0, 32, 32);
 

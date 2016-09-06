@@ -9,6 +9,7 @@ import com.lumibottle.gameobjects.Bullets.HatEnemyBullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
+import com.lumibottle.gameobjects.enemies.Boomerang;
 import com.lumibottle.gameobjects.enemies.Cowboy;
 import com.lumibottle.gameobjects.enemies.Knife;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
@@ -40,6 +41,7 @@ public class ProgressHandler {
     private Cowboy[] cowboys;
     private Blackhole[] blackholes;
     private Knife[] knives;
+    private Boomerang[] boomerangs;
 
     private BoxBoss boxBoss;
     private int[] blockspace;
@@ -98,6 +100,12 @@ public class ProgressHandler {
         for (int i=0; i<knives.length;i++){
             knives[i] = new Knife(mySquirrel);
             knives[i].reset(255);
+        }
+
+        boomerangs = new Boomerang[1];
+        for (int i=0; i<boomerangs.length;i++){
+            boomerangs[i] = new Boomerang();
+            boomerangs[i].reset(255);
         }
 
         Gdx.app.log("ProgressHandler", "Trying to create bullets");
@@ -162,7 +170,8 @@ public class ProgressHandler {
 //		updateLaserCrayons(delta);
 //		updateCowboy(delta);
 //		updateBlackholes(delta);
-        updateKnives(delta);
+//        updateKnives(delta);
+        updateBoomerangs(delta);
 
         /*
             Boss Updates
@@ -244,6 +253,13 @@ public class ProgressHandler {
             b.update(delta);
             if (b.isDEAD())
                 b.reset(250);
+        }
+    }
+
+    private void updateBoomerangs(float delta){
+        for (Boomerang a : boomerangs){
+            a.update(delta);
+
         }
     }
 
@@ -420,5 +436,9 @@ public class ProgressHandler {
 
     public Knife[] getKnives() {
         return knives;
+    }
+
+    public Boomerang[] getBoomerangs() {
+        return boomerangs;
     }
 }

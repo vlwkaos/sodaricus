@@ -24,7 +24,7 @@ public class Knife extends GameEvent {
     final private float speed = 120;
 
     public Knife(Squirrel msq) {
-        super(32, 8, new Polygon(new float[]{0,0,32,0,32,8,0,8}), 0);
+        super(24, 6, new Polygon(new float[]{0,0,24,0,24,6,0,6}), 0);
         mySquirrel = msq;
         targetAngle = 0;
         targetAquired=false;
@@ -36,11 +36,11 @@ public class Knife extends GameEvent {
 
             if (!targetAquired) {
 
-                addTheta(delta * 720.0f);
+                addTheta(delta * 3 * 360.0f);
 
                 if (getX() < 240 - getWidth() * 1.5f) {
                     setVelocity(0, 0);
-                    if (getTheta() > 360*4) {
+                    if (getTheta() > 360*3) {
                         setTheta(0);
                         targetAquired = true;
                         targetAngle = MathUtils.atan2(mySquirrel.getY()-getY(),getX()-mySquirrel.getX());
@@ -70,7 +70,6 @@ public class Knife extends GameEvent {
     @Override
     public void dead() {
         super.dead();
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);// puff
     }
 
     @Override
