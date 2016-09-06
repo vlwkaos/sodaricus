@@ -18,6 +18,7 @@ import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Cowboy;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
+import com.lumibottle.gameobjects.enemies.Knife;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -64,6 +65,7 @@ public class GameRenderer {
     private EnemyBullet[] myEnemyBullets;
     private Cowboy[] myCowboys;
     private Blackhole[] myBlackholes;
+    private Knife[] myKnives;
 
 
     private BoxBoss myBoxboss;
@@ -178,7 +180,7 @@ public class GameRenderer {
         font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 40);
         spriteBatch.end();
 
-//		drawDebugMode();
+		drawDebugMode();
 
     }
 
@@ -199,6 +201,7 @@ public class GameRenderer {
         myEnemyBullets = myStage.getEnemyBullets();
         myCowboys = myStage.getCowboys();
         myBlackholes = myStage.getBlackholes();
+        myKnives = myStage.getKnives();
 
         myBoxboss = myStage.getBoxboss();
         myPipeboss = myStage.getPipeBoss();
@@ -544,6 +547,9 @@ public class GameRenderer {
                 shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
         for (EnemyBullet b : myEnemyBullets)
             if (b != null)
+                shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+        for (Knife b : myKnives)
+            if (b.isVISIBLE())
                 shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
         for (PangBoss b : myPangbosses)
             if (b.isVISIBLE())

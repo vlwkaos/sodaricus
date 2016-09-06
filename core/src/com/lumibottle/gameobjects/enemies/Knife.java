@@ -33,22 +33,24 @@ public class Knife extends GameEvent {
     public void update(float delta) {
         if (isVISIBLE()) {
 
-            if (getTheta()<720)
-                addTheta(delta);
-            else
-                setTheta(0);
+            if (!targetAquired) {
 
-            if (getX() < 240 - getWidth() * 2){
-                if (!targetAquired) {
-                    targetAngle = MathUtils.atan2(mySquirrel.getY() - getY(), getX() - mySquirrel.getX());
-                    setVelocity(-speed * MathUtils.cos(targetAngle), -speed * MathUtils.sin(targetAngle));
-                    targetAquired = true;
+                addTheta(delta * 30.0f);
+
+                if (getX() < 240 - getWidth() * 2) {
+                    setVelocity(0, 0);
+                    if (getTheta() > 360) {
+                        setTheta(0);
+                        targetAquired = true;
+                        targetAngle = MathUtils.atan2(mySquirrel.getY()-getY(),mySquirrel.getX()-getX());
+                        setVelocity(-speed * MathUtils.cos(targetAngle), -speed * MathUtils.sin(targetAngle));
+                    }
+
+                } else {
+                    //entering
+                    setVelocity(-speed, 0);
                 }
-            } else {
-                //entering
-                setVelocity(-speed,0);
             }
-
 
             if (isOutOfScreen(true, false, true, true))
                 dead();

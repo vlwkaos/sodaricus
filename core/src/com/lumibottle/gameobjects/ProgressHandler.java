@@ -94,7 +94,7 @@ public class ProgressHandler {
 
         }
 
-        knives = new Knife[4];
+        knives = new Knife[1];
         for (int i=0; i<knives.length;i++){
             knives[i] = new Knife(mySquirrel);
             knives[i].reset(255);
@@ -162,14 +162,15 @@ public class ProgressHandler {
 //		updateLaserCrayons(delta);
 //		updateCowboy(delta);
 //		updateBlackholes(delta);
+        updateKnives(delta);
 
         /*
             Boss Updates
          */
 //        updateBoxBoss(delta);
 //		updatePipeBoss(delta);
-        updatePangBoss(delta);
-        updateEnemyBullets(delta);
+//        updatePangBoss(delta);
+//        updateEnemyBullets(delta);
     }
 
 
@@ -246,29 +247,38 @@ public class ProgressHandler {
         }
     }
 
+    private void updateKnives(float delta){
+        for (Knife a : knives) {
+            a.update(delta);
+        }
+    }
+
 
     public void checkCollision() {
-        for (RoadRoller r : roadRollers)
-            r.collide(mySquirrel);
+        for (RoadRoller a : roadRollers)
+            a.collide(mySquirrel);
 
-        for (Bomb b : bombs)
-            b.collide(mySquirrel);
+        for (Bomb a : bombs)
+            a.collide(mySquirrel);
 
-        for (Mustache m : mustaches)
-            m.collide(mySquirrel);
+        for (Mustache a : mustaches)
+            a.collide(mySquirrel);
 
-        for (LaserCrayon l : laserCrayons)
-            l.collide(mySquirrel);
+        for (LaserCrayon a : laserCrayons)
+            a.collide(mySquirrel);
 
-        for (Cowboy c : cowboys)
-            c.collide(mySquirrel);
+        for (Knife a: knives)
+            a.collide(mySquirrel);
 
-        for (EnemyBullet c : enemyBullets)
-            if (c != null)
-                c.collide(mySquirrel);
+        for (Cowboy a : cowboys)
+            a.collide(mySquirrel);
 
-        for (Blackhole b : blackholes)
-            b.collide(mySquirrel);
+        for (EnemyBullet a : enemyBullets)
+            if (a != null)
+                a.collide(mySquirrel);
+
+        for (Blackhole a : blackholes)
+            a.collide(mySquirrel);
 
         boxBoss.collide(mySquirrel);
         pipeBoss.collide(mySquirrel);
@@ -404,5 +414,9 @@ public class ProgressHandler {
 
     public PangBoss[] getPangBosses() {
         return pangBosses;
+    }
+
+    public Knife[] getKnives() {
+        return knives;
     }
 }
