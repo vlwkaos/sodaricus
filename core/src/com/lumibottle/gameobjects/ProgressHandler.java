@@ -15,6 +15,7 @@ import com.lumibottle.gameobjects.enemies.Knife;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
+import com.lumibottle.gameobjects.enemies.WaveHead;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
@@ -42,6 +43,7 @@ public class ProgressHandler {
     private Blackhole[] blackholes;
     private Knife[] knives;
     private Boomerang[] boomerangs;
+    private WaveHead[] waveheads;
 
     private BoxBoss boxBoss;
     private int[] blockspace;
@@ -108,6 +110,12 @@ public class ProgressHandler {
             boomerangs[i].reset(255);
         }
 
+        waveheads = new WaveHead[1];
+        for (int i=0 ; i<waveheads.length;i++){
+            waveheads[i] = new WaveHead();
+            waveheads[i].reset(255);
+        }
+
         Gdx.app.log("ProgressHandler", "Trying to create bullets");
         int j = 0;
         enemyBullets = new EnemyBullet[40];
@@ -171,8 +179,8 @@ public class ProgressHandler {
 //		updateCowboy(delta);
 //		updateBlackholes(delta);
 //        updateKnives(delta);
-        updateBoomerangs(delta);
-
+//        updateBoomerangs(delta);
+        updateWaveHeads(delta);
         /*
             Boss Updates
          */
@@ -256,10 +264,19 @@ public class ProgressHandler {
         }
     }
 
+    private void updateWaveHeads(float delta){
+        for (WaveHead a : waveheads){
+            a.update(delta);
+            if (a.isDEAD())
+                a.reset(255);
+        }
+    }
+
     private void updateBoomerangs(float delta){
         for (Boomerang a : boomerangs){
             a.update(delta);
-
+            if (a.isDEAD())
+                a.reset(255);
         }
     }
 
@@ -288,7 +305,13 @@ public class ProgressHandler {
         for (Knife a: knives)
             a.collide(mySquirrel);
 
+        for (Boomerang a : boomerangs)
+            a.collide(mySquirrel);
+
         for (Cowboy a : cowboys)
+            a.collide(mySquirrel);
+
+        for (WaveHead a : waveheads)
             a.collide(mySquirrel);
 
         for (EnemyBullet a : enemyBullets)
@@ -440,5 +463,9 @@ public class ProgressHandler {
 
     public Boomerang[] getBoomerangs() {
         return boomerangs;
+    }
+
+    public WaveHead[] getWaveheads() {
+        return waveheads;
     }
 }

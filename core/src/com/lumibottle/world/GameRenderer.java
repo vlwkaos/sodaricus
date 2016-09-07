@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
@@ -26,6 +25,7 @@ import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
+import com.lumibottle.gameobjects.enemies.WaveHead;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
@@ -68,6 +68,7 @@ public class GameRenderer {
     private Blackhole[] myBlackholes;
     private Knife[] myKnives;
     private Boomerang[] myBoomerangs;
+    private WaveHead[] myWaveheads;
 
     private BoxBoss myBoxboss;
     private PipeBoss myPipeboss;
@@ -94,6 +95,7 @@ public class GameRenderer {
     private TextureRegion hole;
     private TextureRegion knife;
     private TextureRegion boomerang;
+    private TextureRegion wavehead;
 
     private Animation boxchargeAnimation;
     private TextureRegion boxgotHit;
@@ -159,8 +161,9 @@ public class GameRenderer {
             drawBlueCrayons();
             drawBombs(runTime);
             drawCowboy(runTime);
-            drawBoomerang();
-            drawKnife();
+            drawBoomerangs();
+            drawKnives();
+            drawWaveHeads();
             drawEnemyBullets();
 
             drawBoxBoss();
@@ -206,6 +209,7 @@ public class GameRenderer {
         myBlackholes = myStage.getBlackholes();
         myKnives = myStage.getKnives();
         myBoomerangs = myStage.getBoomerangs();
+        myWaveheads = myStage.getWaveheads();
 
 
         myBoxboss = myStage.getBoxboss();
@@ -234,6 +238,7 @@ public class GameRenderer {
 
         knife = AssetHelper.knife;
         boomerang = AssetHelper.boomerang;
+        wavehead = AssetHelper.wavehead;
 
         bluecrayon = AssetHelper.bluecrayon;
 
@@ -370,14 +375,28 @@ public class GameRenderer {
 
 
     //Enemies
-    private void drawBoomerang(){
+    private void drawWaveHeads(){
+        for (WaveHead a : myWaveheads){
+            if (a.isVISIBLE()){
+
+                a.getParticle().setPosition(a.getX()+a.getWidth()/2.0f, a.getY()+a.getHeight()/2.0f);
+                a.getParticle().update(Gdx.graphics.getDeltaTime());
+                a.getParticle().draw(spriteBatch);
+
+                spriteBatch.draw(wavehead,a.getX(),a.getY());
+
+            }
+        }
+    }
+
+    private void drawBoomerangs(){
         for (Boomerang a : myBoomerangs)
             if (a.isVISIBLE()){
                 spriteBatch.draw(boomerang,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
             }
     }
 
-    private void drawKnife(){
+    private void drawKnives(){
         for (Knife a : myKnives)
             if (a.isVISIBLE()){
                 spriteBatch.draw(knife,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());

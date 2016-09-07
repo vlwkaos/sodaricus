@@ -44,7 +44,7 @@ public class PipeBoss extends GameEvent {
             if (getX() < 240 - getWidth()) {// fully appeared
                 runTime += delta;
 
-                setVelocity(0, (GameScreen.gameHeight / 2 - getHeight()) * (MathUtils.cos(runTime)));
+                setVelocity(0, ((GameScreen.gameHeight - getHeight()) / 2.0f) * (MathUtils.cos(runTime)));
                 if (currentState == PipeState.IDLE) {
                     if (shootRunTime > 5.0f) {
                         shootRunTime = 0;

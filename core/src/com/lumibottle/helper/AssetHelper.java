@@ -41,9 +41,10 @@ public class AssetHelper {
     public static Texture cloudTexture;
     private static Texture knifeTexture;
     private static Texture boomerangTexture;
+    private static Texture waveheadTexture;
     //
-    public static Texture boxbossTexture;
-    public static Texture pipebossTexture;
+    private static Texture boxbossTexture;
+    private static Texture pipebossTexture;
     private static Texture forceshieldTexture;
     private static Texture redsodapillarTexture;
     private static Texture pangbossTexture;
@@ -87,6 +88,7 @@ public class AssetHelper {
     public static TextureRegion hole;
     public static TextureRegion knife;
     public static TextureRegion boomerang;
+    public static TextureRegion wavehead;
 
 
     //boss
@@ -141,6 +143,8 @@ public class AssetHelper {
     public static ParticleEffectPool sodaburstPool;
     public static ParticleEffect nitro2Particle;
     public static ParticleEffectPool nitro2Pool;
+    public static ParticleEffect waveheadParticle;
+    public static ParticleEffectPool waveheadPool;
 
 
     //FONT
@@ -178,6 +182,7 @@ public class AssetHelper {
         cloudTexture.dispose();
         knifeTexture.dispose();
         boomerangTexture.dispose();
+        waveheadTexture.dispose();
         //
         boxbossTexture.dispose();
         pipebossTexture.dispose();
@@ -198,6 +203,7 @@ public class AssetHelper {
         sodaburstParticle.dispose();
         nitro2Pool.clear();
         nitro2Particle.dispose();
+        waveheadParticle.dispose();
 
         //font
         font.dispose();
@@ -253,6 +259,9 @@ public class AssetHelper {
 
         boomerangTexture = new Texture(Gdx.files.internal("data/boomerang.png"));
         boomerangTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        waveheadTexture = new Texture(Gdx.files.internal("data/wavehead.png"));
+        waveheadTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //BOSS
         boxbossTexture = new Texture(Gdx.files.internal("data/boss/boxboss.png"));
@@ -342,6 +351,7 @@ public class AssetHelper {
 
         knife = new TextureRegion(knifeTexture);
         boomerang = new TextureRegion(boomerangTexture);
+        wavehead = new TextureRegion(waveheadTexture);
 
         hole = new TextureRegion(holeTexture, 0, 0, 32, 32);
 
@@ -461,7 +471,9 @@ public class AssetHelper {
         sodaburstParticle.load(Gdx.files.internal("data/particles/sodaburst.p"), Gdx.files.internal("data/"));
         sodaburstPool = new ParticleEffectPool(sodaburstParticle, 0, 3);
 
-
+        waveheadParticle = new ParticleEffect();
+        waveheadParticle.load(Gdx.files.internal("data/particles/wavehead.p"),Gdx.files.internal("data/"));
+        waveheadPool = new ParticleEffectPool(waveheadParticle,0,3);
     }
 
     private static void loadSounds() {
