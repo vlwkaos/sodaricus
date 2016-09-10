@@ -16,6 +16,7 @@ import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.enemies.WaveHead;
+import com.lumibottle.gameobjects.enemies.bosses.BomberBoss;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
@@ -50,6 +51,7 @@ public class ProgressHandler {
     private int blockspaceCnt;
     private PipeBoss pipeBoss;
     private PangBoss[] pangBosses;
+    private BomberBoss bomberBoss;
 
     //Bullet
     private EnemyBullet[] enemyBullets;
@@ -110,10 +112,10 @@ public class ProgressHandler {
             boomerangs[i].reset(255);
         }
 
-        waveheads = new WaveHead[1];
+        waveheads = new WaveHead[6];
         for (int i=0 ; i<waveheads.length;i++){
             waveheads[i] = new WaveHead();
-            waveheads[i].reset(255);
+            waveheads[i].reset(255+20*i);
         }
 
         Gdx.app.log("ProgressHandler", "Trying to create bullets");
