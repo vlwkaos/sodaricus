@@ -157,6 +157,9 @@ public class ProgressHandler {
         }
         pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
 
+        bomberBoss = new BomberBoss();
+
+
 
         myFXs = new FX[10];
         for (int i = 0; i < myFXs.length; i++)
@@ -458,6 +461,8 @@ public class ProgressHandler {
     public PangBoss[] getPangBosses() {
         return pangBosses;
     }
+
+    public BomberBoss getBomberBoss() {return bomberBoss;}
 
     public Knife[] getKnives() {
         return knives;

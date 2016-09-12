@@ -26,6 +26,7 @@ import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.WaveHead;
+import com.lumibottle.gameobjects.enemies.bosses.BomberBoss;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
@@ -73,6 +74,7 @@ public class GameRenderer {
     private BoxBoss myBoxboss;
     private PipeBoss myPipeboss;
     private PangBoss[] myPangbosses;
+    private BomberBoss myBomberboss;
 
     //ASSET
     private TextureRegion splash;
@@ -102,10 +104,12 @@ public class GameRenderer {
     private TextureRegion boxvulface;
     private TextureRegion blockbullet;
 
+    private TextureRegion bomberboss;
     private Animation pipebossAnimation;
     private Animation forceshieldAnimation;
     private Animation redsodapillarAnimation;
     private Animation redsodapillarbotAnimation;
+
 
     private Animation pangbossAnimation;
 
@@ -215,6 +219,7 @@ public class GameRenderer {
         myBoxboss = myStage.getBoxboss();
         myPipeboss = myStage.getPipeBoss();
         myPangbosses = myStage.getPangBosses();
+        myBomberboss = myStage.getBomberBoss();
     }
 
     private void initAsset() {
@@ -259,6 +264,7 @@ public class GameRenderer {
         redsodapillarbotAnimation = AssetHelper.redsodapillarbotAnim;
 
         pangbossAnimation = AssetHelper.pangBossAnim;
+        bomberboss = AssetHelper.bomberboss;
         //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -569,6 +575,12 @@ public class GameRenderer {
         for (PangBoss a : myPangbosses)
             if (a.isVISIBLE())
                 spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime), a.getX(), a.getY(), a.getWidth() / 2f, a.getHeight() / 2f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getAestheticTheta());
+    }
+
+    private void drawBomberBoss(float runTime){
+        if (myBomberboss.isVISIBLE()){
+
+        }
     }
 
     private void drawDebugMode() {

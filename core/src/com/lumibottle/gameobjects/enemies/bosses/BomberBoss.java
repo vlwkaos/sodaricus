@@ -19,8 +19,8 @@ public class BomberBoss extends GameEvent {
     private float runTime;
 
 
-    public BomberBoss(int width, int height, Polygon hitbox, int hp) {
-        super(width, height, hitbox, hp);
+    public BomberBoss() {
+        super(20, 20, new Polygon(new float[]{}), 3);
         runTime = 0;
         currentState = BomberState.IDLE;
     }
