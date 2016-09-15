@@ -69,7 +69,6 @@ public class BomberBoss extends GameEvent {
                     cirmov += delta * 10.0f;
                 else
                     cirmov = 0;
-
                 // circular movment relative to angle
 
             } else {
