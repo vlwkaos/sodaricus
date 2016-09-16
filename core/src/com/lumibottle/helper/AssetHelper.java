@@ -93,14 +93,15 @@ public class AssetHelper {
     public static TextureRegion wavehead;
 
 
+
     //boss
     public static TextureRegion[] boxcharges;
     public static Animation boxchargeAnim;
     public static TextureRegion boxhitFace;
     public static TextureRegion boxvulFace;
     public static TextureRegion blockbullet;
-    public static TextureRegion bomberboss;
-
+    public static TextureRegion[] bomberboss;
+    public static Animation bomberbossthrowAnim;
 
     private static TextureRegion[] pipeBoss;
     public static Animation pipeBossAnim;
@@ -402,7 +403,11 @@ public class AssetHelper {
         pangBossAnim = new Animation(6 / 60f, pangBoss);
         pangBossAnim.setPlayMode(Animation.PlayMode.LOOP);
 
-        bomberboss = new TextureRegion(bomberbossTexture);
+        bomberboss = new TextureRegion[4];
+        for (int i=0; i<4; i++)
+            bomberboss[i] = new TextureRegion(bomberbossTexture,i*32,0,32,32);
+        bomberbossthrowAnim = new Animation(1/15f,bomberboss);
+        bomberbossthrowAnim.setPlayMode(Animation.PlayMode.NORMAL);
 
         //SODA!
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
@@ -492,6 +497,7 @@ public class AssetHelper {
 
         smokeParticle = new ParticleEffect();
         smokeParticle.load(Gdx.files.internal("data/particles/smoke.p"),Gdx.files.internal("data/particles/"));
+        smokePool = new ParticleEffectPool(smokeParticle,0,3);
     }
 
     private static void loadSounds() {

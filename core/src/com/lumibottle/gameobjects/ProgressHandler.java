@@ -158,6 +158,7 @@ public class ProgressHandler {
         pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
 
         bomberBoss = new BomberBoss();
+        bomberBoss.reset();
 
 
 
@@ -185,13 +186,14 @@ public class ProgressHandler {
 //		updateBlackholes(delta);
 //        updateKnives(delta);
 //        updateBoomerangs(delta);
-        updateWaveHeads(delta);
+//        updateWaveHeads(delta);
         /*
             Boss Updates
          */
 //        updateBoxBoss(delta);
 //		updatePipeBoss(delta);
 //        updatePangBoss(delta);
+        updateBomberBoss(delta);
 //        updateEnemyBullets(delta);
     }
 
@@ -415,6 +417,13 @@ public class ProgressHandler {
         }
     }
 
+    private void updateBomberBoss(float delta){
+        bomberBoss.update(delta);
+        if (bomberBoss.getShoot()){
+            bomberBoss.setShootDone();
+        }
+
+    }
 
     //TODO restart, initialize
 

@@ -104,7 +104,7 @@ public class GameRenderer {
     private TextureRegion boxvulface;
     private TextureRegion blockbullet;
 
-    private TextureRegion bomberboss;
+    private Animation bomberbossAnimation;
     private Animation pipebossAnimation;
     private Animation forceshieldAnimation;
     private Animation redsodapillarAnimation;
@@ -173,6 +173,7 @@ public class GameRenderer {
             drawBoxBoss();
             drawPipeBoss();
             drawPangBoss(runTime);
+            drawBomberBoss();
 
             //main
             // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
@@ -264,7 +265,7 @@ public class GameRenderer {
         redsodapillarbotAnimation = AssetHelper.redsodapillarbotAnim;
 
         pangbossAnimation = AssetHelper.pangBossAnim;
-        bomberboss = AssetHelper.bomberboss;
+        bomberbossAnimation = AssetHelper.bomberbossthrowAnim;
         //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -577,9 +578,20 @@ public class GameRenderer {
                 spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime), a.getX(), a.getY(), a.getWidth() / 2f, a.getHeight() / 2f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getAestheticTheta());
     }
 
-    private void drawBomberBoss(float runTime){
+    private void drawBomberBoss(){
         if (myBomberboss.isVISIBLE()){
 
+            myBomberboss.getParticle().setPosition(myBomberboss.getX()+myBomberboss.getWidth(), myBomberboss.getY()+6.0f);
+            myBomberboss.getParticle().update(Gdx.graphics.getDeltaTime());
+            myBomberboss.getParticle().draw(spriteBatch);
+
+            if (myBomberboss.getPrepared()){
+                spriteBatch.draw(bomberbossAnimation.getKeyFrame(myBomberboss.getShootDelay()),myBomberboss.getX(),myBomberboss.getY());
+
+            } else {
+                spriteBatch.draw(bomberbossAnimation.getKeyFrame(0),myBomberboss.getX(),myBomberboss.getY());
+
+            }
         }
     }
 
