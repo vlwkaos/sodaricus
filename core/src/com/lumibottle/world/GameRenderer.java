@@ -28,10 +28,14 @@ import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.WaveHead;
 import com.lumibottle.gameobjects.enemies.bosses.BomberBoss;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.FirePropulsion;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
+import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+
+import java.sql.Time;
 
 
 /**
@@ -75,6 +79,8 @@ public class GameRenderer {
     private PipeBoss myPipeboss;
     private PangBoss[] myPangbosses;
     private BomberBoss myBomberboss;
+    private TimeBomb[] myTimebombs;
+    private FirePropulsion[] myFirepropulsions;
 
     //ASSET
     private TextureRegion splash;
@@ -105,6 +111,8 @@ public class GameRenderer {
     private TextureRegion blockbullet;
 
     private Animation bomberbossAnimation;
+    private TextureRegion bomberbosshit;
+
     private Animation pipebossAnimation;
     private Animation forceshieldAnimation;
     private Animation redsodapillarAnimation;
@@ -112,6 +120,7 @@ public class GameRenderer {
 
 
     private Animation pangbossAnimation;
+    private Animation timebombAnimation;
 
     private TextureRegion star1, star2;
     private TextureRegion background;
@@ -174,6 +183,7 @@ public class GameRenderer {
             drawPipeBoss();
             drawPangBoss(runTime);
             drawBomberBoss();
+            drawTimebombs(runTime);
 
             //main
             // spriteBatch.setColor(1.0f,1.0f,1.0f,0.5f); semi transparent
@@ -182,6 +192,7 @@ public class GameRenderer {
 
             //fx
             drawFXs();
+            drawFirePropulsion();
 
         }
         //splash
@@ -221,6 +232,9 @@ public class GameRenderer {
         myPipeboss = myStage.getPipeBoss();
         myPangbosses = myStage.getPangBosses();
         myBomberboss = myStage.getBomberBoss();
+        myTimebombs = myStage.getTimebombs();
+        myFirepropulsions = myStage.getFirePropulsions();
+
     }
 
     private void initAsset() {
@@ -266,6 +280,9 @@ public class GameRenderer {
 
         pangbossAnimation = AssetHelper.pangBossAnim;
         bomberbossAnimation = AssetHelper.bomberbossthrowAnim;
+        bomberbosshit = AssetHelper.bomberbosshit;
+        timebombAnimation = AssetHelper.timebombAnim;
+
         //bg
         star1 = AssetHelper.star1;
         star2 = AssetHelper.star2;
@@ -585,12 +602,35 @@ public class GameRenderer {
             myBomberboss.getParticle().update(Gdx.graphics.getDeltaTime());
             myBomberboss.getParticle().draw(spriteBatch);
 
-            if (myBomberboss.getPrepared()){
-                spriteBatch.draw(bomberbossAnimation.getKeyFrame(myBomberboss.getShootDelay()),myBomberboss.getX(),myBomberboss.getY());
-
+            if (myBomberboss.getInvtime() < 0.5f){
+                spriteBatch.draw(bomberbosshit, myBomberboss.getX(), myBomberboss.getY());
             } else {
-                spriteBatch.draw(bomberbossAnimation.getKeyFrame(0),myBomberboss.getX(),myBomberboss.getY());
+                if (myBomberboss.getPrepared()) {
+                    spriteBatch.draw(bomberbossAnimation.getKeyFrame(myBomberboss.getShootDelay()), myBomberboss.getX(), myBomberboss.getY());
+                } else {
+                    spriteBatch.draw(bomberbossAnimation.getKeyFrame(0), myBomberboss.getX(), myBomberboss.getY());
+                }
+            }
+        }
+    }
 
+    private void drawTimebombs(float runTime){
+        for (TimeBomb a : myTimebombs){
+            if (a.isVISIBLE())
+                if (a.isTICKstate())
+                   spriteBatch.draw(timebombAnimation.getKeyFrame(runTime), a.getX(),a.getY(),a.getWidth()/2f,a.getHeight()/2f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+                else
+                    spriteBatch.draw(timebombAnimation.getKeyFrame(0), a.getX(),a.getY(),a.getWidth()/2f,a.getHeight()/2f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+            //add faster flickering?
+        }
+    }
+
+    private void drawFirePropulsion(){
+        for (FirePropulsion a : myFirepropulsions){
+            if (a.isVISIBLE()){
+                a.getParticle().setPosition(a.getX()+a.getWidth()/2.0f, a.getY()+a.getHeight()/2.0f);
+                a.getParticle().update(Gdx.graphics.getDeltaTime());
+                a.getParticle().draw(spriteBatch);
             }
         }
     }

@@ -13,7 +13,7 @@ import com.lumibottle.gameobjects.Squirrel;
 public class EnemyBullet extends GameEvent {
 
 
-    private float runTime;
+    private float runTime; // 애니메이션이 각자 돌기 위해 필요하다.
 
     public EnemyBullet(int width, int height, Polygon hitbox) {
         super(width, height, hitbox, 0);

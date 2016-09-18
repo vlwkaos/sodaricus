@@ -28,6 +28,7 @@ public class BomberBoss extends GameEvent {
     private ParticleEffect smokeParticle;
     private BomberState currentState;
     private float runTime;
+    private float invTime;
     private float shootDelay;
     private boolean prepare;
     private boolean shoot;
@@ -39,6 +40,7 @@ public class BomberBoss extends GameEvent {
         super(32, 32, new Polygon(new float[]{6,0,26,0,26,32,6,32}), 30);
         curVel = new Vector2(0,0);
         runTime = 0.0f;
+        invTime = 5.0f;
         cirmov = 0.0f;
         shootDelay = 0.0f;
         shoot = false;
@@ -54,6 +56,10 @@ public class BomberBoss extends GameEvent {
     public void update(float delta) {
         if (isVISIBLE()) {
             if (getX() < 240 - getWidth()) {
+                if (invTime < 5.0f){
+                    invTime += delta;
+                }
+
 
                 if (currentState == BomberState.IDLE){
                     if (runTime > 0.2f)
@@ -131,6 +137,7 @@ public class BomberBoss extends GameEvent {
 
     public void reset() {
         super.reset(240, GameScreen.gameHeight / 2.0f - getHeight() / 2.0f, 0, 0, 0);
+        invTime = 5.0f;
         runTime = 0.0f;
         cirmov = 0.0f;
         shootDelay = 0.0f;
@@ -138,6 +145,12 @@ public class BomberBoss extends GameEvent {
         prepare = false;
         currentState = BomberState.IDLE;
         smokeParticle = AssetHelper.smokePool.obtain();
+    }
+
+    @Override
+    public void hit(){
+        super.hit();
+        invTime = 0.0f;
     }
 
     @Override
@@ -151,6 +164,10 @@ public class BomberBoss extends GameEvent {
         prepare = false;
         shoot = false;
         shootDelay = 0.0f;
+    }
+
+    public float getInvtime(){
+        return invTime;
     }
     public ParticleEffect getParticle() {
         return smokeParticle;

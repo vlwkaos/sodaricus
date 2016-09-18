@@ -49,6 +49,7 @@ public class AssetHelper {
     private static Texture redsodapillarTexture;
     private static Texture pangbossTexture;
     private static Texture bomberbossTexture;
+    private static Texture timebombTexture;
 
     //
 
@@ -102,6 +103,10 @@ public class AssetHelper {
     public static TextureRegion blockbullet;
     public static TextureRegion[] bomberboss;
     public static Animation bomberbossthrowAnim;
+    public static TextureRegion bomberbosshit;
+    public static TextureRegion[] timebomb;
+    public static Animation timebombAnim;
+
 
     private static TextureRegion[] pipeBoss;
     public static Animation pipeBossAnim;
@@ -152,7 +157,8 @@ public class AssetHelper {
     public static ParticleEffectPool waveheadPool;
     public static ParticleEffect smokeParticle;
     public static ParticleEffectPool smokePool;
-
+    public static ParticleEffect fireParticle;
+    public static ParticleEffectPool firePool;
 
 
     //FONT
@@ -198,7 +204,7 @@ public class AssetHelper {
         redsodapillarTexture.dispose();
         pangbossTexture.dispose();
         bomberbossTexture.dispose();
-
+        timebombTexture.dispose();
         //particle
         rainbowPool.clear();
         rainbowParticle.dispose();
@@ -216,6 +222,8 @@ public class AssetHelper {
         waveheadParticle.dispose();
         smokePool.clear();
         smokeParticle.dispose();
+        firePool.clear();
+        fireParticle.dispose();
 
         //font
         font.dispose();
@@ -286,6 +294,8 @@ public class AssetHelper {
         pangbossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
         bomberbossTexture = new Texture(Gdx.files.internal("data/boss/bomberboss.png"));
         bomberbossTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+        timebombTexture = new Texture(Gdx.files.internal("data/boss/timebomb.png"));
+        timebombTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //FX
         limeexplosionTexture = new Texture(Gdx.files.internal("data/gfx/limexplosion.png"));
@@ -408,6 +418,13 @@ public class AssetHelper {
             bomberboss[i] = new TextureRegion(bomberbossTexture,i*32,0,32,32);
         bomberbossthrowAnim = new Animation(1/15f,bomberboss);
         bomberbossthrowAnim.setPlayMode(Animation.PlayMode.NORMAL);
+        bomberbosshit = new TextureRegion(bomberbossTexture,4*32,0,32,32);
+
+        timebomb = new TextureRegion[2];
+        for (int i=0; i<2; i++)
+            timebomb[i] = new TextureRegion(timebombTexture,i*20,0,20,20);
+        timebombAnim = new Animation(1/30f,timebomb); // setframeduration to lower
+        timebombAnim.setPlayMode(Animation.PlayMode.LOOP);
 
         //SODA!
         greenBullet = new TextureRegion(sodaTexture, 0, 0, 16, 16);
@@ -498,6 +515,10 @@ public class AssetHelper {
         smokeParticle = new ParticleEffect();
         smokeParticle.load(Gdx.files.internal("data/particles/smoke.p"),Gdx.files.internal("data/particles/"));
         smokePool = new ParticleEffectPool(smokeParticle,0,3);
+
+        fireParticle = new ParticleEffect();
+        fireParticle.load(Gdx.files.internal("data/particles/firep.p"),Gdx.files.internal("data/particles/"));
+        firePool = new ParticleEffectPool(fireParticle,0,3);
     }
 
     private static void loadSounds() {

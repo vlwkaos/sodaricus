@@ -68,11 +68,6 @@ public class Knife extends GameEvent {
     }
 
     @Override
-    public void dead() {
-        super.dead();
-    }
-
-    @Override
     public void bottleHitsEnemy(Bullet b) {
         //do nothing. bad object orientation?( inverted)
     }

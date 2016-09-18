@@ -18,8 +18,10 @@ import com.lumibottle.gameobjects.enemies.RoadRoller;
 import com.lumibottle.gameobjects.enemies.WaveHead;
 import com.lumibottle.gameobjects.enemies.bosses.BomberBoss;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
+import com.lumibottle.gameobjects.enemies.bosses.FirePropulsion;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
+import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -52,6 +54,8 @@ public class ProgressHandler {
     private PipeBoss pipeBoss;
     private PangBoss[] pangBosses;
     private BomberBoss bomberBoss;
+    private TimeBomb[] timebombs;
+    private FirePropulsion[] firePropulsions;
 
     //Bullet
     private EnemyBullet[] enemyBullets;
@@ -160,7 +164,14 @@ public class ProgressHandler {
         bomberBoss = new BomberBoss();
         bomberBoss.reset();
 
+        timebombs = new TimeBomb[5];
+        for (int i=0 ; i < timebombs.length ; i++){
+            timebombs[i] = new TimeBomb();
+        }
 
+        firePropulsions = new FirePropulsion[20];
+        for (int i=0 ; i < firePropulsions.length ; i++)
+            firePropulsions[i] = new FirePropulsion();
 
         myFXs = new FX[10];
         for (int i = 0; i < myFXs.length; i++)
@@ -194,6 +205,8 @@ public class ProgressHandler {
 //		updatePipeBoss(delta);
 //        updatePangBoss(delta);
         updateBomberBoss(delta);
+        updateTimebombs(delta);
+        updateFirePropulsions(delta);
 //        updateEnemyBullets(delta);
     }
 
@@ -333,6 +346,12 @@ public class ProgressHandler {
 
         for (PangBoss a : pangBosses)
             a.collide(mySquirrel);
+
+        for (TimeBomb a : timebombs)
+            a.collide(mySquirrel);
+
+        for (FirePropulsion a : firePropulsions)
+            a.collide(mySquirrel,bomberBoss);
     }
 
     /*
@@ -420,9 +439,40 @@ public class ProgressHandler {
     private void updateBomberBoss(float delta){
         bomberBoss.update(delta);
         if (bomberBoss.getShoot()){
+            for (TimeBomb a : timebombs)
+                if (a.isDEAD()) {
+                    a.reset(bomberBoss.getX(), bomberBoss.getY());
+                    break;
+                }
             bomberBoss.setShootDone();
         }
 
+    }
+
+    private void updateTimebombs(float delta){
+        for (TimeBomb a: timebombs) {
+            a.update(delta);
+            if (a.isEXPLODEstate()){
+                int firecnt = 0;
+                for (FirePropulsion b : firePropulsions){
+                    if (firecnt <4) {
+                        if (b.isDEAD()) {
+                            Gdx.app.log("Firepropulsion ",firecnt+" :"+a.getTheta() + firecnt * MathUtils.degreesToRadians*90);
+                            b.reset(a.getX(), a.getY(), a.getTheta() + firecnt * MathUtils.degreesToRadians*90);
+                            firecnt++;
+                        }
+                    } else break;
+                }
+                //spawn firepropulsion
+                a.dead();
+            }
+        }
+    }
+
+    private void updateFirePropulsions(float delta){
+        for (FirePropulsion a : firePropulsions){
+            a.update(delta);
+        }
     }
 
     //TODO restart, initialize
@@ -484,4 +534,10 @@ public class ProgressHandler {
     public WaveHead[] getWaveheads() {
         return waveheads;
     }
+
+    public TimeBomb[] getTimebombs() {
+        return timebombs;
+    }
+
+    public FirePropulsion[] getFirePropulsions(){return firePropulsions;}
 }
