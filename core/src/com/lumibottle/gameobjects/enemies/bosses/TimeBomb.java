@@ -21,13 +21,14 @@ public class TimeBomb extends GameEvent {
     private TimeBombState currentState;
     private float timer;
     float dir;
-    float speed = 50.0f;
+    float speed;
 
 
     public TimeBomb() {
         super(20, 20, new Polygon(new float[] {4,0,16,0,16,20,4,20}),0);
         timer = 0.0f;
         dir = 0.0f;
+        speed = 120.0f;
         currentState = TimeBombState.IDLE;
     }
 
@@ -43,7 +44,7 @@ public class TimeBomb extends GameEvent {
                     currentState = TimeBombState.TICK;
                     setTheta(getTheta()%360);
                 } else {
-                    speed -= delta;
+                    speed -= 50.0f*delta;
                     setVelocity(speed*MathUtils.cosDeg(dir), speed*MathUtils.sinDeg(dir));
                     addTheta(delta*720.0f);
                 }
@@ -95,6 +96,7 @@ public class TimeBomb extends GameEvent {
         dir = MathUtils.random(360);
         super.reset(x+6, y+16, speed*MathUtils.cosDeg(dir), speed*MathUtils.sinDeg(dir), 0);
         timer = 0.0f;
+        speed = 120.0f;
         currentState = TimeBombState.IDLE;
     }
 

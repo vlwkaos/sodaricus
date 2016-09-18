@@ -657,6 +657,9 @@ public class GameRenderer {
         for (PangBoss b : myPangbosses)
             if (b.isVISIBLE())
                 shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+        for (FirePropulsion b : myFirepropulsions)
+            if (b.isVISIBLE())
+                shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
 
         shapeRenderer.end();
     }

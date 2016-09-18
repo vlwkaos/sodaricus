@@ -21,8 +21,10 @@ public class FirePropulsion extends GameEvent {
     private float speed = 150.0f;
     private float timeout;
 
+    //TODO adjust hitbox
     public FirePropulsion() {
-        super(20, 20, new Polygon(new float[] {0,0,20,0,20,20,0,20}), 0);
+        super(20, 20, new Polygon(new float[] {2,2,18,2,18,18,2,18}), 0);
+        getHitbox().setOrigin(10,10);
         timeout = 0.0f;
     }
 
@@ -40,7 +42,8 @@ public class FirePropulsion extends GameEvent {
     }
 
     public void reset(float x, float y, float dir) {
-        super.reset(x, y, speed * MathUtils.cos(dir), speed * MathUtils.sin(dir),0);
+        super.reset(x, y, speed * MathUtils.cosDeg(dir), speed * MathUtils.sinDeg(dir),0);
+        getHitbox().setRotation(dir);
         firep = AssetHelper.firePool.obtain();
         timeout = 0.0f;
     }

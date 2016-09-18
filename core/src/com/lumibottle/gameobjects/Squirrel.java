@@ -114,7 +114,6 @@ public class Squirrel {
                 }
 		/*
 		Position constraints
-		TODO: just put static enemy that detects collision and dead this thing
 		 */
                 if (velocity.y < -150) {
                     velocity.y = -150;
@@ -198,8 +197,6 @@ public class Squirrel {
     }
 
     public void dead() {
-        //TODO white flash maybe not?
-
         FXHelper.getInstance().newFX(getX() - 108 / 2f, getY() - 108 / 2f, FX.QUANTUM_EXPLOSION);
         AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
         rotation = 0;

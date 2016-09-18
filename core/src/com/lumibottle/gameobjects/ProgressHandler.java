@@ -457,8 +457,7 @@ public class ProgressHandler {
                 for (FirePropulsion b : firePropulsions){
                     if (firecnt <4) {
                         if (b.isDEAD()) {
-                            Gdx.app.log("Firepropulsion ",firecnt+" :"+a.getTheta() + firecnt * MathUtils.degreesToRadians*90);
-                            b.reset(a.getX(), a.getY(), a.getTheta() + firecnt * MathUtils.degreesToRadians*90);
+                            b.reset(a.getX(), a.getY(), a.getTheta() + firecnt * 90);
                             firecnt++;
                         }
                     } else break;
