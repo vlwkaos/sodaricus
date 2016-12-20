@@ -18,7 +18,7 @@ public class FirePropulsion extends GameEvent {
 
 
     private ParticleEffect firep;
-    private float speed = 150.0f;
+    private float speed = 180.0f;
     private float timeout;
 
     //TODO adjust hitbox

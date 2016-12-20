@@ -349,6 +349,7 @@ public class ProgressHandler {
 
         for (TimeBomb a : timebombs)
             a.collide(mySquirrel);
+        //nothing for bomber boss, cause you don't want it to get hit by bottles
 
         for (FirePropulsion a : firePropulsions)
             a.collide(mySquirrel,bomberBoss);
