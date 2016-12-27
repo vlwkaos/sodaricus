@@ -1,11 +1,9 @@
 package com.lumibottle.gameobjects.enemies;
 
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.screen.GameScreen;
 
 
@@ -44,5 +42,7 @@ public class Blackhole extends GameEvent {
         float dx = acc * MathUtils.cos(theta);
         float dy = acc * MathUtils.sin(theta);
         b.getVelocity().add(acc * dx, acc * dy);
+
+
     }
 }

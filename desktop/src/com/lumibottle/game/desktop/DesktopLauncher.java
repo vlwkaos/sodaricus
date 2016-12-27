@@ -7,6 +7,9 @@ import com.lumibottle.game.GameMain;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "LumiBottle";
+		config.height = 360;
+		config.width = 640;
 		new LwjglApplication(new GameMain(), config);
 	}
 }

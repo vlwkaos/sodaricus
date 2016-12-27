@@ -56,7 +56,7 @@ public class Squirrel {
         invincTime = 0;
         isInvincible = true;// 나중에 바꿔 무적시간.
         isTransparent = false;
-        life = 5;//life
+        life = 1;//life
 
         ceiling = GameScreen.gameHeight - getHeight() / 2.0f;// temporary
         Gdx.app.log("Squirrel", "ceiling=" + ceiling);
@@ -85,7 +85,7 @@ public class Squirrel {
 		/*
 				Bullet Update
 		 */
-        for (com.lumibottle.gameobjects.Bullets.Bullet b : bullets)
+        for (Bullet b : bullets)
             b.update(delta);
 
 
