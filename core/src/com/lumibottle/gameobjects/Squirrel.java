@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -197,6 +198,7 @@ public class Squirrel {
     }
 
     public void dead() {
+        SoundManager.getInstance().play(SoundManager.DEAD);
         FXHelper.getInstance().newFX(getX() - 108 / 2f, getY() - 108 / 2f, FX.QUANTUM_EXPLOSION);
         AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
         rotation = 0;

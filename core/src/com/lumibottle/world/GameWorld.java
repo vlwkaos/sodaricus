@@ -6,6 +6,8 @@ import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.SoundManager;
+import com.lumibottle.screen.GameScreen;
 
 /**
  * Created by MG-UP on 2016-03-10.
@@ -14,7 +16,7 @@ import com.lumibottle.helper.FXHelper;
 public class GameWorld {
 
     public enum GameState {
-        SPLASH, TITLE, PLAYING, GAMEOVER
+        SPLASH, TITLE, PLAYING, ABOUT,GAMEOVER
     }
 
     private GameState myGameState;
@@ -94,23 +96,51 @@ public class GameWorld {
         } // not splash
     }
 
-    public void onClick() {
+    public void onClick(int screenX,int screenY) {
+        //click coordinate starts from top-left corner
+        //drawing coordinates start from lower-left corner
+        Gdx.app.log("GameWorld", "("+ calcGameX(screenX)+", "+ calcGameY(screenY)+")");
+
         if (myGameState == GameState.SPLASH) {
             if (runTime > 0.5f)
                 skipSplash = true; // for fadeout rendering
-        }
-        if (myGameState == GameState.TITLE) {
+        } else if (myGameState == GameState.TITLE) {
             if (runTime > 1.0f) {// give some delay to prevent accidental click
-                myGameState = GameState.PLAYING;
-                Gdx.app.log("GameWorld", "game start pressed");
-                Gdx.app.log("GameWorld", "squirrel pos : (" + mySquirrel.getX() + ", " + mySquirrel.getY() + ")");
-                runTime = 0.0f;
-                runTime_2 = 0.0f;
+
+                //touch to start
+                // else, touch here to see the credit
+                if (calcGameX(screenX) < 215.0f && calcGameX(screenX) > 25.0f) {
+                    SoundManager.getInstance().play(SoundManager.SELECT);
+                    myGameState = GameState.PLAYING;
+                    runTime = 0.0f;
+                    runTime_2 = 0.0f;
+                } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)> 130.0f){
+                    SoundManager.getInstance().play(SoundManager.SELECT);
+                    myGameState = GameState.ABOUT;
+                }
+            }
+        } else if (myGameState == GameState.ABOUT){
+            myGameState = GameState.TITLE;
+            SoundManager.getInstance().play(SoundManager.SELECT);
+
+        } else if (myGameState == GameState.PLAYING){
+            if (!mySquirrel.isSPAWNING()) {
+                mySquirrel.onClick();
+                SoundManager.getInstance().play(SoundManager.JUMP);
             }
         }
 
 
     }
+
+    private float calcGameX(int screenX){
+        return screenX * GameScreen.gameWidth/Gdx.graphics.getWidth();
+    }
+
+    private float calcGameY(int screenY){
+        return screenY * GameScreen.gameHeight/Gdx.graphics.getHeight();
+    }
+
 
     public Squirrel getMySquirrel() {
         return mySquirrel;
@@ -138,12 +168,12 @@ public class GameWorld {
         return myGameState == GameState.PLAYING;
     }
 
+    public boolean isABOUT() {return myGameState == GameState.ABOUT;}
 
     //maybe gameover is not necessary
     public boolean isGAMEOVER() {
         return myGameState == GameState.GAMEOVER;
     }
-
 
     public void resetRunTime() {
         runTime = 0;

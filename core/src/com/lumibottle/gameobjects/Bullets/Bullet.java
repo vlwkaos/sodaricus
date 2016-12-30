@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.GameEvent;
+import com.lumibottle.helper.SoundManager;
 
 
 /**
@@ -53,4 +54,11 @@ public class Bullet extends GameEvent {
     public float getTheta() {
         return theta;
     }
+
+    @Override
+    public void hit(){
+        super.hit();
+        SoundManager.getInstance().play(SoundManager.HIT);
+    }
+
 }

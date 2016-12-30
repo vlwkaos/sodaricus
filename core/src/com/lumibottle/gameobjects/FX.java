@@ -3,6 +3,7 @@ package com.lumibottle.gameobjects;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.helper.AssetHelper;
+import com.lumibottle.helper.SoundManager;
 
 /**
  * Created by MG-POW on 2016-03-15.

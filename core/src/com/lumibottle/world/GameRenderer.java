@@ -173,14 +173,16 @@ public class GameRenderer {
             drawTitle();
         } else if (myWorld.isGAMEOVER()){
 
+        } else if (myWorld.isABOUT()){
+
         } else {
+            //draw for playing status
 
             drawBlackholes();
             drawBacon(runTime);
         /*
 		Draw enemies below here
 		 */
-
             drawRoadRollers(runTime);
             drawMustaches(runTime);
             drawBlueCrayons();
@@ -328,10 +330,17 @@ public class GameRenderer {
         spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         spriteBatch.draw(title, 0, -(240 - gameHeight) / 2, 240, 240);
 
+        //credit button
+        font.getData().setScale(0.15f);
+        font.draw(spriteBatch, "ABOUT", (240-25.0f), 5.0f);
+
+        //touch to start
         if (myWorld.getFlash()){
             font.getData().setScale(0.2f);
             font.draw(spriteBatch, "TOUCH TO START", (240-90)/2, 20);
         }
+
+        //transition flash
         if (1.0f-myWorld.getRunTime() > 0){
             spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);

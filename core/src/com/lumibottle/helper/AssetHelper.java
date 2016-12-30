@@ -1,6 +1,7 @@
 package com.lumibottle.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -171,7 +172,6 @@ public class AssetHelper {
     public static void load() {
         loadParticles();
         loadTextures();
-        loadSounds();
         loadFonts();
     }
 
@@ -233,6 +233,10 @@ public class AssetHelper {
 
         //font
         font.dispose();
+
+        //sound
+        SoundManager.getInstance().dispose();
+
     }
 
     private static void loadTextures() {
@@ -532,10 +536,6 @@ public class AssetHelper {
         fireParticle = new ParticleEffect();
         fireParticle.load(Gdx.files.internal("data/particles/firep.p"),Gdx.files.internal("data/particles/"));
         firePool = new ParticleEffectPool(fireParticle,0,3);
-    }
-
-    private static void loadSounds() {
-
     }
 
     private static void loadFonts() {
