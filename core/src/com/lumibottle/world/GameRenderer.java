@@ -44,8 +44,6 @@ import java.sql.Time;
 public class GameRenderer {
     //Texture, TextureRegion/Animation
     //Texture need to be disposed
-    //
-
 
     //libs
     private SpriteBatch spriteBatch;
@@ -82,8 +80,12 @@ public class GameRenderer {
     private TimeBomb[] myTimebombs;
     private FirePropulsion[] myFirepropulsions;
 
+    //****************************************************
     //ASSET
+    //****************************************************
     private TextureRegion splash;
+    private TextureRegion title;
+    private TextureRegion whiteflash;
     //
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
@@ -133,6 +135,7 @@ public class GameRenderer {
         this.myWorld = myWorld;
         this.gameHeight = gameHeight;
 
+
         bgOffset = (256 - gameHeight) / (-2);
 
         //camera
@@ -161,8 +164,17 @@ public class GameRenderer {
         spriteBatch.draw(background, 0, bgOffset);
         //Gdx.app.log("runTime",runTime+"");
         //rendering order
-        if (!myWorld.isSPLASH()) {
-            drawStars();
+
+        drawStars();
+        if (myWorld.isSPLASH()) {
+            //splash
+            drawSplash();
+        } else if (myWorld.isTITLE()){
+            drawTitle();
+        } else if (myWorld.isGAMEOVER()){
+
+        } else {
+
             drawBlackholes();
             drawBacon(runTime);
         /*
@@ -194,17 +206,18 @@ public class GameRenderer {
             drawFXs();
             drawFirePropulsion();
 
+
+            drawStart();
         }
-        //splash
-        drawSplash();
 
-
+        font.getData().setScale(0.1f);
         font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 40);
         spriteBatch.end();
 
 //		drawDebugMode();
 
     }
+
 
 
     /******
@@ -239,6 +252,8 @@ public class GameRenderer {
 
     private void initAsset() {
         splash = AssetHelper.splash;
+        title = AssetHelper.title;
+        whiteflash = AssetHelper.whiteflash;
 
         squirrelDown = AssetHelper.sqdown;
         squirrelAnimation = AssetHelper.sqAnim;
@@ -290,6 +305,7 @@ public class GameRenderer {
 
 
         font = AssetHelper.font;
+
     }
 
     /*
@@ -297,7 +313,6 @@ public class GameRenderer {
         check if object is VISIBLE for culling
      */
     private void drawSplash() {
-        if (myWorld.isSPLASH()) {
             if (myWorld.getRunTime() > 1.0f)
                 spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
             else if (myWorld.getRunTime() < 0.0f)
@@ -306,6 +321,29 @@ public class GameRenderer {
                 spriteBatch.setColor(1.0f, 1.0f, 1.0f, myWorld.getRunTime());
 
             spriteBatch.draw(splash, 0, -(240 - gameHeight) / 2, 240, 240);
+    }
+
+
+    private void drawTitle() {
+        spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        spriteBatch.draw(title, 0, -(240 - gameHeight) / 2, 240, 240);
+
+        if (myWorld.getFlash()){
+            font.getData().setScale(0.2f);
+            font.draw(spriteBatch, "TOUCH TO START", (240-90)/2, 20);
+        }
+        if (1.0f-myWorld.getRunTime() > 0){
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
+            spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
+        }
+
+
+    }
+
+    private void drawStart(){
+        if (1.0f-myWorld.getRunTime() > 0){
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
+            spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
         }
     }
 

@@ -21,9 +21,11 @@ public class GameWorld {
 
     //click
     private boolean skipSplash;
+    private boolean flash;
 
     //for drawing static images
     private float runTime;
+    private float runTime_2;
 
     private Squirrel mySquirrel;
     private ProgressHandler myStage;
@@ -34,7 +36,10 @@ public class GameWorld {
     public GameWorld() {
         //init
         runTime = 0.01f;
+        runTime_2 = 0.0f;
+
         skipSplash = false;
+        flash = flash;
 
         mySquirrel = new Squirrel(20, 20);
 
@@ -55,7 +60,6 @@ public class GameWorld {
         /*
             SPLASH
          */
-
         if (myGameState == GameState.SPLASH) {
             if (skipSplash)
                 runTime -= delta;
@@ -69,12 +73,13 @@ public class GameWorld {
         } else {
             if (myGameState == GameState.TITLE) {
                 runTime += delta;
-            }
-
-        /*
-            Game Start
-         */
-            if (myGameState == GameState.PLAYING) {
+                runTime_2 += delta;
+                if (runTime_2 >0.5f) {
+                    flash = !flash;
+                    runTime_2 = 0.0f;
+                }
+            } else if (myGameState == GameState.PLAYING) {
+                runTime +=delta;
                 mySquirrel.update(delta);
                 myStage.update(delta);
                 myStage.checkCollision();
@@ -95,10 +100,12 @@ public class GameWorld {
                 skipSplash = true; // for fadeout rendering
         }
         if (myGameState == GameState.TITLE) {
-            if (runTime > 0.5f) {// give some delay to prevent accidental click
+            if (runTime > 1.0f) {// give some delay to prevent accidental click
                 myGameState = GameState.PLAYING;
                 Gdx.app.log("GameWorld", "game start pressed");
                 Gdx.app.log("GameWorld", "squirrel pos : (" + mySquirrel.getX() + ", " + mySquirrel.getY() + ")");
+                runTime = 0.0f;
+                runTime_2 = 0.0f;
             }
         }
 
@@ -145,4 +152,11 @@ public class GameWorld {
     public float getRunTime() {
         return runTime;
     }
+
+    public float getRunTime_2() {
+        return runTime_2;
+    }
+
+    public boolean getFlash(){return flash;}
+
 }

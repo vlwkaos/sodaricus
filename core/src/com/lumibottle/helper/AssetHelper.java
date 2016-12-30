@@ -18,27 +18,29 @@ public class AssetHelper {
     /*
         Textures - logical mapping with TextureRegion
      */
-    public static Texture splashTexture;
+    private static Texture splashTexture;
+    private static Texture titleTexture;
+    private static Texture whiteflashTexture;
 
     //
-    public static Texture backgroundTexture;
-    public static Texture starTexture;
-    public static Texture sodaTexture;
-    public static Texture squirrelTexture;
-    public static Texture bacon;
-    public static Texture limeexplosionTexture;
-    public static Texture bombexplosionTexture;
-    public static Texture enemyTexture;
-    public static Texture mustacheTexture;
-    public static Texture bluecrayonTexture;
-    public static Texture redlaserTexture;
-    public static Texture cowboyhatTexture;
-    public static Texture cowboythrowTexture;
-    public static Texture eyeTexture;
-    public static Texture holeTexture;
-    public static Texture deadTexture;
-    public static Texture blockTexture;
-    public static Texture cloudTexture;
+    private static Texture backgroundTexture;
+    private static Texture starTexture;
+    private static Texture sodaTexture;
+    private static Texture squirrelTexture;
+    private static Texture bacon;
+    private static Texture limeexplosionTexture;
+    private static Texture bombexplosionTexture;
+    private static Texture enemyTexture;
+    private static Texture mustacheTexture;
+    private static Texture bluecrayonTexture;
+    private static Texture redlaserTexture;
+    private static Texture cowboyhatTexture;
+    private static Texture cowboythrowTexture;
+    private static Texture eyeTexture;
+    private static Texture holeTexture;
+    private static Texture deadTexture;
+    private static Texture blockTexture;
+    private static Texture cloudTexture;
     private static Texture knifeTexture;
     private static Texture boomerangTexture;
     private static Texture waveheadTexture;
@@ -57,6 +59,8 @@ public class AssetHelper {
         Texture Region
      */
     public static TextureRegion splash;
+    public static TextureRegion title;
+    public static TextureRegion whiteflash;
 
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
@@ -174,6 +178,8 @@ public class AssetHelper {
     public static void dispose() {
 
         splashTexture.dispose();
+        titleTexture.dispose();
+        whiteflashTexture.dispose();
         //
 
         backgroundTexture.dispose();
@@ -233,6 +239,12 @@ public class AssetHelper {
         //Splash
         splashTexture = new Texture(Gdx.files.internal("data/splash.png"));
         splashTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        titleTexture = new Texture(Gdx.files.internal("data/title.png"));
+        titleTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        whiteflashTexture = new Texture(Gdx.files.internal("data/whiteflash.png"));
+        whiteflashTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //INIT TEXTURE
         //Game Objects
@@ -319,7 +331,8 @@ public class AssetHelper {
         //INIT TEXTUREREGION
         //splash
         splash = new TextureRegion(splashTexture, 0, 0, 240, 240);
-
+        title = new TextureRegion(titleTexture,0,0,240,240);
+        whiteflash = new TextureRegion(whiteflashTexture,0,0,240,240);
 
         //Game Objects
         //Squirrel
@@ -527,7 +540,7 @@ public class AssetHelper {
 
     private static void loadFonts() {
         font = new BitmapFont(Gdx.files.internal("data/font/8bitfont.fnt"));
-        font.getData().setScale(0.3f);
+        font.getData().setScale(0.2f);
 
     }
 

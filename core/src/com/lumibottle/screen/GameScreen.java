@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
         runTime = 0;
 
         gameWidth = 240;//fixed width
-        gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / gameWidth);
+        gameHeight = Gdx.graphics.getHeight() / (Gdx.graphics.getWidth() / gameWidth); // 135 for 9:16
         midPointY = (int) (gameHeight / 2);
 
         myWorld = new GameWorld();

@@ -1,6 +1,5 @@
 package com.lumibottle.gameobjects;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;

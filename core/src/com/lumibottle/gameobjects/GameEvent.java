@@ -88,6 +88,8 @@ public abstract class GameEvent {
         if (hitpoint == 1) {
             dead();
         } else {
+            //TODO score increment
+
             hitpoint--;
         }
     }
