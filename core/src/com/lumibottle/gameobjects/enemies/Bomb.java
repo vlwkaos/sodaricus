@@ -1,15 +1,12 @@
 package com.lumibottle.gameobjects.enemies;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;

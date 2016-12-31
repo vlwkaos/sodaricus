@@ -23,7 +23,6 @@ import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.helper.FXHelper;
-import com.lumibottle.screen.GameScreen;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -80,30 +79,30 @@ public class ProgressHandler {
         /*
             Enemy Updates
 		 */
-//		updateRoadRollers(delta);
-//		updateBombs(delta);
-//		updateMustaches(delta);
-//		updateLaserCrayons(delta);
-//		updateCowboy(delta);
-//		updateBlackholes(delta);
-//        updateKnives(delta);
-//        updateBoomerangs(delta);
-//        updateWaveHeads(delta);
+        updateRoadRollers(delta);
+        updateBombs(delta);
+        updateMustaches(delta);
+        updateLaserCrayons(delta);
+        updateCowboy(delta);
+        updateBlackholes(delta);
+        updateKnives(delta);
+        updateBoomerangs(delta);
+        updateWaveHeads(delta);
         /*
             Boss Updates
          */
-//        updateBoxBoss(delta);
-//		updatePipeBoss(delta);
-//        updatePangBoss(delta);
+        updateBoxBoss(delta);
+        updatePipeBoss(delta);
+        updatePangBoss(delta);
         updateBomberBoss(delta);
         updateTimebombs(delta);
         updateFirePropulsions(delta);
-//        updateEnemyBullets(delta);
+        updateEnemyBullets(delta);
     }
 
 
 	/*
-			Organize
+            Organize
 	    //TODO how to spawn?
 	*/
 
@@ -436,7 +435,6 @@ public class ProgressHandler {
         blackholes = new Blackhole[3];
         for (int i = 0; i < blackholes.length; i++)
             blackholes[i] = new Blackhole();
-
 
         // BOSS
         boxBoss = new BoxBoss(mySquirrel);

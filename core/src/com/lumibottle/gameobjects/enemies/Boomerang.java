@@ -5,8 +5,6 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.gameobjects.Squirrel;
-import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**

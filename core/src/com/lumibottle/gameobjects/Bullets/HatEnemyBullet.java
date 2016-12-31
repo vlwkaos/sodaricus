@@ -1,7 +1,6 @@
 package com.lumibottle.gameobjects.Bullets;
 
 import com.badlogic.gdx.math.Polygon;
-import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 
 /**
  * Created by MG-POW on 2016-07-16.

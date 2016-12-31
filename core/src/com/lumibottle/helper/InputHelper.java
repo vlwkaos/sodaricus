@@ -1,9 +1,6 @@
 package com.lumibottle.helper;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.world.GameWorld;
 
 /**

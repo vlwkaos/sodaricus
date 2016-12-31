@@ -35,13 +35,20 @@ public class SoundManager {
     private static Sound hurt;
     private static Sound fire;
     private static Sound thro;
-    Preferences prefs;
+
+    private Preferences preferences;
+    protected Preferences getPrefs() {
+        if(preferences==null){
+            preferences = Gdx.app.getPreferences("prefs");
+        }
+        return preferences;
+    }
 
     private static float mute;
 
     private SoundManager(){
-        prefs = Gdx.app.getPreferences("prefs");
-        mute = prefs.getFloat("mute", 0.5f);
+        getPrefs().flush();
+        mute = getPrefs().getFloat("mute", 0.5f);
 
         initSound();
     }
@@ -92,7 +99,9 @@ public class SoundManager {
             mute = 0.0f;
         else
             mute = 0.5f;
-        prefs.putFloat("mute", mute);
+        getPrefs().putFloat("mute", mute);
+        getPrefs().flush();
+
     }
 
 }

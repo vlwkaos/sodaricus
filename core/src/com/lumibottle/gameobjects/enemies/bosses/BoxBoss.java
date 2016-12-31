@@ -1,7 +1,5 @@
 package com.lumibottle.gameobjects.enemies.bosses;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.GameEvent;

@@ -3,7 +3,6 @@ package com.lumibottle.gameobjects.enemies.bosses;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
-import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.FXHelper;

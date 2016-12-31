@@ -4,27 +4,25 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import com.lumibottle.gameobjects.Bullets.Bullet;
+import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.ProgressHandler;
+import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.Blackhole;
 import com.lumibottle.gameobjects.enemies.Bomb;
 import com.lumibottle.gameobjects.enemies.Boomerang;
 import com.lumibottle.gameobjects.enemies.Cowboy;
-import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.enemies.Knife;
 import com.lumibottle.gameobjects.enemies.LaserCrayon;
 import com.lumibottle.gameobjects.enemies.Mustache;
-import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.enemies.RoadRoller;
-import com.lumibottle.gameobjects.Squirrel;
-import com.lumibottle.gameobjects.Star;
 import com.lumibottle.gameobjects.enemies.WaveHead;
 import com.lumibottle.gameobjects.enemies.bosses.BomberBoss;
 import com.lumibottle.gameobjects.enemies.bosses.BoxBoss;
@@ -34,8 +32,6 @@ import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
-
-import java.sql.Time;
 
 
 /**

@@ -1,11 +1,8 @@
 package com.lumibottle.gameobjects.Bullets;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.GameEvent;
-import com.lumibottle.gameobjects.Squirrel;
 
 /**
  *  Bullets are objects fired, or reset by other Objects
