@@ -81,8 +81,6 @@ public class Squirrel {
     public void update(float delta) {
         // constant delta
 
-
-
 		/*
 				Bullet Update
 		 */
@@ -104,6 +102,7 @@ public class Squirrel {
                     currentState = SquirrelState.SHOOTING;
                     for (com.lumibottle.gameobjects.Bullets.Bullet b : bullets) {
                         if (b.isDEAD()) {
+                            SoundManager.getInstance().play(SoundManager.THRO);
                             b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 250, rotation); // speed
                             break;
                         }
@@ -198,7 +197,6 @@ public class Squirrel {
     }
 
     public void dead() {
-        SoundManager.getInstance().play(SoundManager.DEAD);
         FXHelper.getInstance().newFX(getX() - 108 / 2f, getY() - 108 / 2f, FX.QUANTUM_EXPLOSION);
         AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
         rotation = 0;
@@ -281,8 +279,8 @@ public class Squirrel {
         return isTransparent;
     }
 
-    public short getLife() {
-        return life;
-    }
+    public void resetLife() {life = 1;}
+
+    public short getLife() {return life;}
 }
 

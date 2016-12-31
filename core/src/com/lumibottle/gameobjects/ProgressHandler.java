@@ -3,6 +3,7 @@ package com.lumibottle.gameobjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;
+import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.Bullets.HatEnemyBullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
@@ -21,12 +22,15 @@ import com.lumibottle.gameobjects.enemies.bosses.FirePropulsion;
 import com.lumibottle.gameobjects.enemies.bosses.PangBoss;
 import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
  */
 public class ProgressHandler {
+
+    private boolean pause;
 
     private int numOfEnemies;
     private float runTime;
@@ -35,7 +39,6 @@ public class ProgressHandler {
 
     private Squirrel mySquirrel;
 
-    private FX[] myFXs;
     //
     private RoadRoller[] roadRollers;
     private Bomb[] bombs;
@@ -60,133 +63,22 @@ public class ProgressHandler {
     private EnemyBullet[] enemyBullets;
 
 
-    private float hatspeed = 100f;
+    private float hatspeed = 100.0f;
 
     public ProgressHandler(Squirrel s) {
         stageNumber = 0;
         mySquirrel = s;
         blockspace = new int[5];
-        blockspaceCnt = 0;
-        /*
-			Initialize enemy objects
-		 */
-        roadRollers = new RoadRoller[4];
-        for (int i = 0; i < roadRollers.length; i++) {
-            roadRollers[i] = new RoadRoller();
-            roadRollers[i].reset(240 + i * 50); //later, with runtime.
-        }
 
-        bombs = new Bomb[4];
-        for (int i = 0; i < bombs.length; i++) {
-            bombs[i] = new Bomb();
-            bombs[i].reset(250 + i * 50); //later, with runtime.
-        }
-
-
-        mustaches = new Mustache[5];
-        for (int i = 0; i < mustaches.length; i++) {
-            mustaches[i] = new Mustache();
-            mustaches[i].reset(240 + i * 20); //later, with runtime.
-        }
-
-        laserCrayons = new LaserCrayon[5];
-        for (int i = 0; i < laserCrayons.length; i++) {
-            laserCrayons[i] = new LaserCrayon();
-            laserCrayons[i].reset(240 + i * 20);
-        }
-
-
-        cowboys = new Cowboy[3];
-        for (int i = 0; i < cowboys.length; i++) {
-            cowboys[i] = new Cowboy();
-            cowboys[i].reset(250);
-
-        }
-
-        knives = new Knife[1];
-        for (int i=0; i<knives.length;i++){
-            knives[i] = new Knife(mySquirrel);
-            knives[i].reset(255);
-        }
-
-        boomerangs = new Boomerang[1];
-        for (int i=0; i<boomerangs.length;i++){
-            boomerangs[i] = new Boomerang();
-            boomerangs[i].reset(255);
-        }
-
-        waveheads = new WaveHead[6];
-        for (int i=0 ; i<waveheads.length;i++){
-            waveheads[i] = new WaveHead();
-            waveheads[i].reset(255+20*i);
-        }
-
-        Gdx.app.log("ProgressHandler", "Trying to create bullets");
-        int j = 0;
-        enemyBullets = new EnemyBullet[40];
-        for (int i = 0; i < 10; i++) {
-            enemyBullets[j] = new HatEnemyBullet();
-            j++;
-        }
-        for (int i = 0; i < 15; i++) {
-            enemyBullets[j] = new BlockEnemyBullet(blockspace);
-            j++;
-        }
-        for (int i = 0; i < 10; i++) {
-            enemyBullets[j] = new PipeEnemyBullet();
-            j++;
-        }
-
-
-        Gdx.app.log("ProgressHandler", "Bullets created");
-
-        blackholes = new Blackhole[3];
-        for (int i = 0; i < blackholes.length; i++) {
-            blackholes[i] = new Blackhole();
-            blackholes[i].reset(240 + i * 20);
-        }
-
-
-        // BOSS
-        boxBoss = new BoxBoss(mySquirrel);
-        boxBoss.reset();
-
-        pipeBoss = new PipeBoss();
-        pipeBoss.reset();
-
-        pangBosses = new PangBoss[8]; // cyclic array가 아니라서 한칸 여분이 필요..
-        for (int i = 0; i < pangBosses.length; i++) {
-            pangBosses[i] = new PangBoss();
-        }
-        pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
-
-        bomberBoss = new BomberBoss();
-        bomberBoss.reset();
-
-        timebombs = new TimeBomb[5];
-        for (int i=0 ; i < timebombs.length ; i++){
-            timebombs[i] = new TimeBomb();
-        }
-
-        firePropulsions = new FirePropulsion[20];
-        for (int i=0 ; i < firePropulsions.length ; i++)
-            firePropulsions[i] = new FirePropulsion();
-
-        myFXs = new FX[10];
-        for (int i = 0; i < myFXs.length; i++)
-            myFXs[i] = new FX();
-
-
+        initialize();
     }
 
 
     public void update(float delta) {
         runTime += delta;
 
-        for (FX f : myFXs)
-            f.update(delta);
-		/*
-			Enemy Updates
+        /*
+            Enemy Updates
 		 */
 //		updateRoadRollers(delta);
 //		updateBombs(delta);
@@ -283,23 +175,23 @@ public class ProgressHandler {
         }
     }
 
-    private void updateWaveHeads(float delta){
-        for (WaveHead a : waveheads){
+    private void updateWaveHeads(float delta) {
+        for (WaveHead a : waveheads) {
             a.update(delta);
             if (a.isDEAD())
                 a.reset(255);
         }
     }
 
-    private void updateBoomerangs(float delta){
-        for (Boomerang a : boomerangs){
+    private void updateBoomerangs(float delta) {
+        for (Boomerang a : boomerangs) {
             a.update(delta);
             if (a.isDEAD())
                 a.reset(255);
         }
     }
 
-    private void updateKnives(float delta){
+    private void updateKnives(float delta) {
         for (Knife a : knives) {
             a.update(delta);
             if (a.isDEAD())
@@ -321,7 +213,7 @@ public class ProgressHandler {
         for (LaserCrayon a : laserCrayons)
             a.collide(mySquirrel);
 
-        for (Knife a: knives)
+        for (Knife a : knives)
             a.collide(mySquirrel);
 
         for (Boomerang a : boomerangs)
@@ -351,7 +243,7 @@ public class ProgressHandler {
         //nothing for bomber boss, cause you don't want it to get hit by bottles
 
         for (FirePropulsion a : firePropulsions)
-            a.collide(mySquirrel,bomberBoss);
+            a.collide(mySquirrel, bomberBoss);
     }
 
     /*
@@ -376,6 +268,8 @@ public class ProgressHandler {
             /*
                    It is reset here, or gameover
                    boxboss can only die when vulnerable -> blockspace is already reset, so do not need to reset again.
+
+                reset when gameover?
              */
         }
 
@@ -436,9 +330,9 @@ public class ProgressHandler {
         }
     }
 
-    private void updateBomberBoss(float delta){
+    private void updateBomberBoss(float delta) {
         bomberBoss.update(delta);
-        if (bomberBoss.getShoot()){
+        if (bomberBoss.getShoot()) {
             for (TimeBomb a : timebombs)
                 if (a.isDEAD()) {
                     a.reset(bomberBoss.getX(), bomberBoss.getY());
@@ -449,13 +343,13 @@ public class ProgressHandler {
 
     }
 
-    private void updateTimebombs(float delta){
-        for (TimeBomb a: timebombs) {
+    private void updateTimebombs(float delta) {
+        for (TimeBomb a : timebombs) {
             a.update(delta);
-            if (a.isEXPLODEstate()){
+            if (a.isEXPLODEstate()) {
                 int firecnt = 0;
-                for (FirePropulsion b : firePropulsions){
-                    if (firecnt <4) {
+                for (FirePropulsion b : firePropulsions) {
+                    if (firecnt < 4) {
                         if (b.isDEAD()) {
                             b.reset(a.getX(), a.getY(), a.getTheta() + firecnt * 90);
                             firecnt++;
@@ -468,13 +362,191 @@ public class ProgressHandler {
         }
     }
 
-    private void updateFirePropulsions(float delta){
-        for (FirePropulsion a : firePropulsions){
+    private void updateFirePropulsions(float delta) {
+        for (FirePropulsion a : firePropulsions) {
             a.update(delta);
         }
     }
 
     //TODO restart, initialize
+    //called at first
+    private void initialize() {
+        /*
+			Initialize enemy objects
+		 */
+        roadRollers = new RoadRoller[4];
+        for (int i = 0; i < roadRollers.length; i++)
+            roadRollers[i] = new RoadRoller();
+
+
+        bombs = new Bomb[4];
+        for (int i = 0; i < bombs.length; i++)
+            bombs[i] = new Bomb();
+
+
+        mustaches = new Mustache[5];
+        for (int i = 0; i < mustaches.length; i++)
+            mustaches[i] = new Mustache();
+
+
+        laserCrayons = new LaserCrayon[5];
+        for (int i = 0; i < laserCrayons.length; i++)
+            laserCrayons[i] = new LaserCrayon();
+
+
+        cowboys = new Cowboy[3];
+        for (int i = 0; i < cowboys.length; i++)
+            cowboys[i] = new Cowboy();
+
+
+        knives = new Knife[1];
+        for (int i = 0; i < knives.length; i++)
+            knives[i] = new Knife(mySquirrel);
+
+
+        boomerangs = new Boomerang[1];
+        for (int i = 0; i < boomerangs.length; i++)
+            boomerangs[i] = new Boomerang();
+
+
+        waveheads = new WaveHead[6];
+        for (int i = 0; i < waveheads.length; i++)
+            waveheads[i] = new WaveHead();
+
+
+        Gdx.app.log("ProgressHandler", "Trying to create bullets");
+        int j = 0;
+        enemyBullets = new EnemyBullet[40];
+        for (int i = 0; i < 10; i++) {
+            enemyBullets[j] = new HatEnemyBullet();
+            j++;
+        }
+        for (int i = 0; i < 15; i++) {
+            enemyBullets[j] = new BlockEnemyBullet(blockspace);
+            j++;
+        }
+        for (int i = 0; i < 10; i++) {
+            enemyBullets[j] = new PipeEnemyBullet();
+            j++;
+        }
+
+
+        Gdx.app.log("ProgressHandler", "Bullets created");
+
+        blackholes = new Blackhole[3];
+        for (int i = 0; i < blackholes.length; i++)
+            blackholes[i] = new Blackhole();
+
+
+        // BOSS
+        boxBoss = new BoxBoss(mySquirrel);
+
+        pipeBoss = new PipeBoss();
+
+        pangBosses = new PangBoss[8]; // cyclic array가 아니라서 한칸 여분이 필요..
+        for (int i = 0; i < pangBosses.length; i++)
+            pangBosses[i] = new PangBoss();
+
+        //pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
+
+        bomberBoss = new BomberBoss();
+
+        timebombs = new TimeBomb[5];
+        for (int i = 0; i < timebombs.length; i++)
+            timebombs[i] = new TimeBomb();
+
+
+        firePropulsions = new FirePropulsion[20];
+        for (int i = 0; i < firePropulsions.length; i++)
+            firePropulsions[i] = new FirePropulsion();
+    }
+
+    //kill all on gameover
+    private void killAll() {
+        for (Bullet a : mySquirrel.getBullets())
+            if (!a.isDEAD())
+                a.dead();
+
+        for (FX f : FXHelper.getInstance().getMyFXs())
+            if (f.isTOBEDRAWN())
+                f.remove();
+
+        // enemy
+        for (RoadRoller a : roadRollers)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (Bomb a : bombs)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (Mustache a : mustaches)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (LaserCrayon a : laserCrayons)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (Knife a : knives)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (Boomerang a : boomerangs)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (Cowboy a : cowboys)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (WaveHead a : waveheads)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (EnemyBullet a : enemyBullets)
+            if (a != null)
+                if (!a.isDEAD())
+                    a.dead();
+
+        for (Blackhole a : blackholes)
+            if (!a.isDEAD())
+                a.dead();
+
+        if (!boxBoss.isDEAD())
+            boxBoss.dead();
+
+        if (!pipeBoss.isDEAD())
+            pipeBoss.dead();
+
+        for (PangBoss a : pangBosses)
+            if (!a.isDEAD())
+                a.dead();
+
+        if (!bomberBoss.isDEAD())
+            bomberBoss.dead();
+
+        for (TimeBomb a : timebombs)
+            if (!a.isDEAD())
+                a.dead();
+
+        for (FirePropulsion a : firePropulsions)
+            if (!a.isDEAD())
+                a.dead();
+    }
+
+    public void restart() {
+        killAll();
+
+        pause = false;
+        runTime = 0.0f;
+
+        blockspaceCnt = 0;
+        for (int i = 0; i < blockspace.length; i++)
+            blockspace[i] = 0;
+
+        mySquirrel.resetLife();
+    }
 
     /*
         GETTER SETTER
@@ -520,7 +592,9 @@ public class ProgressHandler {
         return pangBosses;
     }
 
-    public BomberBoss getBomberBoss() {return bomberBoss;}
+    public BomberBoss getBomberBoss() {
+        return bomberBoss;
+    }
 
     public Knife[] getKnives() {
         return knives;
@@ -538,5 +612,11 @@ public class ProgressHandler {
         return timebombs;
     }
 
-    public FirePropulsion[] getFirePropulsions(){return firePropulsions;}
+    public FirePropulsion[] getFirePropulsions() {
+        return firePropulsions;
+    }
+
+    public boolean getPause() {
+        return pause;
+    }
 }

@@ -24,6 +24,11 @@ public class FXHelper {
     public void newFX(float x, float y, short animNo) {
         for (FX f : myFXs) {
             if (f.isREADY()) {
+                switch(animNo){
+                    case FX.QUANTUM_EXPLOSION: SoundManager.getInstance().play(SoundManager.DEAD); break;
+                    case FX.SODA_EXPLOSION: SoundManager.getInstance().play(SoundManager.HIT); break;
+                }
+
                 f.reset(x, y, animNo);
                 break;
             }
@@ -34,6 +39,12 @@ public class FXHelper {
     public void newFX(float x, float y, float size, short animNo) {
         for (FX f : myFXs) {
             if (f.isREADY()) {
+                switch(animNo){
+                    case FX.QUANTUM_EXPLOSION: SoundManager.getInstance().play(SoundManager.DEAD); break;
+                    case FX.SODA_EXPLOSION: SoundManager.getInstance().play(SoundManager.HIT); break;
+                    case FX.POOF: SoundManager.getInstance().play(SoundManager.KILL); break;
+                }
+
                 f.reset(x, y, size, animNo);
                 break;
             }

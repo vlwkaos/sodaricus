@@ -172,10 +172,10 @@ public class GameRenderer {
         } else if (myWorld.isTITLE()){
             drawTitle();
         } else if (myWorld.isGAMEOVER()){
-
+            drawGameOver();
         } else if (myWorld.isABOUT()){
 
-        } else {
+        } else if (myWorld.isPLAYING()){
             //draw for playing status
 
             drawBlackholes();
@@ -314,6 +314,12 @@ public class GameRenderer {
         Drawing methods
         check if object is VISIBLE for culling
      */
+
+    /********************************************************
+     Game State Drawing
+
+     ********************************************************/
+
     private void drawSplash() {
             if (myWorld.getRunTime() > 1.0f)
                 spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -337,7 +343,7 @@ public class GameRenderer {
         //touch to start
         if (myWorld.getFlash()){
             font.getData().setScale(0.2f);
-            font.draw(spriteBatch, "TOUCH TO START", (240-90)/2, 20);
+            font.draw(spriteBatch, "TOUCH TO START", (240-90)/2, gameHeight*0.15f);
         }
 
         //transition flash
@@ -354,8 +360,21 @@ public class GameRenderer {
             spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
         }
+
+        font.getData().setScale(0.2f);
+        font.draw(spriteBatch, "SCORE", 0, gameHeight-2.0f);
     }
 
+    private void drawGameOver(){
+            font.getData().setScale(0.2f);
+            font.draw(spriteBatch, "GAME OVER", (240-90)/2, 60);
+    }
+
+
+    /********************************************************
+        Game Object Drawing
+
+     ********************************************************/
 
     private void drawSquirrel() {
         //draw main actor

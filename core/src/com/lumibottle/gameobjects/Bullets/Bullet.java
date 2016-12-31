@@ -55,10 +55,4 @@ public class Bullet extends GameEvent {
         return theta;
     }
 
-    @Override
-    public void hit(){
-        super.hit();
-        SoundManager.getInstance().play(SoundManager.HIT);
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.lumibottle.helper;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.audio.Sound;
 
 /**
@@ -21,6 +22,9 @@ public class SoundManager {
     final public static int SELECT = 3;
     final public static int JUMP = 4;
     final public static int HURT = 5;
+    final public static int FIRE = 6;
+    final public static int THRO = 7;
+
 
 
     private static Sound hit;
@@ -29,11 +33,16 @@ public class SoundManager {
     private static Sound select;
     private static Sound jump;
     private static Sound hurt;
+    private static Sound fire;
+    private static Sound thro;
+    Preferences prefs;
 
     private static float mute;
 
     private SoundManager(){
-        mute = 0.5f;
+        prefs = Gdx.app.getPreferences("prefs");
+        mute = prefs.getFloat("mute", 0.5f);
+
         initSound();
     }
 
@@ -46,6 +55,9 @@ public class SoundManager {
         kill = Gdx.audio.newSound(Gdx.files.internal("data/sound/kill.wav"));
         dead = Gdx.audio.newSound(Gdx.files.internal("data/sound/dead.wav"));
         select = Gdx.audio.newSound(Gdx.files.internal("data/sound/select.wav"));
+
+        fire =  Gdx.audio.newSound(Gdx.files.internal("data/sound/fire.wav"));
+        thro =  Gdx.audio.newSound(Gdx.files.internal("data/sound/throw.wav"));
     }
 
 
@@ -56,6 +68,9 @@ public class SoundManager {
         select.dispose();
         jump.dispose();
         hurt.dispose();
+
+        fire.dispose();
+        thro.dispose();
     }
 
     public void play(int id){
@@ -66,6 +81,8 @@ public class SoundManager {
             case DEAD: dead.play(mute); break;
             case HURT: hurt.play(mute); break;
             case SELECT: select.play(mute); break;
+            case FIRE: fire.play(mute); break;
+            case THRO: thro.play(mute); break;
         }
 
     }
@@ -75,6 +92,7 @@ public class SoundManager {
             mute = 0.0f;
         else
             mute = 0.5f;
+        prefs.putFloat("mute", mute);
     }
 
 }

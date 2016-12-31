@@ -7,6 +7,7 @@ import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -112,6 +113,7 @@ public class TimeBomb extends GameEvent {
         super.dead();
         currentState = TimeBombState.IDLE;
         FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
+        SoundManager.getInstance().play(SoundManager.FIRE);
     }
 
     @Override

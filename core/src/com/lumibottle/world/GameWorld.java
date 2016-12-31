@@ -27,7 +27,7 @@ public class GameWorld {
 
     //for drawing static images
     private float runTime;
-    private float runTime_2;
+    private float runTime_2; // strobe effect
 
     private Squirrel mySquirrel;
     private ProgressHandler myStage;
@@ -41,7 +41,6 @@ public class GameWorld {
         runTime_2 = 0.0f;
 
         skipSplash = false;
-        flash = flash;
 
         mySquirrel = new Squirrel(20, 20);
 
@@ -57,7 +56,6 @@ public class GameWorld {
     public void update(float delta) {
         if (delta > .15f)
             delta = .15f;
-
 
         /*
             SPLASH
@@ -81,15 +79,25 @@ public class GameWorld {
                     runTime_2 = 0.0f;
                 }
             } else if (myGameState == GameState.PLAYING) {
-                runTime +=delta;
-                mySquirrel.update(delta);
-                myStage.update(delta);
-                myStage.checkCollision();
-                //gameover
-            }
+                if (mySquirrel.getLife()<0) {
+                    runTime = 0.0f;
+                    myGameState = GameState.GAMEOVER;
+                }
 
-            for (FX f : FXHelper.getInstance().getMyFXs())
-                f.update(delta);
+                if (!myStage.getPause()) {
+                    runTime += delta;
+                    mySquirrel.update(delta);
+                    myStage.update(delta);
+                    myStage.checkCollision();
+
+                    for (FX f : FXHelper.getInstance().getMyFXs())
+                        f.update(delta);
+                }
+                //gameover
+            } else if (myGameState == GameState.GAMEOVER){
+                runTime += delta;
+                Gdx.app.log("GameWorld","game over");
+            }
 
             for (Star s : myStars)
                 s.update(delta);
@@ -114,6 +122,8 @@ public class GameWorld {
                     myGameState = GameState.PLAYING;
                     runTime = 0.0f;
                     runTime_2 = 0.0f;
+                    myStage.restart();
+
                 } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)> 130.0f){
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.ABOUT;
@@ -127,6 +137,16 @@ public class GameWorld {
             if (!mySquirrel.isSPAWNING()) {
                 mySquirrel.onClick();
                 SoundManager.getInstance().play(SoundManager.JUMP);
+            }
+        } else if (myGameState == GameState.GAMEOVER){
+            if (runTime > 2.0f){
+                //retry
+
+                //to title
+                runTime = 0.0f;
+                runTime_2 = 0.0f;
+                myGameState = GameState.TITLE;
+                SoundManager.getInstance().play(SoundManager.SELECT);
             }
         }
 

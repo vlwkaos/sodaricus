@@ -21,6 +21,8 @@ public class FX {
     public static final short LASER_SHOT = 2;
     public static final short BOMB_EXPLOSION = 3;
     public static final short QUANTUM_EXPLOSION = 4;
+    public static final short POOF = 5;
+
 
 
     private FXState currentState;
@@ -153,5 +155,10 @@ public class FX {
 
     public float getSize() {
         return size;
+    }
+
+    public void remove(){
+        position.set(-255, -255);
+        currentState = FXState.READY;
     }
 }
