@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.ScoreHelper;
 import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
@@ -87,9 +88,9 @@ public abstract class GameEvent {
     public void hit() {
         if (hitpoint == 1) {
             dead();
-        } else {
+        } else if (hitpoint > 1){
             //TODO score increment
-
+            ScoreHelper.getInstance().incrementScore(10);
             hitpoint--;
         }
     }
@@ -97,6 +98,7 @@ public abstract class GameEvent {
     // if using particle, free particle here
     public void dead() {
         prev_pos.set(getPosition());
+        hitbox.setPosition(-255,-255);
         position.set(-255, -255);
         currentState = EventState.DEAD; // hit to deploy
 
@@ -109,11 +111,9 @@ public abstract class GameEvent {
     public void collide(Squirrel squirrel) {
         if (isVISIBLE()) {
             for (Bullet b : squirrel.getBullets()) {
-                if (b.getX() + b.getWidth() > getX())
                     if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
                         //When bullet hits Event
                         bottleHitsEnemy(b);
-                        //break;
                     }
             }
             //When squirrel is hit by event

@@ -59,6 +59,7 @@ public class AssetHelper {
      */
     public static TextureRegion splash;
     public static TextureRegion title;
+    public static TextureRegion titletext;
     public static TextureRegion whiteflash;
 
     public static TextureRegion spacebg, star1, star2;
@@ -334,6 +335,7 @@ public class AssetHelper {
         //splash
         splash = new TextureRegion(splashTexture, 0, 0, 240, 240);
         title = new TextureRegion(titleTexture,0,0,240,240);
+        titletext = new TextureRegion(titleTexture,240,0,240,240);
         whiteflash = new TextureRegion(whiteflashTexture,0,0,240,240);
 
         //Game Objects

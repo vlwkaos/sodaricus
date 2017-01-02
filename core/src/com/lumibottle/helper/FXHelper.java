@@ -22,6 +22,9 @@ public class FXHelper {
     }
 
     public void newFX(float x, float y, short animNo) {
+        if (x < -20)
+            return;
+
         for (FX f : myFXs) {
             if (f.isREADY()) {
                 switch(animNo){
@@ -37,6 +40,9 @@ public class FXHelper {
     }
 
     public void newFX(float x, float y, float size, short animNo) {
+        if (x+size < 0)
+            return;
+
         for (FX f : myFXs) {
             if (f.isREADY()) {
                 switch(animNo){

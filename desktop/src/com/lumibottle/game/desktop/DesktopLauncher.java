@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "LumiBottle";
 		config.height = 360;
 		config.width = 640;
+		config.forceExit = false;
 		new LwjglApplication(new GameMain(), config);
 	}
 }

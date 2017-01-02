@@ -39,7 +39,7 @@ public class RoadRoller extends GameEvent {
     }
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameScreen.gameHeight) - getHeight(), -50, 0, 0);
+        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()) , -50, 0, 0);
         popcornParticle = AssetHelper.popcornPool.obtain();
 
     }

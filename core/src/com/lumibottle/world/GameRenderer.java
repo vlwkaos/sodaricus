@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
@@ -32,6 +33,8 @@ import com.lumibottle.gameobjects.enemies.bosses.PipeBoss;
 import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.ScoreHelper;
+import com.lumibottle.helper.SoundManager;
 
 
 /**
@@ -81,6 +84,7 @@ public class GameRenderer {
     //****************************************************
     private TextureRegion splash;
     private TextureRegion title;
+    private TextureRegion titletext;
     private TextureRegion whiteflash;
     //
     private TextureRegion squirrelDown;
@@ -165,19 +169,17 @@ public class GameRenderer {
         if (myWorld.isSPLASH()) {
             //splash
             drawSplash();
-        } else if (myWorld.isTITLE()){
-            drawTitle();
-        } else if (myWorld.isGAMEOVER()){
-            drawGameOver();
-        } else if (myWorld.isABOUT()){
-
-        } else if (myWorld.isPLAYING()){
+        } else if (myWorld.isTITLE()) {
+            drawTitle(runTime);
+        } else if (myWorld.isABOUT()) {
+            drawAbout();
+        } else {
             //draw for playing status
 
             drawBlackholes();
             drawBacon(runTime);
         /*
-		Draw enemies below here
+        Draw enemies below here
 		 */
             drawRoadRollers(runTime);
             drawMustaches(runTime);
@@ -204,18 +206,18 @@ public class GameRenderer {
             drawFXs();
             drawFirePropulsion();
 
-
-            drawStart();
+            if (myWorld.isPLAYING())
+                drawStart();
+            else if (myWorld.isGAMEOVER())
+                drawGameOver();
         }
 
         font.getData().setScale(0.1f);
-        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 40);
+        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
         spriteBatch.end();
-
 //		drawDebugMode();
 
     }
-
 
 
     /******
@@ -251,6 +253,7 @@ public class GameRenderer {
     private void initAsset() {
         splash = AssetHelper.splash;
         title = AssetHelper.title;
+        titletext = AssetHelper.titletext;
         whiteflash = AssetHelper.whiteflash;
 
         squirrelDown = AssetHelper.sqdown;
@@ -312,64 +315,104 @@ public class GameRenderer {
      */
 
     /********************************************************
-     Game State Drawing
-
+     * Game State Drawing
      ********************************************************/
 
     private void drawSplash() {
-            if (myWorld.getRunTime() > 1.0f)
-                spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-            else if (myWorld.getRunTime() < 0.0f)
-                spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.0f);
-            else
-                spriteBatch.setColor(1.0f, 1.0f, 1.0f, myWorld.getRunTime());
+        if (myWorld.getRunTime() > 1.0f)
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        else if (myWorld.getRunTime() < 0.0f)
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.0f);
+        else
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, myWorld.getRunTime());
 
-            spriteBatch.draw(splash, 0, -(240 - gameHeight) / 2, 240, 240);
+        spriteBatch.draw(splash, 0, -(240 - gameHeight) / 2, 240, 240);
     }
 
 
-    private void drawTitle() {
+    private void drawTitle(float runTime) {
+        //squirrel
         spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        spriteBatch.draw(title, 0, -(240 - gameHeight) / 2, 240, 240);
+        spriteBatch.draw(title, 0, (-(240 - gameHeight) / 2)+ 2*MathUtils.sin(runTime*2), 240, 240);
+        //title text
+        spriteBatch.draw(titletext, 0, -(240 - gameHeight) / 2, 240, 240);
 
         //credit button
-        font.getData().setScale(0.15f);
-        font.draw(spriteBatch, "ABOUT", (240-25.0f), 5.0f);
+        font.getData().setScale(0.16f);
+        font.draw(spriteBatch, "ABOUT", (240 - 25.5f), 5.0f);
+
+        //sound option
+        String soundStr = "SOUND " + SoundManager.getInstance().getMuteState();
+        font.getData().setScale(0.16f);
+        font.draw(spriteBatch, soundStr, (240 - soundStr.length() * 5.2f), gameHeight - 2.2f);
 
         //touch to start
-        if (myWorld.getFlash()){
+        if (myWorld.getFlash()) {
             font.getData().setScale(0.2f);
-            font.draw(spriteBatch, "TOUCH TO START", (240-90)/2, gameHeight*0.15f);
+            font.draw(spriteBatch, "TOUCH TO START", (240 - 90) / 2, gameHeight * 0.15f);
         }
 
         //transition flash
-        if (1.0f-myWorld.getRunTime() > 0){
-            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
+        if (1.0f - myWorld.getRunTime() > 0) {
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f - myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
         }
 
 
     }
 
-    private void drawStart(){
-        if (1.0f-myWorld.getRunTime() > 0){
-            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f-myWorld.getRunTime());
+    private void drawStart() {
+        if (1.0f - myWorld.getRunTime() > 0) {
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f - myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
         }
+
+        if (3.0f - myWorld.getRunTime() > 0) {
+            font.getData().setScale(0.16f);
+            font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 110 - (ScoreHelper.getInstance().getBest().length() * 5.2f) / 2, gameHeight - 2.2f);
+        }
+
+
+        font.getData().setScale(0.16f);
+        font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
+    }
+
+    private void drawAbout(){
+        String text = "ABOUT";
+        font.getData().setScale(0.2f);
+        font.draw(spriteBatch, text, 120 - (text.length()*6.0f)/2, gameHeight*0.85f);
+        font.getData().setScale(0.16f);
+
+        font.setColor(1.0f,1.0f,0.3f,1.0f);
+        text = "Developed By";
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.65f);
+
+        font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        text = "TUNASAND";
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.58f);
+
+        font.setColor(1.0f,1.0f,0.3f,1.0f);
+        text = "Special Thanks To";
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.45f);
+        font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        text = "Superdowonman";
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.38f);
+        text = "Blue Eyed Kang Mayoungjohn Masochist Storm of Hyper Spacetime Man";
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.30f);
+
+    }
+
+    private void drawGameOver() {
+        font.getData().setScale(0.16f);
+        font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
 
         font.getData().setScale(0.2f);
-        font.draw(spriteBatch, "SCORE", 0, gameHeight-2.0f);
-    }
-
-    private void drawGameOver(){
-            font.getData().setScale(0.2f);
-            font.draw(spriteBatch, "GAME OVER", (240-90)/2, 60);
+        font.draw(spriteBatch, "GAME OVER", (240 - 90) / 2, 60);
     }
 
 
     /********************************************************
-        Game Object Drawing
-
+     * Game Object Drawing
      ********************************************************/
 
     private void drawSquirrel() {
@@ -461,31 +504,31 @@ public class GameRenderer {
 
 
     //Enemies
-    private void drawWaveHeads(){
-        for (WaveHead a : myWaveheads){
-            if (a.isVISIBLE()){
+    private void drawWaveHeads() {
+        for (WaveHead a : myWaveheads) {
+            if (a.isVISIBLE()) {
 
-                a.getParticle().setPosition(a.getX()+a.getWidth()/2.0f, a.getY()+a.getHeight()/2.0f);
+                a.getParticle().setPosition(a.getX() + a.getWidth() / 2.0f, a.getY() + a.getHeight() / 2.0f);
                 a.getParticle().update(Gdx.graphics.getDeltaTime());
                 a.getParticle().draw(spriteBatch);
 
-                spriteBatch.draw(wavehead,a.getX(),a.getY());
+                spriteBatch.draw(wavehead, a.getX(), a.getY());
 
             }
         }
     }
 
-    private void drawBoomerangs(){
+    private void drawBoomerangs() {
         for (Boomerang a : myBoomerangs)
-            if (a.isVISIBLE()){
-                spriteBatch.draw(boomerang,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+            if (a.isVISIBLE()) {
+                spriteBatch.draw(boomerang, a.getX(), a.getY(), a.getWidth() / 2.0f, a.getHeight() / 2.0f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getTheta());
             }
     }
 
-    private void drawKnives(){
+    private void drawKnives() {
         for (Knife a : myKnives)
-            if (a.isVISIBLE()){
-                spriteBatch.draw(knife,a.getX(),a.getY(),a.getWidth()/2.0f,a.getHeight()/2.0f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+            if (a.isVISIBLE()) {
+                spriteBatch.draw(knife, a.getX(), a.getY(), a.getWidth() / 2.0f, a.getHeight() / 2.0f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getTheta());
             }
     }
 
@@ -657,14 +700,14 @@ public class GameRenderer {
                 spriteBatch.draw(pangbossAnimation.getKeyFrame(runTime), a.getX(), a.getY(), a.getWidth() / 2f, a.getHeight() / 2f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getAestheticTheta());
     }
 
-    private void drawBomberBoss(){
-        if (myBomberboss.isVISIBLE()){
+    private void drawBomberBoss() {
+        if (myBomberboss.isVISIBLE()) {
 
-            myBomberboss.getParticle().setPosition(myBomberboss.getX()+myBomberboss.getWidth(), myBomberboss.getY()+6.0f);
+            myBomberboss.getParticle().setPosition(myBomberboss.getX() + myBomberboss.getWidth(), myBomberboss.getY() + 6.0f);
             myBomberboss.getParticle().update(Gdx.graphics.getDeltaTime());
             myBomberboss.getParticle().draw(spriteBatch);
 
-            if (myBomberboss.getInvtime() < 0.5f){
+            if (myBomberboss.getInvtime() < 0.5f) {
                 spriteBatch.draw(bomberbosshit, myBomberboss.getX(), myBomberboss.getY());
             } else {
                 if (myBomberboss.getPrepared()) {
@@ -676,21 +719,21 @@ public class GameRenderer {
         }
     }
 
-    private void drawTimebombs(float runTime){
-        for (TimeBomb a : myTimebombs){
+    private void drawTimebombs(float runTime) {
+        for (TimeBomb a : myTimebombs) {
             if (a.isVISIBLE())
                 if (a.isTICKstate())
-                   spriteBatch.draw(timebombAnimation.getKeyFrame(runTime), a.getX(),a.getY(),a.getWidth()/2f,a.getHeight()/2f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+                    spriteBatch.draw(timebombAnimation.getKeyFrame(runTime), a.getX(), a.getY(), a.getWidth() / 2f, a.getHeight() / 2f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getTheta());
                 else
-                    spriteBatch.draw(timebombAnimation.getKeyFrame(0), a.getX(),a.getY(),a.getWidth()/2f,a.getHeight()/2f,a.getWidth(),a.getHeight(),1.0f,1.0f,a.getTheta());
+                    spriteBatch.draw(timebombAnimation.getKeyFrame(0), a.getX(), a.getY(), a.getWidth() / 2f, a.getHeight() / 2f, a.getWidth(), a.getHeight(), 1.0f, 1.0f, a.getTheta());
             //add faster flickering?
         }
     }
 
-    private void drawFirePropulsion(){
-        for (FirePropulsion a : myFirepropulsions){
-            if (a.isVISIBLE()){
-                a.getParticle().setPosition(a.getX()+a.getWidth()/2.0f, a.getY()+a.getHeight()/2.0f);
+    private void drawFirePropulsion() {
+        for (FirePropulsion a : myFirepropulsions) {
+            if (a.isVISIBLE()) {
+                a.getParticle().setPosition(a.getX() + a.getWidth() / 2.0f, a.getY() + a.getHeight() / 2.0f);
                 a.getParticle().update(Gdx.graphics.getDeltaTime());
                 a.getParticle().draw(spriteBatch);
             }

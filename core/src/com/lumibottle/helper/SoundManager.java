@@ -37,6 +37,7 @@ public class SoundManager {
     private static Sound thro;
 
     private Preferences preferences;
+
     protected Preferences getPrefs() {
         if(preferences==null){
             preferences = Gdx.app.getPreferences("prefs");
@@ -97,10 +98,25 @@ public class SoundManager {
     public void toggleMute(){
         if (mute == 0.5f)
             mute = 0.0f;
-        else
+         else {
             mute = 0.5f;
+            SoundManager.getInstance().play(SoundManager.SELECT);
+        }
+
         getPrefs().putFloat("mute", mute);
         getPrefs().flush();
+    }
+
+    public void setMute(float vol){
+        mute = vol;
+    }
+
+    public String getMuteState(){
+        if (mute == 0.5f)
+            return "ON";
+         else
+            return "OFF";
+
 
     }
 

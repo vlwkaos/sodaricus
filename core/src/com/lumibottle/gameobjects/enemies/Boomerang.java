@@ -44,7 +44,7 @@ public class Boomerang extends GameEvent {
     }
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameScreen.gameHeight) - getHeight(), 0, 0, 0);
+        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()), 0, 0, 0);
         turn = false;
         if (getY()-getHeight()/2.0f < GameScreen.gameHeight/2.0f){
             setVelocity(-speed,15);

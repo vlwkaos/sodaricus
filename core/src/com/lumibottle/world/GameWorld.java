@@ -6,6 +6,7 @@ import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.ScoreHelper;
 import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
@@ -80,7 +81,10 @@ public class GameWorld {
                 }
             } else if (myGameState == GameState.PLAYING) {
                 if (mySquirrel.getLife()<0) {
-                    runTime = 0.0f;
+                    //GameOver
+                    ScoreHelper.getInstance().saveScore();
+                    runTime_2 = 0.0f;
+
                     myGameState = GameState.GAMEOVER;
                 }
 
@@ -96,7 +100,10 @@ public class GameWorld {
                 //gameover
             } else if (myGameState == GameState.GAMEOVER){
                 runTime += delta;
-                Gdx.app.log("GameWorld","game over");
+                runTime_2 += delta;
+
+                for (FX f : FXHelper.getInstance().getMyFXs())
+                    f.update(delta);
             }
 
             for (Star s : myStars)
@@ -123,10 +130,13 @@ public class GameWorld {
                     runTime = 0.0f;
                     runTime_2 = 0.0f;
                     myStage.restart();
+                    ScoreHelper.getInstance().resetScore();
 
                 } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)> 130.0f){
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.ABOUT;
+                } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)<5.0f){
+                    SoundManager.getInstance().toggleMute();
                 }
             }
         } else if (myGameState == GameState.ABOUT){
@@ -139,9 +149,8 @@ public class GameWorld {
                 SoundManager.getInstance().play(SoundManager.JUMP);
             }
         } else if (myGameState == GameState.GAMEOVER){
-            if (runTime > 2.0f){
+            if (runTime_2 > 2.0f){
                 //retry
-
                 //to title
                 runTime = 0.0f;
                 runTime_2 = 0.0f;
