@@ -81,7 +81,7 @@ public class SoundManager {
 
         bg = Gdx.audio.newMusic(Gdx.files.internal("data/sound/soda.wav"));
         bg.setLooping(true);
-        bg.setVolume(mute);
+        bg.setVolume(mute*2);
     }
 
 

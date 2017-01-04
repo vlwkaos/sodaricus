@@ -23,7 +23,7 @@ public class PipeEnemyBullet extends EnemyBullet {
         super(25, 120, new Polygon(new float[]{0, 0, 0, 120, 25, 120, 25, 0}));
         up = false;
         targetYpos = 0;
-        margin = 23;
+        margin = 24;
     }
 
     @Override

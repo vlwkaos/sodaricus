@@ -26,7 +26,7 @@ public class EnemyBullet extends GameEvent {
             getPosition().add(getVelocity().cpy().scl(delta));
             specificUpdate(delta);
             if (isOutOfScreen(true, false, false, false))
-                dead();
+                silentDead();
         }
     }
 /*

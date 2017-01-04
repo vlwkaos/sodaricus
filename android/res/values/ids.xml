@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Google Play game services IDs.
+Save this file as res/values/games-ids.xml in your project.
+-->
+<resources>
+    <string name="app_id">344345669079</string>
+    <string name="package_name">com.lumibottle.game</string>
+    <string name="achievement_that_is_totally_not_a_smartphone.">CgkI19vn5IIKEAIQAQ</string>
+    <string name="achievement_entangled_chaos.">CgkI19vn5IIKEAIQAg</string>
+    <string name="achievement_what_does_red_soda_taste_like">CgkI19vn5IIKEAIQAw</string>
+    <string name="achievement_this_is_not_tetris.">CgkI19vn5IIKEAIQBA</string>
+    <string name="achievement_lucky">CgkI19vn5IIKEAIQBQ</string>
+    <string name="leaderboard_high_scores">CgkI19vn5IIKEAIQBg</string>
+</resources>
