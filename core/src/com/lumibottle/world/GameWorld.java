@@ -1,6 +1,7 @@
 package com.lumibottle.world;
 
 import com.badlogic.gdx.Gdx;
+import com.lumibottle.game.GameMain;
 import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.Item;
 import com.lumibottle.gameobjects.ProgressHandler;
@@ -93,6 +94,8 @@ public class GameWorld {
                     runTime_2 = 0.0f;
 
                     myGameState = GameState.GAMEOVER;
+
+                    GameMain.playServices.showScore();
                 }
 
                 if (!myStage.getPause()) {

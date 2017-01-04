@@ -2,6 +2,7 @@ package com.lumibottle.helper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.lumibottle.game.GameMain;
 
 import java.util.Locale;
 
@@ -37,6 +38,8 @@ public class ScoreHelper {
 
     public void incrementScore(int add){
         score+=add;
+        if (score >= 5000)
+            GameMain.playServices.unlockAchievement(4);
     }
 
     public void resetScore(){
@@ -52,6 +55,7 @@ public class ScoreHelper {
             best = score;
             preferences.putInteger("best", score);
             getPrefs().flush();
+            GameMain.playServices.submitScore(score);
         }
     }
 

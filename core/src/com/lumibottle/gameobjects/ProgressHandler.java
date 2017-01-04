@@ -2,6 +2,7 @@ package com.lumibottle.gameobjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.lumibottle.game.GameMain;
 import com.lumibottle.gameobjects.Bullets.BlockEnemyBullet;
 import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
@@ -103,11 +104,7 @@ public class ProgressHandler {
         //보스전이 아니면
         if (noBossAlive()) {
             if (bossStage != -1) { // after a boss fight
-//                switch (bossStage){
-//                    case 0:
-//                } 이렇게 해서 어떤 보스 죽었는지 도전과제 가능..
-
-
+                GameMain.playServices.unlockAchievement(bossStage);
                 bossStage = -1;
                 ScoreHelper.getInstance().incrementScore(1000);
                 spawnItem(0); // spawn life

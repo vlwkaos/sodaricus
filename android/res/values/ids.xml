@@ -12,4 +12,5 @@ Save this file as res/values/games-ids.xml in your project.
     <string name="achievement_this_is_not_tetris.">CgkI19vn5IIKEAIQBA</string>
     <string name="achievement_lucky">CgkI19vn5IIKEAIQBQ</string>
     <string name="leaderboard_high_scores">CgkI19vn5IIKEAIQBg</string>
+
 </resources>

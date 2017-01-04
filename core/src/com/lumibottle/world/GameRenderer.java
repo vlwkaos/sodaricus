@@ -409,7 +409,7 @@ public class GameRenderer {
     }
 
     private void drawAbout(){
-        String text = "SODARICUS v0.9.5";
+        String text = "SODARICUS v1.0.0";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
 

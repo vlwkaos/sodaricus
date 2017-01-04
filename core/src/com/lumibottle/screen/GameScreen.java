@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.lumibottle.game.GameMain;
 import com.lumibottle.helper.InputHelper;
 import com.lumibottle.helper.SoundManager;
 import com.lumibottle.world.GameRenderer;
@@ -27,8 +28,8 @@ public class GameScreen implements Screen {
     *  does not interfere with any actual work.
     *  call in inputhandler
     * */
-
     public GameScreen() {
+
         runTime = 0;
 
         gameWidth = 240;//fixed width
