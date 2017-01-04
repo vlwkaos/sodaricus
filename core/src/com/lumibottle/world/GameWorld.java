@@ -2,9 +2,11 @@ package com.lumibottle.world;
 
 import com.badlogic.gdx.Gdx;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.Item;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
+import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
 import com.lumibottle.helper.ScoreHelper;
 import com.lumibottle.helper.SoundManager;
@@ -15,6 +17,7 @@ import com.lumibottle.screen.GameScreen;
  * what is on the screen is going to be initialized here
  */
 public class GameWorld {
+
 
     public enum GameState {
         SPLASH, TITLE, PLAYING, ABOUT,GAMEOVER
@@ -64,8 +67,11 @@ public class GameWorld {
         if (myGameState == GameState.SPLASH) {
             if (skipSplash)
                 runTime -= delta;
-            else if (runTime < 1.0f)
+            else {
                 runTime += delta;
+                if (runTime >= 1.5f)
+                    skipSplash = true;
+            }
 
             if (runTime <= -.5f) { // turns dark, skip
                 myGameState = GameState.TITLE;
@@ -151,7 +157,6 @@ public class GameWorld {
         } else if (myGameState == GameState.TITLE) {
 
             if (runTime > 1.0f) {// give some delay to prevent accidental click
-
                 //touch to start
                 // else, touch here to see the credit
                 if (calcGameX(screenX) < 200.0f && calcGameX(screenX) > 25.0f) {
@@ -177,6 +182,14 @@ public class GameWorld {
             if (!mySquirrel.isSPAWNING() && !myStage.getPause()) {
                 mySquirrel.onClick();
                 SoundManager.getInstance().play(SoundManager.JUMP);
+            } else if (myStage.getPause()){
+                if (calcGameX(screenX) > 200.0f && calcGameY(screenY)<10.0f){
+                    //to title
+                    runTime = 0.0f;
+                    runTime_2 = 0.0f;
+                    myGameState = GameState.TITLE;
+                    SoundManager.getInstance().play(SoundManager.SELECT);
+                }
             }
         } else if (myGameState == GameState.GAMEOVER){
             if (runTime_2 > 2.0f){
@@ -249,4 +262,6 @@ public class GameWorld {
     public boolean getFlash(){return flash;}
 
     public boolean isPaused(){return myStage.getPause();}
+
+
 }

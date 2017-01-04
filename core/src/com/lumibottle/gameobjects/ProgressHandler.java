@@ -54,6 +54,8 @@ public class ProgressHandler {
 
     private Squirrel mySquirrel;
 
+    private Item[] items;
+
     //
     private RoadRoller[] roadRollers;
     private Bomb[] bombs;
@@ -97,7 +99,7 @@ public class ProgressHandler {
         numHazardTypes = 1;
         hazardCount = 1;
   */
-
+        //spawnItem(0);
         //보스전이 아니면
         if (noBossAlive()) {
             if (bossStage != -1) { // after a boss fight
@@ -105,8 +107,10 @@ public class ProgressHandler {
 //                    case 0:
 //                } 이렇게 해서 어떤 보스 죽었는지 도전과제 가능..
 
+
                 bossStage = -1;
                 ScoreHelper.getInstance().incrementScore(1000);
+                spawnItem(0); // spawn life
             }
             spawnFrequency += delta;
             hazardFrequency += delta;
@@ -156,14 +160,14 @@ public class ProgressHandler {
             hazardCount++; // 2
         }
         if (changed)
-            SoundManager.getInstance().play(SoundManager.POWU);
+            SoundManager.getInstance().play(SoundManager.POWUP);
 
     }
 
 
     private void spawnEnemy() {
         //stage
-        if (spawnFrequency > MathUtils.random(2.0f, 3.0f)) {
+        if (spawnFrequency > MathUtils.random(2.5f, 3.0f)) {
             ScoreHelper.getInstance().incrementScore(10);
             for (int i = 0; i < enemyCount; i++) {
                 int type = MathUtils.random(numEnemyTypes);
@@ -195,7 +199,7 @@ public class ProgressHandler {
         if (numHazardTypes == 0)
             return;
 
-        if (hazardFrequency > 3.0f) {
+        if (hazardFrequency > 4.0f) {
             ScoreHelper.getInstance().incrementScore(50);
             for (int i = 0; i < hazardCount; i++) {
                 int type = MathUtils.random(numHazardTypes);
@@ -260,6 +264,11 @@ public class ProgressHandler {
         updateBlackholes(delta);
         updateKnives(delta);
         updateBoomerangs(delta);
+
+        /*
+            Item update
+         */
+        updateItem(delta);
 
         /*
             Boss Updates
@@ -406,6 +415,22 @@ public class ProgressHandler {
             }
     }
 
+    /******************************************
+     Item
+     ******************************************/
+    private void updateItem(float delta){
+        for (Item a : items)
+            a.update(delta);
+    }
+
+    private void spawnItem(int type){
+        for (Item a : items)
+            if (a.isDEAD()){
+                a.reset(250+MathUtils.random(25),type);
+                break;
+            }
+
+    }
 
     /*************************************************
      * BOSS UPDATES
@@ -518,6 +543,9 @@ public class ProgressHandler {
         bomberBoss.reset();
     }
 
+
+
+
     /******************************************
      * Enemy Bullets
      ****************************************/
@@ -551,7 +579,16 @@ public class ProgressHandler {
             a.update(delta);
     }
 
+
+
+    /******************************************
+        Collision
+     ******************************************/
+
     public void checkCollision() {
+        for (Item a : items)
+            a.collide(mySquirrel);
+
         for (RoadRoller a : roadRollers)
             a.collide(mySquirrel);
 
@@ -601,6 +638,10 @@ public class ProgressHandler {
     //TODO restart, initialize
     //called at first
     private void initialize() {
+        items = new Item[3];
+        for (int i=0;i<items.length;i++)
+            items[i] = new Item();
+
         /*
 			Initialize enemy objects
 		 */
@@ -691,83 +732,85 @@ public class ProgressHandler {
     //kill all on gameover
     private void killAll() {
 
-
+        for (Item a : items)
+            if (!a.isDEAD())
+                a.silentDead();
         // enemy
         for (RoadRoller a : roadRollers)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Bomb a : bombs)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Mustache a : mustaches)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (LaserCrayon a : laserCrayons)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Knife a : knives)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Boomerang a : boomerangs)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Cowboy a : cowboys)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (WaveHead a : waveheads)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (EnemyBullet a : enemyBullets)
             if (a != null)
                 if (!a.isDEAD())
-                    a.dead();
+                    a.silentDead();
 
         for (Blackhole a : blackholes)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         if (!boxBoss.isDEAD())
-            boxBoss.dead();
+            boxBoss.silentDead();
 
         if (!pipeBoss.isDEAD())
-            pipeBoss.dead();
+            pipeBoss.silentDead();
 
         for (PangBoss a : pangBosses)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         if (!bomberBoss.isDEAD())
-            bomberBoss.dead();
+            bomberBoss.silentDead();
 
         for (TimeBomb a : timebombs)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (FirePropulsion a : firePropulsions)
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (Bullet a : mySquirrel.getBullets())
             if (!a.isDEAD())
-                a.dead();
+                a.silentDead();
 
         for (FX f : FXHelper.getInstance().getMyFXs())
             f.remove();
 
+        mySquirrel.realDead();
     }
 
     public void restart() {
-        SoundManager.getInstance().setMute(0.0f);
+
         killAll();
-        SoundManager.getInstance().setMute(0.5f);
 
         pause = false;
 
@@ -865,4 +908,8 @@ public class ProgressHandler {
     }
 
     public void togglePause(){pause = !pause;}
+
+    public Item[] getItems() {
+        return items;
+    }
 }

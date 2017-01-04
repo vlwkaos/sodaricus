@@ -53,6 +53,7 @@ public class AssetHelper {
     private static Texture timebombTexture;
 
     //
+    private static Texture itemTexture;
 
     /*
         Texture Region
@@ -64,15 +65,17 @@ public class AssetHelper {
 
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
-    public static TextureRegion[] eyes;
+    private static TextureRegion[] eyes;
     public static Animation eyeAnim;
 
 
     public static TextureRegion sqdown, sqmid, squp;
     public static Animation sqAnim;
-    public static TextureRegion bacon1, bacon2;
+    private static TextureRegion bacon1, bacon2;
     public static Animation baconAnim;
 
+    public static TextureRegion life;
+    public static TextureRegion oneUP;
 
     //Enemies
     //TODO: collage texture into one png file
@@ -84,9 +87,9 @@ public class AssetHelper {
 
     public static TextureRegion bluecrayon;
 
-    public static TextureRegion[] cowboyhats;
+    private static TextureRegion[] cowboyhats;
     public static Animation cowboyhatsAnim;
-    public static TextureRegion[] cowboyhatsspawn;
+    private static TextureRegion[] cowboyhatsspawn;
     public static Animation cowboyhatsspawnAnim;
 
     public static TextureRegion[] cowboythrow;
@@ -100,15 +103,15 @@ public class AssetHelper {
 
 
     //boss
-    public static TextureRegion[] boxcharges;
+    private static TextureRegion[] boxcharges;
     public static Animation boxchargeAnim;
     public static TextureRegion boxhitFace;
     public static TextureRegion boxvulFace;
     public static TextureRegion blockbullet;
-    public static TextureRegion[] bomberboss;
+    private static TextureRegion[] bomberboss;
     public static Animation bomberbossthrowAnim;
     public static TextureRegion bomberbosshit;
-    public static TextureRegion[] timebomb;
+    private static TextureRegion[] timebomb;
     public static Animation timebombAnim;
 
 
@@ -123,17 +126,17 @@ public class AssetHelper {
     public static Animation pangBossAnim;
 
     //FX
-    public static TextureRegion[] explosion1;
+    private static TextureRegion[] explosion1;
     public static Animation explosionAnim1;
 
-    public static TextureRegion[] bombexplosion;
+    private static TextureRegion[] bombexplosion;
     public static Animation bombexplosionAnim;
 
-    public static TextureRegion[] redlaser;
+    private static TextureRegion[] redlaser;
     public static Animation redlaserinit;
     public static Animation redlaserAnim;
 
-    public static TextureRegion[] deadplosion;
+    private static TextureRegion[] deadplosion;
     public static Animation deadAnim;
 
     private static TextureRegion[] forceshield;
@@ -145,23 +148,23 @@ public class AssetHelper {
     /*
         Particles
      */
-    public static ParticleEffect rainbowParticle;
+    private static ParticleEffect rainbowParticle;
     public static ParticleEffectPool rainbowPool;
-    public static ParticleEffect nitroParticle;
+    private static ParticleEffect nitroParticle;
     public static ParticleEffectPool nitroPool;
-    public static ParticleEffect energyParticle;
+    private static ParticleEffect energyParticle;
     public static ParticleEffectPool energyPool;
-    public static ParticleEffect popcornParticle;
+    private static ParticleEffect popcornParticle;
     public static ParticleEffectPool popcornPool;
-    public static ParticleEffect sodaburstParticle;
+    private static ParticleEffect sodaburstParticle;
     public static ParticleEffectPool sodaburstPool;
-    public static ParticleEffect nitro2Particle;
+    private static ParticleEffect nitro2Particle;
     public static ParticleEffectPool nitro2Pool;
-    public static ParticleEffect waveheadParticle;
+    private static ParticleEffect waveheadParticle;
     public static ParticleEffectPool waveheadPool;
-    public static ParticleEffect smokeParticle;
+    private static ParticleEffect smokeParticle;
     public static ParticleEffectPool smokePool;
-    public static ParticleEffect fireParticle;
+    private static ParticleEffect fireParticle;
     public static ParticleEffectPool firePool;
 
 
@@ -180,7 +183,9 @@ public class AssetHelper {
         titleTexture.dispose();
         whiteflashTexture.dispose();
         //
+        itemTexture.dispose();
 
+        //
         backgroundTexture.dispose();
         starTexture.dispose();
         sodaTexture.dispose();
@@ -250,6 +255,9 @@ public class AssetHelper {
         whiteflashTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //INIT TEXTURE
+        itemTexture = new Texture(Gdx.files.internal("data/lifeicon.png"));
+        itemTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
         //Game Objects
         squirrelTexture = new Texture(Gdx.files.internal("data/squirrel.png"));
         squirrelTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
@@ -339,6 +347,10 @@ public class AssetHelper {
         whiteflash = new TextureRegion(whiteflashTexture,0,0,240,240);
 
         //Game Objects
+        //item
+        life = new TextureRegion(itemTexture,0,0,32,36);
+        oneUP = new TextureRegion(itemTexture,32,0,32,36);
+
         //Squirrel
         sqdown = new TextureRegion(squirrelTexture, 0, 0, 20, 20);
         sqmid = new TextureRegion(squirrelTexture, 20, 0, 20, 20);

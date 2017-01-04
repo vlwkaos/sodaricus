@@ -3,6 +3,7 @@ package com.lumibottle.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.lumibottle.helper.InputHelper;
 import com.lumibottle.helper.SoundManager;
 import com.lumibottle.world.GameRenderer;
@@ -42,7 +43,7 @@ public class GameScreen implements Screen {
 
         //prefs
         Preferences prefs = Gdx.app.getPreferences("prefs");
-        SoundManager.getInstance();
+        SoundManager.getInstance().initSound();
 
     }
 

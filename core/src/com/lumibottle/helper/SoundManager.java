@@ -17,7 +17,7 @@ public class SoundManager {
     }
 
 
-    final private float MAX_VOL = 0.4f;
+    final public static float MAX_VOL = 0.4f;
 
     final public static int KILL = 0;
     final public static int HIT = 1;
@@ -28,7 +28,8 @@ public class SoundManager {
     final public static int FIRE = 6;
     final public static int THRO = 7;
     final public static int BOMB = 8;
-    final public static int POWU = 9;
+    final public static int POWUP = 9;
+    final public static int ONEUP = 10;
 
 
 
@@ -42,6 +43,7 @@ public class SoundManager {
     private static Sound thro;
     private static Sound bomb;
     private static Sound powup;
+    private static Sound oneup;
 
     private static Music bg;
 
@@ -56,16 +58,14 @@ public class SoundManager {
 
     private static float mute;
 
-    private SoundManager(){
-        getPrefs().flush();
-        mute = getPrefs().getFloat("mute", MAX_VOL);
-        initSound();
-
-    }
 
     // play() mute filter
 
-    private void initSound(){
+    public void initSound(){
+        getPrefs().flush();
+        mute = getPrefs().getFloat("mute", MAX_VOL);
+        Gdx.app.log("Sound","loading");
+
         jump = Gdx.audio.newSound(Gdx.files.internal("data/sound/jump.wav"));
         hurt = Gdx.audio.newSound(Gdx.files.internal("data/sound/hurt.wav"));
         hit = Gdx.audio.newSound(Gdx.files.internal("data/sound/hit.wav"));
@@ -77,6 +77,7 @@ public class SoundManager {
         thro =  Gdx.audio.newSound(Gdx.files.internal("data/sound/throw.wav"));
         bomb = Gdx.audio.newSound(Gdx.files.internal("data/sound/bomb.wav"));
         powup = Gdx.audio.newSound(Gdx.files.internal("data/sound/powerup.wav"));
+        oneup = Gdx.audio.newSound(Gdx.files.internal("data/sound/1up.wav"));
 
         bg = Gdx.audio.newMusic(Gdx.files.internal("data/sound/soda.wav"));
         bg.setLooping(true);
@@ -96,8 +97,10 @@ public class SoundManager {
         thro.dispose();
         bomb.dispose();
         powup.dispose();
+        oneup.dispose();
 
         bg.dispose();
+        Gdx.app.log("Sound","disposed");
     }
 
     public void playBGM(){
@@ -123,7 +126,8 @@ public class SoundManager {
             case FIRE: fire.play(mute); break;
             case THRO: thro.play(mute); break;
             case BOMB: bomb.play(mute); break;
-            case POWU: powup.play(mute); break;
+            case POWUP: powup.play(mute); break;
+            case ONEUP: oneup.play(mute); break;
         }
 
     }
@@ -135,17 +139,11 @@ public class SoundManager {
             mute = MAX_VOL;
             SoundManager.getInstance().play(SoundManager.SELECT);
         }
-
         bg.setVolume(mute*2);
-
         getPrefs().putFloat("mute", mute);
         getPrefs().flush();
     }
 
-    public void setMute(float vol){
-        mute = vol;
-        bg.setVolume(mute*2);
-    }
 
     public String getMuteState(){
         if (mute == MAX_VOL)

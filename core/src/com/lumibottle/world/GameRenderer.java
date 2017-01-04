@@ -13,6 +13,7 @@ import com.lumibottle.gameobjects.Bullets.Bullet;
 import com.lumibottle.gameobjects.Bullets.EnemyBullet;
 import com.lumibottle.gameobjects.Bullets.PipeEnemyBullet;
 import com.lumibottle.gameobjects.FX;
+import com.lumibottle.gameobjects.Item;
 import com.lumibottle.gameobjects.ProgressHandler;
 import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.gameobjects.Star;
@@ -57,6 +58,8 @@ public class GameRenderer {
     private GameWorld myWorld;
 
     //GO
+    private Item[] myItems;
+
     private Squirrel mySquirrel;
     private Bullet[] myBullets;
     private Star[] myStars;
@@ -86,6 +89,9 @@ public class GameRenderer {
     private TextureRegion title;
     private TextureRegion titletext;
     private TextureRegion whiteflash;
+
+    private TextureRegion life;
+    private TextureRegion oneUP;
     //
     private TextureRegion squirrelDown;
     private Animation squirrelAnimation;
@@ -179,8 +185,7 @@ public class GameRenderer {
             drawAbout();
         } else {
             //draw for playing status
-            if (myWorld.isPaused())
-                drawPause();
+
 
             drawBlackholes();
             drawBacon(runTime);
@@ -208,6 +213,8 @@ public class GameRenderer {
             drawSquirrel();
             drawBullets();
 
+            drawItems();
+
             //fx
             drawFXs();
             drawFirePropulsion();
@@ -216,12 +223,16 @@ public class GameRenderer {
                 drawStart();
             else if (myWorld.isGAMEOVER())
                 drawGameOver();
+
+            if (myWorld.isPaused())
+                drawPause();
+
         }
 
-        font.getData().setScale(0.1f);
-        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
+//        font.getData().setScale(0.1f);
+//        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
         spriteBatch.end();
-		drawDebugMode();
+		//drawDebugMode();
 
     }
 
@@ -231,6 +242,7 @@ public class GameRenderer {
      *********/
 
     private void initGameObjects() {
+
         mySquirrel = myWorld.getMySquirrel();
         myStars = myWorld.getMyStars();
         myBullets = mySquirrel.getBullets();
@@ -245,6 +257,8 @@ public class GameRenderer {
         myKnives = myStage.getKnives();
         myBoomerangs = myStage.getBoomerangs();
         myWaveheads = myStage.getWaveheads();
+
+        myItems = myStage.getItems();
 
 
         myBoxboss = myStage.getBoxboss();
@@ -269,6 +283,8 @@ public class GameRenderer {
 
         gb = AssetHelper.greenBullet;
 
+        life = AssetHelper.life;
+        oneUP = AssetHelper.oneUP;
 
         //en
         bomb = AssetHelper.roadroller;
@@ -369,6 +385,8 @@ public class GameRenderer {
     }
 
     private void drawStart() {
+        //while playing
+
         if (1.0f - myWorld.getRunTime() >= 0) {
             spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f - myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
@@ -379,13 +397,19 @@ public class GameRenderer {
             font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 110 - (ScoreHelper.getInstance().getBest().length() * 5.2f) / 2, gameHeight - 2.2f);
         }
 
-
+        //score
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
+
+        //life
+        spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        spriteBatch.draw(life, 0, 0, 8, 9);
+        font.draw(spriteBatch, "x"+mySquirrel.getLife(), 9, 5.0f);
+
     }
 
     private void drawAbout(){
-        String text = "SODARICUS v0.9";
+        String text = "SODARICUS v0.9.5";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
 
@@ -418,8 +442,15 @@ public class GameRenderer {
     }
 
     private void drawPause(){
+        String str = "PAUSED";
         font.getData().setScale(0.2f);
-        font.draw(spriteBatch, "PAUSED", (120 - 6*3.0f), gameHeight/2);
+        font.draw(spriteBatch, str, (120 - 6.0f*str.length()/2), gameHeight/2);
+
+        str = "TO TITLE";
+        font.draw(spriteBatch, str, (240 - 7.0f*str.length()), gameHeight-2.2f);
+
+        font.getData().setScale(0.16f);
+        font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 110 - (ScoreHelper.getInstance().getBest().length() * 5.2f) / 2, gameHeight - 2.2f);
     }
 
 
@@ -515,6 +546,16 @@ public class GameRenderer {
         }
     }
 
+    private void drawItems(){
+        for (Item a : myItems){
+            if (a.isVISIBLE()){
+                switch (a.getType()){
+                    case 0 : spriteBatch.draw(oneUP, a.getX(),a.getY(),a.getWidth(),a.getHeight());
+                }
+            }
+        }
+
+    }
 
     //Enemies
     private void drawWaveHeads() {

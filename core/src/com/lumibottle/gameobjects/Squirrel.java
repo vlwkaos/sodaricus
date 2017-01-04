@@ -57,7 +57,7 @@ public class Squirrel {
         invincTime = 0;
         isInvincible = true;// 나중에 바꿔 무적시간.
         isTransparent = false;
-        life = 10;//life
+        life = 1;//life
 
         ceiling = GameScreen.gameHeight - getHeight() / 2.0f;// temporary
 
@@ -125,7 +125,7 @@ public class Squirrel {
 
                 velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
                 //temporary bottom
-                if (position.y < -getHeight()-5.0f) {
+                if (position.y < -getHeight()) {
                     dead();
                 }
 
@@ -206,6 +206,16 @@ public class Squirrel {
         life--;
     }
 
+    public void realDead(){
+        AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
+        rotation = 0;
+        currentState = SquirrelState.SPAWNING;
+        position.set(-5.0f * width, GameScreen.midPointY);
+        isInvincible = true;
+        isTransparent = true;
+        invincTime = 0;
+        life= -1;
+    }
 
 	/*
 	GETTER and SETTER
@@ -277,8 +287,13 @@ public class Squirrel {
         return isTransparent;
     }
 
-    public void resetLife() {life = 10;}
+    void resetLife() {life = 2;}
+
+    void incrementLife(){life++;}
+
 
     public short getLife() {return life;}
+
+
 }
 
