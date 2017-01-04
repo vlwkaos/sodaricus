@@ -111,7 +111,6 @@ public class TimeBomb extends GameEvent {
     public void dead() {
         super.dead();
         currentState = TimeBombState.IDLE;
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
         SoundManager.getInstance().play(SoundManager.FIRE);
     }
 

@@ -57,19 +57,18 @@ public class Squirrel {
         invincTime = 0;
         isInvincible = true;// 나중에 바꿔 무적시간.
         isTransparent = false;
-        life = 1;//life
+        life = 10;//life
 
         ceiling = GameScreen.gameHeight - getHeight() / 2.0f;// temporary
-        Gdx.app.log("Squirrel", "ceiling=" + ceiling);
 
 
-        hitbox = new Polygon(new float[]{4, 0, width - 4, 0, width - 4, height - 8, 4, height - 8});
+        hitbox = new Polygon(new float[]{5, 0, width - 5, 0, width - 5, height - 10, 5, height - 10});
         hitbox.setOrigin(width / 2f, height / 2f);
 
 		/*
         init bullet
 		 */
-        bullets = new Bullet[15];
+        bullets = new Bullet[12];
         for (int i = 0; i < bullets.length; i++)
             bullets[i] = new Bullet();
 
@@ -122,12 +121,11 @@ public class Squirrel {
                     position.y = ceiling;
                     velocity.y = 0;
 
-                    Gdx.app.log("Squirrel", "hit head");
                 }
 
                 velocity.add(acceleration.cpy().scl(delta));//add acc to velocity
                 //temporary bottom
-                if (position.y < -getHeight()) {
+                if (position.y < -getHeight()-5.0f) {
                     dead();
                 }
 
@@ -279,7 +277,7 @@ public class Squirrel {
         return isTransparent;
     }
 
-    public void resetLife() {life = 1;}
+    public void resetLife() {life = 10;}
 
     public short getLife() {return life;}
 }

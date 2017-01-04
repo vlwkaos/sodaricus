@@ -9,6 +9,7 @@ import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -30,7 +31,7 @@ public class Bomb extends GameEvent {
 
 
     public Bomb() {
-        super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}), 3);
+        super(20, 12, new Polygon(new float[]{0, 0, 20, 0, 20, 12, 0, 12}), 2);
 
         normalhitbox = new float[]{0, 0, 20, 0, 20, 12, 0, 12};
         xplhitbox = new float[]{0 - (bomb_x - getWidth()) / 2f, 0 - (bomb_y - getHeight()) / 2f,
@@ -51,11 +52,13 @@ public class Bomb extends GameEvent {
                 getPosition().add(getVelocity().cpy().scl(delta));
 
             if (isExploding && explodingCounter > 7 / 60f)
-                super.dead();
+                super.silentDead();
+
+
 
 
             if (isOutOfScreen(true, false, true, true))
-                super.dead();
+                super.silentDead();
         }
 
     }
@@ -79,7 +82,7 @@ public class Bomb extends GameEvent {
     }
 
 
-    public void explode() {
+    private void explode() {
         FXHelper.getInstance().newFX(getX() - (bomb_x - getWidth()) / 2f, getY() - (bomb_y - getHeight()) / 2f, FX.BOMB_EXPLOSION);
         isExploding = true;
         AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);

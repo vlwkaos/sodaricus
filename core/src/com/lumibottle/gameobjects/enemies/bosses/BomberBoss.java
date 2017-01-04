@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
+import com.lumibottle.helper.SoundManager;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -35,7 +36,7 @@ public class BomberBoss extends GameEvent {
     final private float speed = 70.0f;
 
     public BomberBoss() {
-        super(32, 32, new Polygon(new float[]{6,0,26,0,26,32,6,32}), 15);
+        super(32, 32, new Polygon(new float[]{6,0,26,0,26,32,6,32}), 12);
         curVel = new Vector2(0,0);
         runTime = 0.0f;
         invTime = 5.0f;
@@ -84,7 +85,7 @@ public class BomberBoss extends GameEvent {
 
                     }
                 } else {
-                    if (shootDelay >= 3.0f) {
+                    if (shootDelay >= 2.2f) {
                         shootDelay = 0.0f;
                         shoot = true;
                     }
@@ -148,6 +149,7 @@ public class BomberBoss extends GameEvent {
     @Override
     public void hit(){
         super.hit();
+        SoundManager.getInstance().play(SoundManager.HURT);
         invTime = 0.0f;
     }
 
@@ -155,7 +157,6 @@ public class BomberBoss extends GameEvent {
     public void dead() {
         super.dead();
         AssetHelper.smokePool.free((ParticleEffectPool.PooledEffect) smokeParticle);
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
     }
 
     public void setShootDone(){

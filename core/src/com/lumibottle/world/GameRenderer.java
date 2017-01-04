@@ -161,11 +161,15 @@ public class GameRenderer {
 
 
         spriteBatch.begin();
-        spriteBatch.draw(background, 0, bgOffset);
+
+
         //Gdx.app.log("runTime",runTime+"");
         //rendering order
-
-        drawStars();
+        if (!myWorld.isSPLASH()) {
+            spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+            spriteBatch.draw(background, 0, bgOffset);
+            drawStars();
+        }
         if (myWorld.isSPLASH()) {
             //splash
             drawSplash();
@@ -175,6 +179,8 @@ public class GameRenderer {
             drawAbout();
         } else {
             //draw for playing status
+            if (myWorld.isPaused())
+                drawPause();
 
             drawBlackholes();
             drawBacon(runTime);
@@ -215,7 +221,7 @@ public class GameRenderer {
         font.getData().setScale(0.1f);
         font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
         spriteBatch.end();
-//		drawDebugMode();
+		drawDebugMode();
 
     }
 
@@ -338,13 +344,14 @@ public class GameRenderer {
         spriteBatch.draw(titletext, 0, -(240 - gameHeight) / 2, 240, 240);
 
         //credit button
+        String str = "ABOUT";
         font.getData().setScale(0.16f);
-        font.draw(spriteBatch, "ABOUT", (240 - 25.5f), 5.0f);
+        font.draw(spriteBatch, str, (240 - str.length() * 5.2f), 5.0f);
 
         //sound option
-        String soundStr = "SOUND " + SoundManager.getInstance().getMuteState();
+        str = "SOUND " + SoundManager.getInstance().getMuteState();
         font.getData().setScale(0.16f);
-        font.draw(spriteBatch, soundStr, (240 - soundStr.length() * 5.2f), gameHeight - 2.2f);
+        font.draw(spriteBatch, str, (240 - str.length() * 5.2f), gameHeight - 2.2f);
 
         //touch to start
         if (myWorld.getFlash()) {
@@ -362,7 +369,7 @@ public class GameRenderer {
     }
 
     private void drawStart() {
-        if (1.0f - myWorld.getRunTime() > 0) {
+        if (1.0f - myWorld.getRunTime() >= 0) {
             spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f - myWorld.getRunTime());
             spriteBatch.draw(whiteflash, 0, -(240 - gameHeight) / 2, 240, 240);
         }
@@ -378,10 +385,10 @@ public class GameRenderer {
     }
 
     private void drawAbout(){
-        String text = "ABOUT";
-        font.getData().setScale(0.2f);
-        font.draw(spriteBatch, text, 120 - (text.length()*6.0f)/2, gameHeight*0.85f);
+        String text = "SODARICUS v0.9";
         font.getData().setScale(0.16f);
+        font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
+
 
         font.setColor(1.0f,1.0f,0.3f,1.0f);
         text = "Developed By";
@@ -407,7 +414,12 @@ public class GameRenderer {
         font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
 
         font.getData().setScale(0.2f);
-        font.draw(spriteBatch, "GAME OVER", (240 - 90) / 2, 60);
+        font.draw(spriteBatch, "GAME OVER", (120 - 9*3.0f), gameHeight/2);
+    }
+
+    private void drawPause(){
+        font.getData().setScale(0.2f);
+        font.draw(spriteBatch, "PAUSED", (120 - 6*3.0f), gameHeight/2);
     }
 
 
@@ -458,6 +470,7 @@ public class GameRenderer {
     }
 
     private void drawStars() {
+        spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         for (Star s : myStars) {
             if (s.isBigStar()) {
                 spriteBatch.draw(star1, s.getX(), s.getY());
@@ -744,6 +757,12 @@ public class GameRenderer {
         //for debugging
         shapeRenderer.begin();
         shapeRenderer.polygon(mySquirrel.getHitbox().getTransformedVertices());
+
+
+        for (RoadRoller b : myRoadRollers)
+            if (b.isVISIBLE())
+                shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+
         for (Mustache b : myMustaches)
             if (b.isVISIBLE())
                 shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
@@ -765,6 +784,14 @@ public class GameRenderer {
         for (FirePropulsion b : myFirepropulsions)
             if (b.isVISIBLE())
                 shapeRenderer.polygon((b.getHitbox().getTransformedVertices()));
+
+        for (LaserCrayon b : myLaserCrayons)
+            if (b.isVISIBLE())
+                shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
+
+        for (Blackhole b : myBlackholes)
+            if (b.isVISIBLE())
+                shapeRenderer.polygon(b.getHitbox().getTransformedVertices());
 
         shapeRenderer.end();
     }

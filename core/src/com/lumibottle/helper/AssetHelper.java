@@ -394,7 +394,7 @@ public class AssetHelper {
         boomerang = new TextureRegion(boomerangTexture);
         wavehead = new TextureRegion(waveheadTexture);
 
-        hole = new TextureRegion(holeTexture, 0, 0, 32, 32);
+        hole = new TextureRegion(holeTexture, 0, 0, 256, 256);
 
         //BoxBoss
         boxcharges = new TextureRegion[8];

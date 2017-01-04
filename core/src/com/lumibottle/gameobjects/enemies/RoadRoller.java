@@ -20,7 +20,7 @@ public class RoadRoller extends GameEvent {
 
 
     public RoadRoller() {
-        super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}), 3);
+        super(32, 14, new Polygon(new float[]{0, 0, 32, 0, 32, 14, 0, 14}), 2);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class RoadRoller extends GameEvent {
             getHitbox().setPosition(getX(), getY());
             getPosition().add(getVelocity().cpy().scl(delta));
             if (isOutOfScreen(true, false, true, true))
-                dead();
+                silentDead();
         }
 
     }
@@ -49,7 +49,6 @@ public class RoadRoller extends GameEvent {
     public void dead() {
         super.dead();
         AssetHelper.popcornPool.free((ParticleEffectPool.PooledEffect) popcornParticle);
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);// puff
     }
 }
 

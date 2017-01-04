@@ -2,6 +2,7 @@ package com.lumibottle.helper;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 /**
@@ -16,6 +17,8 @@ public class SoundManager {
     }
 
 
+    final private float MAX_VOL = 0.4f;
+
     final public static int KILL = 0;
     final public static int HIT = 1;
     final public static int DEAD = 2;
@@ -24,6 +27,8 @@ public class SoundManager {
     final public static int HURT = 5;
     final public static int FIRE = 6;
     final public static int THRO = 7;
+    final public static int BOMB = 8;
+    final public static int POWU = 9;
 
 
 
@@ -35,6 +40,10 @@ public class SoundManager {
     private static Sound hurt;
     private static Sound fire;
     private static Sound thro;
+    private static Sound bomb;
+    private static Sound powup;
+
+    private static Music bg;
 
     private Preferences preferences;
 
@@ -49,9 +58,9 @@ public class SoundManager {
 
     private SoundManager(){
         getPrefs().flush();
-        mute = getPrefs().getFloat("mute", 0.5f);
-
+        mute = getPrefs().getFloat("mute", MAX_VOL);
         initSound();
+
     }
 
     // play() mute filter
@@ -66,6 +75,12 @@ public class SoundManager {
 
         fire =  Gdx.audio.newSound(Gdx.files.internal("data/sound/fire.wav"));
         thro =  Gdx.audio.newSound(Gdx.files.internal("data/sound/throw.wav"));
+        bomb = Gdx.audio.newSound(Gdx.files.internal("data/sound/bomb.wav"));
+        powup = Gdx.audio.newSound(Gdx.files.internal("data/sound/powerup.wav"));
+
+        bg = Gdx.audio.newMusic(Gdx.files.internal("data/sound/soda.wav"));
+        bg.setLooping(true);
+        bg.setVolume(mute);
     }
 
 
@@ -79,6 +94,22 @@ public class SoundManager {
 
         fire.dispose();
         thro.dispose();
+        bomb.dispose();
+        powup.dispose();
+
+        bg.dispose();
+    }
+
+    public void playBGM(){
+        if (!bg.isPlaying())
+            bg.play();
+    }
+
+    public void toggleBGM(){
+        if (bg.isPlaying())
+            bg.pause();
+        else
+            bg.play();
     }
 
     public void play(int id){
@@ -91,17 +122,21 @@ public class SoundManager {
             case SELECT: select.play(mute); break;
             case FIRE: fire.play(mute); break;
             case THRO: thro.play(mute); break;
+            case BOMB: bomb.play(mute); break;
+            case POWU: powup.play(mute); break;
         }
 
     }
 
     public void toggleMute(){
-        if (mute == 0.5f)
+        if (mute == MAX_VOL)
             mute = 0.0f;
          else {
-            mute = 0.5f;
+            mute = MAX_VOL;
             SoundManager.getInstance().play(SoundManager.SELECT);
         }
+
+        bg.setVolume(mute*2);
 
         getPrefs().putFloat("mute", mute);
         getPrefs().flush();
@@ -109,10 +144,11 @@ public class SoundManager {
 
     public void setMute(float vol){
         mute = vol;
+        bg.setVolume(mute*2);
     }
 
     public String getMuteState(){
-        if (mute == 0.5f)
+        if (mute == MAX_VOL)
             return "ON";
          else
             return "OFF";

@@ -45,7 +45,7 @@ public class GameWorld {
 
         mySquirrel = new Squirrel(20, 20);
 
-        myStars = new Star[11];
+        myStars = new Star[15];
         for (int i = 0; i < myStars.length; i++)
             myStars[i] = new Star();
 
@@ -73,6 +73,7 @@ public class GameWorld {
             }
         } else {
             if (myGameState == GameState.TITLE) {
+                SoundManager.getInstance().playBGM();
                 runTime += delta;
                 runTime_2 += delta;
                 if (runTime_2 >0.5f) {
@@ -111,20 +112,49 @@ public class GameWorld {
         } // not splash
     }
 
+    public void onBackPressed(){
+        if (myGameState == GameState.SPLASH){
+            Gdx.app.exit();
+        } else if (myGameState == GameState.TITLE){
+            Gdx.app.exit();
+        } else if (myGameState == GameState.ABOUT){
+            myGameState = GameState.TITLE;
+            SoundManager.getInstance().play(SoundManager.SELECT);
+        } else if (myGameState == GameState.PLAYING){
+            //pause
+            myStage.togglePause();
+            SoundManager.getInstance().play(SoundManager.SELECT);
+            SoundManager.getInstance().toggleBGM();
+        } else if (myGameState == GameState.GAMEOVER){
+            if (runTime_2 > 2.0f){
+                //retry
+                //to title
+                runTime = 0.0f;
+                runTime_2 = 0.0f;
+                myGameState = GameState.TITLE;
+                SoundManager.getInstance().play(SoundManager.SELECT);
+            }
+        }
+
+
+    }
+
+
     public void onClick(int screenX,int screenY) {
         //click coordinate starts from top-left corner
         //drawing coordinates start from lower-left corner
-        Gdx.app.log("GameWorld", "("+ calcGameX(screenX)+", "+ calcGameY(screenY)+")");
+        //Gdx.app.log("GameWorld", "("+ calcGameX(screenX)+", "+ calcGameY(screenY)+")");
 
         if (myGameState == GameState.SPLASH) {
             if (runTime > 0.5f)
                 skipSplash = true; // for fadeout rendering
         } else if (myGameState == GameState.TITLE) {
+
             if (runTime > 1.0f) {// give some delay to prevent accidental click
 
                 //touch to start
                 // else, touch here to see the credit
-                if (calcGameX(screenX) < 215.0f && calcGameX(screenX) > 25.0f) {
+                if (calcGameX(screenX) < 200.0f && calcGameX(screenX) > 25.0f) {
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.PLAYING;
                     runTime = 0.0f;
@@ -132,10 +162,10 @@ public class GameWorld {
                     myStage.restart();
                     ScoreHelper.getInstance().resetScore();
 
-                } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)> 130.0f){
+                } else if (calcGameX(screenX) > 200.0f && calcGameY(screenY)> 125.0f){
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.ABOUT;
-                } else if (calcGameX(screenX) > 215.0f && calcGameY(screenY)<5.0f){
+                } else if (calcGameX(screenX) > 200.0f && calcGameY(screenY)<10.0f){
                     SoundManager.getInstance().toggleMute();
                 }
             }
@@ -144,7 +174,7 @@ public class GameWorld {
             SoundManager.getInstance().play(SoundManager.SELECT);
 
         } else if (myGameState == GameState.PLAYING){
-            if (!mySquirrel.isSPAWNING()) {
+            if (!mySquirrel.isSPAWNING() && !myStage.getPause()) {
                 mySquirrel.onClick();
                 SoundManager.getInstance().play(SoundManager.JUMP);
             }
@@ -218,4 +248,5 @@ public class GameWorld {
 
     public boolean getFlash(){return flash;}
 
+    public boolean isPaused(){return myStage.getPause();}
 }

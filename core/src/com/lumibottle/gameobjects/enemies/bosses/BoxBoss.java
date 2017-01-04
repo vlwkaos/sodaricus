@@ -30,7 +30,7 @@ public class BoxBoss extends GameEvent {
 
 
     public BoxBoss(Squirrel s) {
-        super((int) (GameScreen.gameHeight / 5), (int) (GameScreen.gameHeight / 5), new Polygon(new float[]{0, 0, (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5), (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5)}), 50);
+        super((int) (GameScreen.gameHeight / 5), (int) (GameScreen.gameHeight / 5), new Polygon(new float[]{0, 0, (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5), (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5)}), 20);
         //dynamic size according to scren height
         runTime = 0;
         hitAnimRunTime = 0;
@@ -128,7 +128,6 @@ public class BoxBoss extends GameEvent {
     @Override
     public void dead() {
         super.dead();
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
     }
 
     private int closestBlock() {

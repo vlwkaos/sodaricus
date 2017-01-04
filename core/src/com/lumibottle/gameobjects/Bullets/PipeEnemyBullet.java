@@ -23,7 +23,7 @@ public class PipeEnemyBullet extends EnemyBullet {
         super(25, 120, new Polygon(new float[]{0, 0, 0, 120, 25, 120, 25, 0}));
         up = false;
         targetYpos = 0;
-        margin = 25;
+        margin = 23;
     }
 
     @Override
@@ -50,10 +50,10 @@ public class PipeEnemyBullet extends EnemyBullet {
 
     public void reset(float targetYpos, boolean up) {
         this.targetYpos = targetYpos + 16;//pipeboss origin
-        if (this.targetYpos > GameScreen.gameHeight - margin * 4)
-            this.targetYpos = GameScreen.gameHeight - margin * 4;
-        if (this.targetYpos < margin * 2)
-            this.targetYpos = margin * 2;
+        if (this.targetYpos > GameScreen.gameHeight - margin*2)
+            this.targetYpos = GameScreen.gameHeight - margin*2;
+        if (this.targetYpos < margin*2)
+            this.targetYpos = margin*2;
 
 
         this.up = up;

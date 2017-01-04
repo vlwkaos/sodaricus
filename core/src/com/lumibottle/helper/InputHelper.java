@@ -1,12 +1,17 @@
 package com.lumibottle.helper;
 
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.lumibottle.world.GameWorld;
+
+import net.java.games.input.Component;
 
 /**
  * Created by MG-UP on 2016-03-10.
  */
-public class InputHelper implements InputProcessor {
+public class InputHelper implements  InputProcessor {
 
     private GameWorld myWorld;
 
@@ -15,8 +20,13 @@ public class InputHelper implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(int keycode)
+    {
+        if (keycode == Input.Keys.BACK || keycode == Input.Keys.ESCAPE)
+            myWorld.onBackPressed();
+
         return false;
+
     }
 
     @Override
@@ -56,4 +66,5 @@ public class InputHelper implements InputProcessor {
     public boolean scrolled(int amount) {
         return false;
     }
+
 }

@@ -29,7 +29,7 @@ public class Star extends GameEvent {
 
 
     private void reset() {
-        super.reset(240 + MathUtils.random(10) * 25 + MathUtils.random(-5, 5), MathUtils.random(GameScreen.gameHeight-10.0f)+5.0f, MathUtils.random(-100, -70), 0, 0);
+        super.reset(240 + MathUtils.random(10) * 25 + MathUtils.random(-5, 5), MathUtils.random(GameScreen.gameHeight-10.0f)+5.0f, MathUtils.random(-120, -80), 0, 0);
         isBigStar = MathUtils.random(5) == 0;
 
     }

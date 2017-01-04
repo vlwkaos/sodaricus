@@ -39,6 +39,7 @@ public class GameScreen implements Screen {
 
         Gdx.input.setInputProcessor(new InputHelper(myWorld));
 
+
         //prefs
         Preferences prefs = Gdx.app.getPreferences("prefs");
         SoundManager.getInstance();

@@ -25,6 +25,7 @@ import com.lumibottle.gameobjects.enemies.bosses.TimeBomb;
 import com.lumibottle.helper.FXHelper;
 import com.lumibottle.helper.ScoreHelper;
 import com.lumibottle.helper.SoundManager;
+import com.lumibottle.screen.GameScreen;
 
 /**
  * This class handles the presentation of enemies as the run time passes on.
@@ -37,12 +38,17 @@ public class ProgressHandler {
     private float runTime; // for whole session time
     private int enemyCount; // number of enemies at a given time 5?
     private int numEnemyTypes; // number of enemy types that can be chosen from. 0~4
+    private float spawnFrequency; // spawn enemy every x seconds. add score for each spawn
 
     private int hazardCount;
     private int numHazardTypes;
-
     private float hazardFrequency;
-    private float spawnFrequency; // spawn enemy every x seconds. add score for each spawn
+
+    private float bossFrequency;
+    private int bossNum;
+    private int bossStage;
+
+
     private int progress; // spawn boss every x seconds.
     //TODO hazard?
 
@@ -84,13 +90,31 @@ public class ProgressHandler {
 
     public void update(float delta) {
         runTime += delta;
-        spawnFrequency += delta;
-        hazardFrequency+=delta;
 
-        spawnEnemy();
-        spawnHazard();
+        /*
+            test
 
+        numHazardTypes = 1;
+        hazardCount = 1;
+  */
 
+        //보스전이 아니면
+        if (noBossAlive()) {
+            if (bossStage != -1) { // after a boss fight
+//                switch (bossStage){
+//                    case 0:
+//                } 이렇게 해서 어떤 보스 죽었는지 도전과제 가능..
+
+                bossStage = -1;
+                ScoreHelper.getInstance().incrementScore(1000);
+            }
+            spawnFrequency += delta;
+            hazardFrequency += delta;
+            bossFrequency +=delta;
+            spawnEnemy();
+            spawnHazard();
+            spawnBoss();
+        }
 
         updateEnemies(delta);
     }
@@ -100,23 +124,46 @@ public class ProgressHandler {
      * progress = 2 sec
      ***********************************************/
     private void progressCheck(){
-        if (progress == 4) // 10
-            enemyCount++;
-        else if (progress == 9) // 22
-            enemyCount++; // max 5
-        else if (progress == 15) // 36
-            numEnemyTypes++;
-        else if (progress == 22) // 52
-            numHazardTypes++;
-        else if (progress == 29) // from here, 16 sec
-            numEnemyTypes++;
+        boolean changed = false;
+
+        if (progress == 5) { // 10
+            changed = true;
+            numEnemyTypes++; // 1
+        }else if (progress == 10) {
+            changed = true;
+            numEnemyTypes++; // 2
+        }else if (progress == 15) {
+            changed = true;
+            numEnemyTypes++; // 3
+        }else if (progress == 20) {
+            changed = true;
+            numHazardTypes++; // 1
+            hazardCount++; // 1
+        } else if (progress == 25){
+            changed = true;
+            numEnemyTypes++; // 4 max
+        } else if (progress == 30){ // 60 보스 두마리 째?
+            numHazardTypes++; // 2 boomerang
+            changed = true;
+        } else if (progress == 35){
+            changed = true;
+            numHazardTypes++; // 3 laser
+        } else if (progress == 40){
+            changed = true;
+            numHazardTypes++; // 4 max blackhole
+        } else if (progress == 45){
+            changed = true;
+            hazardCount++; // 2
+        }
+        if (changed)
+            SoundManager.getInstance().play(SoundManager.POWU);
 
     }
 
 
     private void spawnEnemy() {
         //stage
-        if (spawnFrequency > 2.0f) {
+        if (spawnFrequency > MathUtils.random(2.0f, 3.0f)) {
             ScoreHelper.getInstance().incrementScore(10);
             for (int i = 0; i < enemyCount; i++) {
                 int type = MathUtils.random(numEnemyTypes);
@@ -171,6 +218,33 @@ public class ProgressHandler {
             hazardFrequency = 0.0f;
         }//endif
     }
+
+    private void spawnBoss(){
+
+        if (bossFrequency > 35.0f){
+            int type = MathUtils.random(bossNum);
+            switch (type){
+                case 0: spawnPipeBoss(); break;
+                case 1: spawnBoxboss(); break;
+                case 2: spawnPangBoss(); break;
+                case 3: spawnBomberBoss(); break;
+            }
+            bossFrequency = 0.0f;
+            bossStage = type;
+        }
+
+    }
+
+    private boolean noBossAlive() {
+        boolean pangisDEAD = true;
+        for (PangBoss a : pangBosses)
+            if (!a.isDEAD()) {
+                pangisDEAD = false;
+                break;
+            }
+        return pipeBoss.isDEAD() && boxBoss.isDEAD() && bomberBoss.isDEAD() && pangisDEAD;
+    }
+
 
     private void updateEnemies(float delta) {
         /*
@@ -379,7 +453,8 @@ public class ProgressHandler {
     private void updatePipeBoss(float delta) {
         pipeBoss.update(delta);
         if (pipeBoss.isSHOOT()) {
-            float ypos = pipeBoss.getY();
+            float ypos = GameScreen.gameHeight/2 + MathUtils.random(-GameScreen.gameHeight/3, GameScreen.gameHeight/3);
+            Gdx.app.log("ypos",ypos+"");
             boolean bulletcount = false;
             for (EnemyBullet h : enemyBullets)
                 if (h instanceof PipeEnemyBullet && h.isDEAD()) {
@@ -422,6 +497,11 @@ public class ProgressHandler {
             }
         }
     }
+    private void spawnPangBoss(){
+        pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
+
+    }
+
 
     private void updateBomberBoss(float delta) {
         bomberBoss.update(delta);
@@ -433,6 +513,9 @@ public class ProgressHandler {
                 }
             bomberBoss.setShootDone();
         }
+    }
+    private void spawnBomberBoss(){
+        bomberBoss.reset();
     }
 
     /******************************************
@@ -595,7 +678,7 @@ public class ProgressHandler {
 
         bomberBoss = new BomberBoss();
 
-        timebombs = new TimeBomb[5];
+        timebombs = new TimeBomb[6];
         for (int i = 0; i < timebombs.length; i++)
             timebombs[i] = new TimeBomb();
 
@@ -692,20 +775,21 @@ public class ProgressHandler {
         enemyCount = 3; // number of enemies at a given time 5?
         numEnemyTypes = 0; // number of enemy types that can be chosen from. 0~4
         spawnFrequency = 0.0f; // spawn enemy every x seconds. add score for each spawn
-
-
-        hazardCount = 0; //
+        hazardFrequency = 0.0f;
+        hazardCount = 0; // 1,2
         numHazardTypes = 0; //0 ~4
+
+        bossFrequency = 0.0f;
+        bossNum = 3;
+        bossStage = -1;
 
         progress = 0;
 
         mySquirrel.resetLife();
-    }
-
-    private boolean noBossAlive() {
-        return false;
 
     }
+
+
 
 
     /*
@@ -779,4 +863,6 @@ public class ProgressHandler {
     public boolean getPause() {
         return pause;
     }
+
+    public void togglePause(){pause = !pause;}
 }

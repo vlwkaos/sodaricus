@@ -1,5 +1,6 @@
 package com.lumibottle.gameobjects.enemies;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
@@ -21,6 +22,7 @@ public class Knife extends GameEvent {
 
     public Knife(Squirrel msq) {
         super(24, 6, new Polygon(new float[]{0,0,24,0,24,6,0,6}), 0);
+        getHitbox().setOrigin(12,3);
         mySquirrel = msq;
         targetAngle = 0;
         targetAquired=false;
@@ -37,10 +39,13 @@ public class Knife extends GameEvent {
                 if (getX() < 240 - getWidth() * 1.5f) {
                     setVelocity(0, 0);
                     if (getTheta() > 360*3) {
-                        setTheta(0);
+
                         targetAquired = true;
                         targetAngle = MathUtils.atan2(mySquirrel.getY()-getY(),getX()-mySquirrel.getX());
                         setVelocity(-speed * MathUtils.cos(targetAngle), speed * MathUtils.sin(targetAngle));
+                        setTheta(-targetAngle*MathUtils.radDeg);
+                        getHitbox().setRotation(getTheta());
+
                     }
 
                 } else {
@@ -50,9 +55,10 @@ public class Knife extends GameEvent {
             }
 
             if (isOutOfScreen(true, false, true, true))
-                dead();
+                silentDead();
 
             getHitbox().setPosition(getX(), getY());
+
             getPosition().add(getVelocity().cpy().scl(delta));
         }
 

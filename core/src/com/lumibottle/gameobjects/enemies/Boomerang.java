@@ -31,7 +31,7 @@ public class Boomerang extends GameEvent {
 
             if (turn) {
                 if (isOutOfScreen(false, true, true, true))
-                    dead();
+                    silentDead();
             } else {
                 if (isOutOfScreen(true, false, false, false))
                     turn = true;
@@ -51,11 +51,6 @@ public class Boomerang extends GameEvent {
         } else {
             setVelocity(-speed,-15);
         }
-    }
-
-    @Override
-    public void dead() {
-        super.dead();
     }
 
     @Override

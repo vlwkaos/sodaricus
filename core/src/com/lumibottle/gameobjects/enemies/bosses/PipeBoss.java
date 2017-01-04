@@ -91,7 +91,6 @@ public class PipeBoss extends GameEvent {
     @Override
     public void dead() {
         super.dead();
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
     }
 
     public void bottleHitsEnemy(Bullet b) {

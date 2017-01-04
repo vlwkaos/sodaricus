@@ -24,7 +24,7 @@ public class PangBoss extends GameEvent {
     private boolean breeding;
 
     public PangBoss() {
-        super(64, 64, new Polygon(new float[]{0, 0, 0, 64, 64, 64, 64, 0}), 4);
+        super(64, 64, new Polygon(new float[]{0, 0, 0, 64, 64, 64, 64, 0}), 1);
         generation = 1;
         speed = 70;
         fullyVisible = false;
@@ -93,13 +93,11 @@ public class PangBoss extends GameEvent {
     @Override
     public void dead() {
         super.dead();
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
         breeding = true;
     }
 
 
     public void reset(float x, float y, int n) {
-        setMaxhp(-n + max_gen + 2);
         breeding = false;
         float deg = randDeg();
         aestheticTheta = deg;
@@ -108,10 +106,10 @@ public class PangBoss extends GameEvent {
         generation = n;
         setWidth(64 / n);
         setHeight(64 / n);
-        setHitbox(new float[]{getWidth() * 1 / 3f, 0, getWidth() * 2 / 3f, 0,
-                getWidth(), getHeight() * 1 / 3f, getWidth(), getHeight() * 2 / 3f,
-                getWidth() * 2 / 3f, getHeight(), getWidth() * 1 / 3f, getHeight(),
-                0, getHeight() * 2 / 3f, 0, getHeight() * 1 / 3f});
+        setHitbox(new float[]{getWidth()/ 3f, 0, getWidth() * 2 / 3f, 0,
+                getWidth(), getHeight() / 3f, getWidth(), getHeight() * 2 / 3f,
+                getWidth() * 2 / 3f, getHeight(), getWidth() / 3f, getHeight(),
+                0, getHeight() * 2 / 3f, 0, getHeight() / 3f});
 
         fullyVisible = generation != 1;
 

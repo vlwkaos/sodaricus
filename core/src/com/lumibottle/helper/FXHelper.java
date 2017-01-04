@@ -22,14 +22,18 @@ public class FXHelper {
     }
 
     public void newFX(float x, float y, short animNo) {
-        if (x < -20)
-            return;
-
         for (FX f : myFXs) {
             if (f.isREADY()) {
-                switch(animNo){
-                    case FX.QUANTUM_EXPLOSION: SoundManager.getInstance().play(SoundManager.DEAD); break;
-                    case FX.SODA_EXPLOSION: SoundManager.getInstance().play(SoundManager.HIT); break;
+                switch (animNo) {
+                    case FX.QUANTUM_EXPLOSION:
+                        SoundManager.getInstance().play(SoundManager.DEAD);
+                        break;
+                    case FX.SODA_EXPLOSION:
+                        SoundManager.getInstance().play(SoundManager.HIT);
+                        break;
+                    case FX.BOMB_EXPLOSION:
+                        SoundManager.getInstance().play(SoundManager.BOMB);
+                        break;
                 }
 
                 f.reset(x, y, animNo);
@@ -40,15 +44,21 @@ public class FXHelper {
     }
 
     public void newFX(float x, float y, float size, short animNo) {
-        if (x+size < 0)
+        if (x + size < 0)
             return;
 
         for (FX f : myFXs) {
             if (f.isREADY()) {
-                switch(animNo){
-                    case FX.QUANTUM_EXPLOSION: SoundManager.getInstance().play(SoundManager.DEAD); break;
-                    case FX.SODA_EXPLOSION: SoundManager.getInstance().play(SoundManager.HIT); break;
-                    case FX.POOF: SoundManager.getInstance().play(SoundManager.KILL); break;
+                switch (animNo) {
+                    case FX.QUANTUM_EXPLOSION:
+                        SoundManager.getInstance().play(SoundManager.DEAD);
+                        break;
+                    case FX.SODA_EXPLOSION:
+                        SoundManager.getInstance().play(SoundManager.HIT);
+                        break;
+                    case FX.POOF:
+                        SoundManager.getInstance().play(SoundManager.KILL);
+                        break;
                 }
 
                 f.reset(x, y, size, animNo);

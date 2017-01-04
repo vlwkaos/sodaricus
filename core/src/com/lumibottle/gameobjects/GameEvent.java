@@ -45,6 +45,8 @@ public abstract class GameEvent {
         this.theta = 0;
         currentState = EventState.DEAD;
         this.hitbox = hitbox;
+        if (this.hitbox != null)
+            this.hitbox.setPosition(-255,-255);
         this.maxhp = hp;
         this.hitpoint = hp;
 
@@ -89,7 +91,6 @@ public abstract class GameEvent {
         if (hitpoint == 1) {
             dead();
         } else if (hitpoint > 1){
-            //TODO score increment
             ScoreHelper.getInstance().incrementScore(10);
             hitpoint--;
         }
@@ -98,27 +99,38 @@ public abstract class GameEvent {
     // if using particle, free particle here
     public void dead() {
         prev_pos.set(getPosition());
-        hitbox.setPosition(-255,-255);
+        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), FX.POOF);// puff
+        hitbox.setPosition(300,300);
         position.set(-255, -255);
         currentState = EventState.DEAD; // hit to deploy
 
     }
 
+    public void silentDead(){
+        prev_pos.set(getPosition());
+        hitbox.setPosition(300,300);
+        position.set(-255, -255);
+        currentState = EventState.DEAD; // hit to deploy
+    }
+
+
 
     /*
     collision
      */
-    public void collide(Squirrel squirrel) {
+    protected void collide(Squirrel squirrel) {
         if (isVISIBLE()) {
             for (Bullet b : squirrel.getBullets()) {
-                    if (Intersector.overlapConvexPolygons(b.getHitbox(), hitbox) && b.isVISIBLE()) {
+                    if (b.isVISIBLE() && Intersector.overlapConvexPolygons(b.getHitbox(), hitbox)) {
                         //When bullet hits Event
                         bottleHitsEnemy(b);
+                        Gdx.app.log("GameEvent","bottle hits"+this.getClass().getSimpleName());
+                        break;
                     }
             }
             //When squirrel is hit by event
 
-            if (squirrel.getX() + squirrel.getWidth() > getX() && !squirrel.IsInvincible()) {
+            if (!squirrel.IsInvincible()) {
                 if (Intersector.overlapConvexPolygons(squirrel.getHitbox(), hitbox)) {
                     enemyHitsSquirrel(squirrel);
                 }
@@ -127,7 +139,6 @@ public abstract class GameEvent {
     }
 
     public void enemyHitsSquirrel(Squirrel squirrel) {
-        SoundManager.getInstance().play(SoundManager.HURT);
         Gdx.app.log("squirrel is hit by: ", this.getClass().getSimpleName());
         squirrel.dead();
     }
@@ -151,7 +162,10 @@ public abstract class GameEvent {
     }
 
     public void setHitbox(float[] hitbox) {
-        this.hitbox.setVertices(hitbox);
+        if (this.hitbox != null)
+            this.hitbox.setVertices(hitbox);
+        else
+            this.hitbox = new Polygon(hitbox);
     }
 
     //it will use coordinate from main actor, so ..

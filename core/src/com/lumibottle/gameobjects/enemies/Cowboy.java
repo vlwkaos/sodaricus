@@ -26,7 +26,7 @@ public class Cowboy extends GameEvent {
 
 
     public Cowboy() {
-        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 3);
+        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 2);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class Cowboy extends GameEvent {
         if (isVISIBLE()) {
             getHitbox().setPosition(getX(), getY());
 
-            if (getX() > 240 - getWidth() * 2f)
+            if (getX() > 240 - getWidth() * 1.5f)
                 getPosition().add(getVelocity().cpy().scl(delta));
 
             //switch here, then when bullet is fired in ProgressHandler, it will put isSHOOTING to false
@@ -56,7 +56,7 @@ public class Cowboy extends GameEvent {
 
 
             if (isOutOfScreen(true, false, true, true))
-                dead();
+                silentDead();
         }
 
     }
@@ -73,7 +73,6 @@ public class Cowboy extends GameEvent {
     public void dead() {
         super.dead();
         AssetHelper.nitro2Pool.free((ParticleEffectPool.PooledEffect) nitroParticle);
-        FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), (short) 5);
     }
 
     public boolean isShooting() {

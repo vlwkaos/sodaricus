@@ -16,6 +16,9 @@ public class Bullet extends GameEvent {
     //load in gameworld first, the move
     private Vector2 acceleration;
 
+    private float runTime; // kill timer
+
+
     public Bullet() {
         super(12, 12, new Polygon(new float[]{2, 6, 2, 12, 6, 12, 6, 6}), 1);
         getHitbox().setOrigin(getWidth() / 2f, getHeight() / 2f);
@@ -24,17 +27,21 @@ public class Bullet extends GameEvent {
 
     public void update(float delta) {
         if (isVISIBLE()) {
+            runTime+= delta;
 //			setX(100);
 //			setY(100);
-            getHitbox().setPosition(getX(), getY());
-            getHitbox().setRotation(getTheta());
+
             getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
+            getHitbox().setRotation(getTheta());
 
             this.theta -= delta * 1000;//1-000
 
-            if (isOutOfScreen(false, true, false, false))
-                dead();
+
+            if (isOutOfScreen(true, true, false, true) || runTime > 2.0f) {
+                silentDead();
+            }
         }
     }
 
@@ -45,7 +52,7 @@ public class Bullet extends GameEvent {
 //			this.theta=(-5)*MathUtils.log2((-1)*theta);
 //		else
         this.theta = theta;
-
+        this.runTime = 0.0f;
         super.reset(x, y, speed * MathUtils.cos(MathUtils.degreesToRadians * this.theta), speed * MathUtils.sin(MathUtils.degreesToRadians * this.theta), this.theta);
     }
 
@@ -54,4 +61,8 @@ public class Bullet extends GameEvent {
         return theta;
     }
 
+    @Override
+    public void dead(){
+        silentDead();
+    }
 }

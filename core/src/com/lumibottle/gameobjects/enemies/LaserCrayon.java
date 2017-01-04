@@ -41,7 +41,7 @@ public class LaserCrayon extends GameEvent {
             getPosition().add(getVelocity().cpy().scl(delta));
 
             // move right and
-            if (getX() < 240 - getWidth() * 2 && currentState == LaserCrayonState.INIT) {
+            if (getX() < 240 - getWidth() * 1.5f && currentState == LaserCrayonState.INIT) {
                 getVelocity().add(4 * runTime, 0);
             }
 
@@ -84,7 +84,7 @@ public class LaserCrayon extends GameEvent {
             }
 
             if (currentState == LaserCrayonState.SHOT && getX() > 240)
-                dead();
+                silentDead();
         }
 
     }

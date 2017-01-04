@@ -33,7 +33,7 @@ public class FirePropulsion extends GameEvent {
 
             timeout += delta;
             if (timeout > 10.0f)
-                dead();
+                silentDead();
 
             getPosition().add(getVelocity().cpy().scl(delta));
             getHitbox().setPosition(getX(), getY());
@@ -48,8 +48,8 @@ public class FirePropulsion extends GameEvent {
     }
 
     @Override
-    public void dead(){
-        super.dead();
+    public void silentDead(){
+        super.silentDead();
         AssetHelper.firePool.free((ParticleEffectPool.PooledEffect) firep);
     }
 
