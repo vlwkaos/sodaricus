@@ -292,7 +292,8 @@ public class Squirrel {
     void incrementLife(){life++;}
 
 
-    public short getLife() {return life;}
+    public short getLife() {
+            return life;}
 
 
 }

@@ -26,8 +26,9 @@ public class PipeBoss extends GameEvent {
     private float hitAnimRunTime;
 
     public PipeBoss() {
-        super(32, 32, new Polygon(new float[]{4, 9, 4, 25, 25, 25, 25, 9}), 50); // render height is different
+        super(32, 32, new Polygon(new float[]{4, 9, 4, 25, 25, 25, 25, 9}), 20); // render height is different
         gotHit = false;
+        runTime = 0.0f;
         hitAnimRunTime = 0;
         shootCount = 0;
         shootRunTime = 0;
@@ -78,13 +79,14 @@ public class PipeBoss extends GameEvent {
                     hitAnimRunTime += delta;
             }
 
-            getPosition().add(getVelocity().cpy().scl(delta));
+            getPosition().set(getVelocity().cpy().scl(delta));
             getHitbox().setPosition(getX(), getY());
         }
     }
 
     public void reset() {
-        super.reset(240, GameScreen.gameHeight / 2.0f - getHeight() / 2, 0, 0, 0);
+        super.reset(240, (GameScreen.gameHeight / 2.0f) - getHeight()/2, 0, 0, 0);
+        runTime = 0.0f;
 
     }
 

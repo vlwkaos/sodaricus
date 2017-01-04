@@ -37,6 +37,7 @@ public class PangBoss extends GameEvent {
         if (isVISIBLE()) {
             addTheta(delta);
 
+            //generation 1
             if (!fullyVisible) {
                 if (getX() < 240 - getWidth()) {
                     setX(240 - getWidth());
@@ -54,6 +55,7 @@ public class PangBoss extends GameEvent {
                 aestheticTheta += delta * 10.0f;
                 getPosition().add(getVelocity().cpy().scl(delta));
                 getHitbox().setPosition(getX(), getY());
+
                 //change velocity first,
                 if (getX() > 240 - getWidth()) {
                     setX(240 - getWidth());
@@ -85,9 +87,11 @@ public class PangBoss extends GameEvent {
 
     @Override
     public void hit() {
-        super.hit();
-        addTheta(MathUtils.random(-15, 15));
-        setVelocity(speed * MathUtils.cosDeg(getTheta()), speed * MathUtils.sinDeg(getTheta()));
+        if (getX() < 240 - getWidth())
+            super.hit();
+//        addTheta(MathUtils.random(-15, 15));
+//        setVelocity(speed * MathUtils.cosDeg(getTheta()), speed * MathUtils.sinDeg(getTheta()));
+// 어짜피 한방이니까
     }
 
     @Override
@@ -95,7 +99,6 @@ public class PangBoss extends GameEvent {
         super.dead();
         breeding = true;
     }
-
 
     public void reset(float x, float y, int n) {
         breeding = false;
@@ -112,9 +115,7 @@ public class PangBoss extends GameEvent {
                 0, getHeight() * 2 / 3f, 0, getHeight() / 3f});
 
         fullyVisible = generation != 1;
-
         //0,0에서
-
     }
 
     private float randDeg() {

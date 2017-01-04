@@ -18,7 +18,7 @@ public class Mustache extends GameEvent {
 
     private ParticleEffect rainbowParticle;
 
-    final private int speed = 120;
+    final private int speed = 130;
     private float runTime;
 
     public Mustache() {

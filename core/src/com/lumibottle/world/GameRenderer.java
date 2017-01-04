@@ -232,7 +232,7 @@ public class GameRenderer {
 //        font.getData().setScale(0.1f);
 //        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
         spriteBatch.end();
-		//drawDebugMode();
+		drawDebugMode();
 
     }
 
@@ -404,15 +404,17 @@ public class GameRenderer {
         //life
         spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         spriteBatch.draw(life, 0, 0, 8, 9);
-        font.draw(spriteBatch, "x"+mySquirrel.getLife(), 9, 5.0f);
+        if (mySquirrel.getLife() <0)
+            font.draw(spriteBatch, "x0", 9, 5.0f);
+        else
+            font.draw(spriteBatch, "x"+mySquirrel.getLife(), 9, 5.0f);
 
     }
 
     private void drawAbout(){
-        String text = "SODARICUS v1.0.0";
+        String text = "SODARICUS v1.0.4";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
-
 
         font.setColor(1.0f,1.0f,0.3f,1.0f);
         text = "Developed By";
@@ -434,11 +436,28 @@ public class GameRenderer {
     }
 
     private void drawGameOver() {
-        font.getData().setScale(0.16f);
-        font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
+        if (myWorld.getRunTime_2() > 2.0f){
+            font.getData().setScale(0.16f);
+            font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
 
-        font.getData().setScale(0.2f);
-        font.draw(spriteBatch, "GAME OVER", (120 - 9*3.0f), gameHeight/2);
+            font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 110 - (ScoreHelper.getInstance().getBest().length() * 5.2f) / 2, gameHeight - 2.2f);
+
+            font.getData().setScale(0.2f);
+            font.draw(spriteBatch, "GAME OVER", (120 - 9*3.0f), gameHeight*0.75f);
+
+            String text = "To Title";
+            font.getData().setScale(0.16f);
+            font.draw(spriteBatch, text, 60 - (text.length()*5.1f)/2, gameHeight*0.30f);
+
+            text = "High Scores";
+            font.getData().setScale(0.16f);
+            font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.30f);
+
+            text = "Retry";
+            font.getData().setScale(0.16f);
+            font.draw(spriteBatch, text, 180 - (text.length()*5.1f)/2, gameHeight*0.30f);
+        }
+
     }
 
     private void drawPause(){
@@ -446,7 +465,7 @@ public class GameRenderer {
         font.getData().setScale(0.2f);
         font.draw(spriteBatch, str, (120 - 6.0f*str.length()/2), gameHeight/2);
 
-        str = "TO TITLE";
+        str = "To Title";
         font.draw(spriteBatch, str, (240 - 7.0f*str.length()), gameHeight-2.2f);
 
         font.getData().setScale(0.16f);

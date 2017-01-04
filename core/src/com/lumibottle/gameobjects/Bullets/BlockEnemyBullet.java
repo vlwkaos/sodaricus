@@ -43,6 +43,7 @@ public class BlockEnemyBullet extends EnemyBullet {
     public void reset(float x, float y, float speed, float theta) {
         super.reset(x, y, -speed * MathUtils.cos(theta), -speed * MathUtils.sin(theta), theta);
         minPosX = myBlockspace[(int) getY() / getHeight()];
+        acceleration.set(-50,0);
 
     }
 

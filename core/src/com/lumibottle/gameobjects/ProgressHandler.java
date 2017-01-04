@@ -102,6 +102,8 @@ public class ProgressHandler {
   */
         //spawnItem(0);
         //보스전이 아니면
+        updateEnemies(delta);
+
         if (noBossAlive()) {
             if (bossStage != -1) { // after a boss fight
                 GameMain.playServices.unlockAchievement(bossStage);
@@ -117,7 +119,7 @@ public class ProgressHandler {
             spawnBoss();
         }
 
-        updateEnemies(delta);
+
     }
 
     /*************************************************
@@ -780,9 +782,12 @@ public class ProgressHandler {
         if (!pipeBoss.isDEAD())
             pipeBoss.silentDead();
 
-        for (PangBoss a : pangBosses)
+        for (PangBoss a : pangBosses) {
+            a.doneBreeding();
             if (!a.isDEAD())
                 a.silentDead();
+        }
+
 
         if (!bomberBoss.isDEAD())
             bomberBoss.silentDead();
