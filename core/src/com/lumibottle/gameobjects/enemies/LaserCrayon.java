@@ -35,11 +35,11 @@ public class LaserCrayon extends GameEvent {
     public void update(float delta) {
 
         if (isVISIBLE()) {
-            getHitbox().setPosition(getX(), getY());
+
             runTime += delta;
 
             getPosition().add(getVelocity().cpy().scl(delta));
-
+            getHitbox().setPosition(getX(), getY());
             // move right and
             if (getX() < 240 - getWidth() * 1.5f && currentState == LaserCrayonState.INIT) {
                 getVelocity().add(4 * runTime, 0);

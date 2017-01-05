@@ -31,9 +31,10 @@ public class Blackhole extends GameEvent {
     public void update(float delta) {
         if (isVISIBLE()) {
             addTheta(delta * 200f);
-            getHitbox().setPosition(getX(), getY());
+
 
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
             if (isOutOfScreen(true, false, true, true))
                 silentDead();
         }

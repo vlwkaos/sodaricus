@@ -232,7 +232,7 @@ public class GameRenderer {
 //        font.getData().setScale(0.1f);
 //        font.draw(spriteBatch, "FPS:" + Gdx.graphics.getFramesPerSecond(), 0, 10);
         spriteBatch.end();
-		drawDebugMode();
+//		drawDebugMode();
 
     }
 
@@ -412,7 +412,7 @@ public class GameRenderer {
     }
 
     private void drawAbout(){
-        String text = "SODARICUS v1.0.4";
+        String text = "SODARICUS v1.0.5";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
 

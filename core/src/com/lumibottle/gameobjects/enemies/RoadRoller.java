@@ -26,8 +26,10 @@ public class RoadRoller extends GameEvent {
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
-            getHitbox().setPosition(getX(), getY());
+
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
+
             if (isOutOfScreen(true, false, true, true))
                 silentDead();
         }

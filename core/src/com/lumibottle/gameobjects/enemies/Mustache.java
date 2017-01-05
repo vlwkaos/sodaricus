@@ -22,7 +22,7 @@ public class Mustache extends GameEvent {
     private float runTime;
 
     public Mustache() {
-        super(33, 16, new Polygon(new float[]{3, 3, 30, 3, 23, 16, 12, 16}), 3);
+        super(33, 16, new Polygon(new float[]{3, 3, 30, 3, 23, 16, 12, 16}), 2);
 
     }
 
@@ -31,7 +31,7 @@ public class Mustache extends GameEvent {
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
-            getHitbox().setPosition(getX(), getY());
+
             runTime += delta;
 
 
@@ -52,7 +52,7 @@ public class Mustache extends GameEvent {
             }
 
             getPosition().add(getVelocity().cpy().scl(delta));
-
+            getHitbox().setPosition(getX(), getY());
             if (isOutOfScreen(true, false, true, true))
                 silentDead();
         }

@@ -31,7 +31,9 @@ public class Bullet extends GameEvent {
 //			setX(100);
 //			setY(100);
 
-            getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
+           getVelocity().add(acceleration.cpy().scl(delta));//add acc to velocity
+//            setVelocity(200,0);
+
             getPosition().add(getVelocity().cpy().scl(delta));
             getHitbox().setPosition(getX(), getY());
             getHitbox().setRotation(getTheta());
@@ -39,7 +41,7 @@ public class Bullet extends GameEvent {
             this.theta -= delta * 1000;//1-000
 
 
-            if (isOutOfScreen(true, true, false, true) || runTime > 2.0f) {
+            if (isOutOfScreen(true, true, true, true) || runTime > 2.0f) {
                 silentDead();
             }
         }

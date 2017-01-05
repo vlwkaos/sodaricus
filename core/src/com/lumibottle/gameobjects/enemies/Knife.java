@@ -57,9 +57,10 @@ public class Knife extends GameEvent {
             if (isOutOfScreen(true, false, true, true))
                 silentDead();
 
-            getHitbox().setPosition(getX(), getY());
+
 
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
         }
 
     }

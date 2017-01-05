@@ -13,6 +13,10 @@ public class GameMain extends Game implements ApplicationListener {
 
     public static PlayServices playServices;
 
+    public GameMain(){
+
+    }
+
     public GameMain(PlayServices playServices){
         this.playServices = playServices;
     }

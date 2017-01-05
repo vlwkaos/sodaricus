@@ -36,9 +36,10 @@ public class Boomerang extends GameEvent {
                 if (isOutOfScreen(true, false, false, false))
                     turn = true;
             }
-            getHitbox().setPosition(getX(), getY());
+
             getVelocity().add(acceleration.cpy().scl(delta));
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
         }
 
     }

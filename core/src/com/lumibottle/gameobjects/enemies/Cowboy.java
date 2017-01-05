@@ -32,11 +32,11 @@ public class Cowboy extends GameEvent {
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
-            getHitbox().setPosition(getX(), getY());
+
 
             if (getX() > 240 - getWidth() * 1.5f)
                 getPosition().add(getVelocity().cpy().scl(delta));
-
+            getHitbox().setPosition(getX(), getY());
             //switch here, then when bullet is fired in ProgressHandler, it will put isSHOOTING to false
             runTime += delta;
             switch (currentState) {

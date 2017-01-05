@@ -1,5 +1,6 @@
 package com.lumibottle.gameobjects;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
@@ -100,16 +101,16 @@ public abstract class GameEvent {
     public void dead() {
         prev_pos.set(getPosition());
         FXHelper.getInstance().newFX(getPrevX(), getPrevY(), Math.max(getWidth(), getHeight()), FX.POOF);// puff
-        hitbox.setPosition(300,300);
-        position.set(-255, -255);
+        hitbox.setPosition(300, GameScreen.gameHeight*2);
+        position.set(300, GameScreen.gameHeight*2);
         currentState = EventState.DEAD; // hit to deploy
 
     }
 
     public void silentDead(){
         prev_pos.set(getPosition());
-        hitbox.setPosition(300,300);
-        position.set(-255, -255);
+        hitbox.setPosition(300, GameScreen.gameHeight*2);
+        position.set(300, GameScreen.gameHeight*2);
         currentState = EventState.DEAD; // hit to deploy
     }
 
@@ -123,9 +124,13 @@ public abstract class GameEvent {
             for (Bullet b : squirrel.getBullets()) {
                     if (b.isVISIBLE() && Intersector.overlapConvexPolygons(b.getHitbox(), hitbox)) {
                         //When bullet hits Event
-                        bottleHitsEnemy(b);
-                        Gdx.app.log("GameEvent","bottle hits"+this.getClass().getSimpleName());
-                        break;
+
+                        Gdx.app.log("GameEvent","bottle hits "+this.getClass().getSimpleName()+" at "+"("+b.getX()+", "+b.getY()+")");
+                        Gdx.app.log("GameEvent","Enemy Location "+"("+getX()+", "+getY()+")");
+                        if ((b.getX() < getX()+getWidth() && getX() - (b.getX()+b.getWidth()) < 0)&& (b.getY()+b.getHeight() > getY() && (getY()+getHeight()) - b.getY() > 0 )) // secondary hitbox checking
+                            bottleHitsEnemy(b);
+
+
                     }
             }
             //When squirrel is hit by event

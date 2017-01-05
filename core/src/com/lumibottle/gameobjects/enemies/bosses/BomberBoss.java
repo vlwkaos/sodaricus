@@ -36,7 +36,7 @@ public class BomberBoss extends GameEvent {
     final private float speed = 70.0f;
 
     public BomberBoss() {
-        super(32, 32, new Polygon(new float[]{6,0,26,0,26,32,6,32}), 12);
+        super(32, 32, new Polygon(new float[]{6,0,26,0,26,32,6,32}), 10);
         curVel = new Vector2(0,0);
         runTime = 0.0f;
         invTime = 5.0f;

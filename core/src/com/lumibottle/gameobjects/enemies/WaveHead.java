@@ -31,8 +31,9 @@ public class WaveHead extends GameEvent {
         if (isVISIBLE()) {
             runTime +=delta;
             setVelocity(getVelocity().x, ((GameScreen.gameHeight - getHeight()) / 3.0f) * (MathUtils.cos(runTime)));
-            getHitbox().setPosition(getX(), getY());
+
             getPosition().add(getVelocity().cpy().scl(delta));
+            getHitbox().setPosition(getX(), getY());
 
             if (isOutOfScreen(true, false, false, false))
                 silentDead();

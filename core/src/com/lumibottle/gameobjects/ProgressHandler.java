@@ -166,7 +166,7 @@ public class ProgressHandler {
 
     private void spawnEnemy() {
         //stage
-        if (spawnFrequency > MathUtils.random(2.5f, 3.0f)) {
+        if (spawnFrequency > MathUtils.random(2.2f, 3.0f)) {
             ScoreHelper.getInstance().incrementScore(10);
             for (int i = 0; i < enemyCount; i++) {
                 int type = MathUtils.random(numEnemyTypes);

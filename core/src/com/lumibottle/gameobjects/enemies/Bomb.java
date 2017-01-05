@@ -44,7 +44,7 @@ public class Bomb extends GameEvent {
     @Override
     public void update(float delta) {
         if (isVISIBLE()) {
-            getHitbox().setPosition(getX(), getY());
+
 
             if (isExploding)
                 explodingCounter += delta;
@@ -55,7 +55,7 @@ public class Bomb extends GameEvent {
                 super.silentDead();
 
 
-
+            getHitbox().setPosition(getX(), getY());
 
             if (isOutOfScreen(true, false, true, true))
                 super.silentDead();
@@ -79,6 +79,14 @@ public class Bomb extends GameEvent {
     @Override
     public void dead() {
         explode();
+    }
+
+    @Override
+    public void silentDead(){
+        super.silentDead();
+        isExploding = false;
+        AssetHelper.nitroPool.free((ParticleEffectPool.PooledEffect) nitroParticle);
+        setHitbox(normalhitbox); // reset hitbox
     }
 
 
