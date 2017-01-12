@@ -92,8 +92,10 @@ public class GameRenderer {
 
     private TextureRegion life;
     private TextureRegion oneUP;
+    private TextureRegion POW;
     //
     private TextureRegion squirrelDown;
+    private TextureRegion squirrelStand;
     private Animation squirrelAnimation;
     private Animation baconAnimation;
     private TextureRegion gb;
@@ -277,6 +279,7 @@ public class GameRenderer {
         whiteflash = AssetHelper.whiteflash;
 
         squirrelDown = AssetHelper.sqdown;
+        squirrelStand = AssetHelper.sqstand;
         squirrelAnimation = AssetHelper.sqAnim;
         baconAnimation = AssetHelper.baconAnim;
         eyeAnmimation = AssetHelper.eyeAnim;
@@ -285,7 +288,7 @@ public class GameRenderer {
 
         life = AssetHelper.life;
         oneUP = AssetHelper.oneUP;
-
+        POW = AssetHelper.POW;
         //en
         bomb = AssetHelper.roadroller;
         roadroller = AssetHelper.tanklorry;
@@ -409,10 +412,17 @@ public class GameRenderer {
         else
             font.draw(spriteBatch, "x"+mySquirrel.getLife(), 9, 5.0f);
 
+        //boss
+        if (myStage.getBossApproachingTimer() < 2.0f)
+            font.draw(spriteBatch, "BOSS APPROACHING!!!", 120-19*5.1f/2, gameHeight/2);
+
+
     }
 
+
+    //TODO a
     private void drawAbout(){
-        String text = "SODARICUS v1.0.5";
+        String text = "SODARICUS v1.2.0";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
 
@@ -438,12 +448,12 @@ public class GameRenderer {
     private void drawGameOver() {
         if (myWorld.getRunTime_2() > 2.0f){
             font.getData().setScale(0.16f);
-            font.draw(spriteBatch, ScoreHelper.getInstance().getScore(), 0, gameHeight - 2.2f);
 
-            font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 110 - (ScoreHelper.getInstance().getBest().length() * 5.2f) / 2, gameHeight - 2.2f);
+            font.draw(spriteBatch, "Score "+ScoreHelper.getInstance().getScore(), 120-(12 * 5.2f)/2, gameHeight*0.7f);
+            font.draw(spriteBatch, "BEST " + ScoreHelper.getInstance().getBest(), 120 - (11 * 5.2f) / 2, gameHeight*0.6f);
 
             font.getData().setScale(0.2f);
-            font.draw(spriteBatch, "GAME OVER", (120 - 9*3.0f), gameHeight*0.75f);
+            font.draw(spriteBatch, "GAME OVER", (120 - 9*3.0f), gameHeight*0.8f);
 
             String text = "To Title";
             font.getData().setScale(0.16f);
@@ -486,6 +496,12 @@ public class GameRenderer {
             spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
 
+        if (mySquirrel.isRamseyThunder()) {
+            spriteBatch.draw(squirrelStand, mySquirrel.getX(),
+                    mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
+                    mySquirrel.getHeight() / 2.0f, mySquirrel.getWidth(), mySquirrel.getHeight(),
+                    1, 1, mySquirrel.getRotation());
+        } else
         if (mySquirrel.isSHOOTING()) {
             spriteBatch.draw(squirrelAnimation.getKeyFrame(mySquirrel.getAnimRunTime()), mySquirrel.getX(),
                     mySquirrel.getY(), mySquirrel.getWidth() / 2.0f,
@@ -510,12 +526,17 @@ public class GameRenderer {
     private void drawBullets() {
         for (Bullet b : myBullets) {
             if (b.isVISIBLE())
+            if (b.getThunderMode()){
+                b.getParticle().setPosition(b.getX() + b.getWidth() / 2.0f,b.getY() + b.getHeight() / 2.0f);
+                b.getParticle().update(Gdx.graphics.getDeltaTime());
+                b.getParticle().draw(spriteBatch);
+            } else {
                 spriteBatch.draw(gb,
                         b.getX(), b.getY(),
                         b.getWidth() / 2.0f, b.getHeight() / 2.0f,
                         b.getWidth(), b.getHeight(),
                         1, 1, b.getTheta() + 180);
-
+            }
         }
     }
 
@@ -569,7 +590,8 @@ public class GameRenderer {
         for (Item a : myItems){
             if (a.isVISIBLE()){
                 switch (a.getType()){
-                    case 0 : spriteBatch.draw(oneUP, a.getX(),a.getY(),a.getWidth(),a.getHeight());
+                    case 0 : spriteBatch.draw(oneUP, a.getX(),a.getY(),a.getWidth(),a.getHeight()); break;
+                    case 1 : spriteBatch.draw(POW, a.getX(),a.getY(),a.getWidth(),a.getHeight()); break;
                 }
             }
         }

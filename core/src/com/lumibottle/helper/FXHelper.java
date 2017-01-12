@@ -1,5 +1,6 @@
 package com.lumibottle.helper;
 
+import com.badlogic.gdx.audio.Sound;
 import com.lumibottle.gameobjects.FX;
 
 /**
@@ -34,6 +35,14 @@ public class FXHelper {
                     case FX.BOMB_EXPLOSION:
                         SoundManager.getInstance().play(SoundManager.BOMB);
                         break;
+                    case FX.LASER_LINE:
+                        SoundManager.getInstance().play(SoundManager.LASER_LINE);
+                        break;
+                    case FX.LASER_SHOT:
+                        SoundManager.getInstance().play(SoundManager.LASER_SHOT);
+                        break;
+                    case FX.WARN:
+                        SoundManager.getInstance().play(SoundManager.WARN);
                 }
 
                 f.reset(x, y, animNo);

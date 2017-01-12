@@ -135,7 +135,7 @@ public class BomberBoss extends GameEvent {
     }
 
     public void reset() {
-        super.reset(240, GameScreen.gameHeight / 2.0f - getHeight() / 2.0f, 0, 0, 0);
+        super.reset(260, GameScreen.gameHeight / 2.0f - getHeight() / 2.0f, 0, 0, 0);
         invTime = 5.0f;
         runTime = 0.0f;
         cirmov = 0.0f;

@@ -36,19 +36,22 @@ public class ProgressHandler {
     private boolean pause;
 
     //LEVEL VARIABLES
-    private float runTime; // for whole session time
+    private float bossApproachingTimer; // for whole session time
     private int enemyCount; // number of enemies at a given time 5?
     private int numEnemyTypes; // number of enemy types that can be chosen from. 0~4
-    private float spawnFrequency; // spawn enemy every x seconds. add score for each spawn
+    private float spawnTimer; // spawn enemy every x seconds. add score for each spawn
 
     private int hazardCount;
-    private int numHazardTypes;
     private float hazardFrequency;
+    private int numHazardTypes;
+    private float hazardTimer;
 
     private float bossFrequency;
     private int bossNum;
     private int bossStage;
 
+    private int itemFrequency;
+    private float itemTimer;
 
     private int progress; // spawn boss every x seconds.
     //TODO hazard?
@@ -92,7 +95,7 @@ public class ProgressHandler {
 
 
     public void update(float delta) {
-        runTime += delta;
+
 
         /*
             test
@@ -106,17 +109,24 @@ public class ProgressHandler {
 
         if (noBossAlive()) {
             if (bossStage != -1) { // after a boss fight
+                itemFrequency+=1000;
                 GameMain.playServices.unlockAchievement(bossStage);
                 bossStage = -1;
                 ScoreHelper.getInstance().incrementScore(1000);
                 spawnItem(0); // spawn life
             }
-            spawnFrequency += delta;
-            hazardFrequency += delta;
+            spawnTimer += delta;
+            hazardTimer += delta;
             bossFrequency +=delta;
+            itemTimer += delta;
+
             spawnEnemy();
             spawnHazard();
             spawnBoss();
+            spawnItem();
+        } else {
+            if (bossApproachingTimer <2.1f)
+                bossApproachingTimer+=delta;
         }
 
 
@@ -140,23 +150,22 @@ public class ProgressHandler {
             numEnemyTypes++; // 3
         }else if (progress == 20) {
             changed = true;
-            numHazardTypes++; // 1
-            hazardCount++; // 1
+            hazardFrequency-=0.5f;// 5.5 -> 5.0
         } else if (progress == 25){
             changed = true;
             numEnemyTypes++; // 4 max
         } else if (progress == 30){ // 60 보스 두마리 째?
-            numHazardTypes++; // 2 boomerang
+            hazardFrequency-=0.5f; // 5.0 -> 4.5
             changed = true;
         } else if (progress == 35){
             changed = true;
-            numHazardTypes++; // 3 laser
+            hazardFrequency-=0.5f;// 4.5 -> 4.0
         } else if (progress == 40){
             changed = true;
-            numHazardTypes++; // 4 max blackhole
+            hazardFrequency-=0.5f;// 4.0 -> 3.5
         } else if (progress == 45){
             changed = true;
-            hazardCount++; // 2
+            hazardFrequency-=0.5f;// 3.5 -> 3.0
         }
         if (changed)
             SoundManager.getInstance().play(SoundManager.POWUP);
@@ -166,7 +175,13 @@ public class ProgressHandler {
 
     private void spawnEnemy() {
         //stage
-        if (spawnFrequency > MathUtils.random(2.2f, 3.0f)) {
+        float freq = 2.5f;
+        enemyCount = 3;
+        if (mySquirrel.isRamseyThunder()) {
+            freq = 1.25f;
+            enemyCount = 5;
+        }
+        if (spawnTimer > freq) {
             ScoreHelper.getInstance().incrementScore(10);
             for (int i = 0; i < enemyCount; i++) {
                 int type = MathUtils.random(numEnemyTypes);
@@ -188,7 +203,7 @@ public class ProgressHandler {
                         break;
                 }
             }
-            spawnFrequency = 0.0f;
+            spawnTimer = 0.0f;
             progress++;
             progressCheck();
         }
@@ -198,7 +213,7 @@ public class ProgressHandler {
         if (numHazardTypes == 0)
             return;
 
-        if (hazardFrequency > 4.0f) {
+        if (hazardTimer > MathUtils.random(hazardFrequency-0.4f, hazardFrequency)) {
             ScoreHelper.getInstance().incrementScore(50);
             for (int i = 0; i < hazardCount; i++) {
                 int type = MathUtils.random(numHazardTypes);
@@ -218,7 +233,7 @@ public class ProgressHandler {
                 }
             }
 
-            hazardFrequency = 0.0f;
+            hazardTimer = 0.0f;
         }//endif
     }
 
@@ -233,9 +248,22 @@ public class ProgressHandler {
                 case 3: spawnBomberBoss(); break;
             }
             bossFrequency = 0.0f;
+            bossApproachingTimer = 0.0f;
             bossStage = type;
         }
 
+    }
+
+    //every 500
+    private void spawnItem(){
+        if (ScoreHelper.getInstance().getIntScore() > itemFrequency){
+            itemFrequency+=MathUtils.random(850,1000);
+            spawnItem(1);
+        }
+        if (itemTimer > 20.0f){
+            spawnItem(1);
+            itemTimer = 0.0f;
+        }
     }
 
     private boolean noBossAlive() {
@@ -396,7 +424,7 @@ public class ProgressHandler {
     private void spawnBoomerang() {
         for (Boomerang a : boomerangs)
             if (a.isDEAD()) {
-                a.reset(250 + MathUtils.random(25));
+                a.reset(290 + MathUtils.random(25));
                 break;
             }
     }
@@ -409,7 +437,7 @@ public class ProgressHandler {
     private void spawnKnife() {
         for (Knife a : knives)
             if (a.isDEAD()) {
-                a.reset(250 + MathUtils.random(25));
+                a.reset(290 + MathUtils.random(25));
                 break;
             }
     }
@@ -522,7 +550,7 @@ public class ProgressHandler {
         }
     }
     private void spawnPangBoss(){
-        pangBosses[0].reset(240, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
+        pangBosses[0].reset(260, GameScreen.gameHeight / 2f - pangBosses[0].getHeight() / 2f, 1);
 
     }
 
@@ -633,7 +661,9 @@ public class ProgressHandler {
             a.collide(mySquirrel, bomberBoss);
     }
 
-
+    /******************************************
+        Initialize
+     ******************************************/
     //TODO restart, initialize
     //called at first
     private void initialize() {
@@ -644,12 +674,12 @@ public class ProgressHandler {
         /*
 			Initialize enemy objects
 		 */
-        roadRollers = new RoadRoller[5];
+        roadRollers = new RoadRoller[10];
         for (int i = 0; i < roadRollers.length; i++)
             roadRollers[i] = new RoadRoller();
 
 
-        bombs = new Bomb[5];
+        bombs = new Bomb[10];
         for (int i = 0; i < bombs.length; i++)
             bombs[i] = new Bomb();
 
@@ -658,12 +688,12 @@ public class ProgressHandler {
         for (int i = 0; i < mustaches.length; i++)
             mustaches[i] = new Mustache();
 
-        waveheads = new WaveHead[5];
+        waveheads = new WaveHead[10];
         for (int i = 0; i < waveheads.length; i++)
             waveheads[i] = new WaveHead();
 
 
-        cowboys = new Cowboy[5];
+        cowboys = new Cowboy[4];
         for (int i = 0; i < cowboys.length; i++)
             cowboys[i] = new Cowboy();
 
@@ -701,7 +731,7 @@ public class ProgressHandler {
 
         Gdx.app.log("ProgressHandler", "Bullets created");
 
-        blackholes = new Blackhole[5];
+        blackholes = new Blackhole[2];
         for (int i = 0; i < blackholes.length; i++)
             blackholes[i] = new Blackhole();
 
@@ -816,22 +846,26 @@ public class ProgressHandler {
 
         pause = false;
 
-        runTime = 0.0f;
         enemyCount = 3; // number of enemies at a given time 5?
         numEnemyTypes = 0; // number of enemy types that can be chosen from. 0~4
-        spawnFrequency = 0.0f; // spawn enemy every x seconds. add score for each spawn
-        hazardFrequency = 0.0f;
-        hazardCount = 0; // 1,2
-        numHazardTypes = 0; //0 ~4
+        spawnTimer = 0.0f; // spawn enemy every x seconds. add score for each spawn
+        hazardTimer = 0.0f; //actual frequency
+        hazardFrequency = 5.5f;
+        hazardCount = 1; // 1,2
+        numHazardTypes = 4; //0 ~4
 
+        bossApproachingTimer = 3.0f;
         bossFrequency = 0.0f;
         bossNum = 3;
         bossStage = -1;
 
+        itemFrequency = 200;
+        itemTimer=0.0f;
+
         progress = 0;
 
         mySquirrel.resetLife();
-
+        ScoreHelper.getInstance().resetScore();
     }
 
 
@@ -914,4 +948,9 @@ public class ProgressHandler {
     public Item[] getItems() {
         return items;
     }
+
+    public float getBossApproachingTimer(){return bossApproachingTimer;}
+
+    public void addItemFrequency(int add){itemFrequency+=add;}
+
 }

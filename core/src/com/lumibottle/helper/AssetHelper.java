@@ -20,6 +20,7 @@ public class AssetHelper {
     private static Texture splashTexture;
     private static Texture titleTexture;
     private static Texture whiteflashTexture;
+    private static Texture warningTexture;
 
     //
     private static Texture backgroundTexture;
@@ -63,19 +64,23 @@ public class AssetHelper {
     public static TextureRegion titletext;
     public static TextureRegion whiteflash;
 
+    private static TextureRegion[] warnings;
+    public static Animation warningAnim;
+
     public static TextureRegion spacebg, star1, star2;
     public static TextureRegion greenBullet, pinkBullet;
     private static TextureRegion[] eyes;
     public static Animation eyeAnim;
 
 
-    public static TextureRegion sqdown, sqmid, squp;
+    public static TextureRegion sqdown, sqmid, squp,sqstand;
     public static Animation sqAnim;
     private static TextureRegion bacon1, bacon2;
     public static Animation baconAnim;
 
     public static TextureRegion life;
     public static TextureRegion oneUP;
+    public static  TextureRegion POW;
 
     //Enemies
     //TODO: collage texture into one png file
@@ -166,6 +171,8 @@ public class AssetHelper {
     public static ParticleEffectPool smokePool;
     private static ParticleEffect fireParticle;
     public static ParticleEffectPool firePool;
+    private static ParticleEffect thunderParticle;
+    public static ParticleEffectPool thunderPool;
 
 
     //FONT
@@ -184,6 +191,7 @@ public class AssetHelper {
         whiteflashTexture.dispose();
         //
         itemTexture.dispose();
+        warningTexture.dispose();
 
         //
         backgroundTexture.dispose();
@@ -234,6 +242,9 @@ public class AssetHelper {
         smokeParticle.dispose();
         firePool.clear();
         fireParticle.dispose();
+        thunderPool.clear();
+        thunderParticle.dispose();
+
 
         //font
         font.dispose();
@@ -253,6 +264,7 @@ public class AssetHelper {
 
         whiteflashTexture = new Texture(Gdx.files.internal("data/whiteflash.png"));
         whiteflashTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
 
         //INIT TEXTURE
         itemTexture = new Texture(Gdx.files.internal("data/lifeicon.png"));
@@ -321,6 +333,10 @@ public class AssetHelper {
         timebombTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
         //FX
+        warningTexture = new Texture(Gdx.files.internal("data/gfx/warning.png"));
+        warningTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+
         limeexplosionTexture = new Texture(Gdx.files.internal("data/gfx/limexplosion.png"));
         limeexplosionTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
@@ -350,11 +366,13 @@ public class AssetHelper {
         //item
         life = new TextureRegion(itemTexture,0,0,32,36);
         oneUP = new TextureRegion(itemTexture,32,0,32,36);
+        POW = new TextureRegion(itemTexture,64,0,32,36);
 
         //Squirrel
         sqdown = new TextureRegion(squirrelTexture, 0, 0, 20, 20);
         sqmid = new TextureRegion(squirrelTexture, 20, 0, 20, 20);
         squp = new TextureRegion(squirrelTexture, 40, 0, 20, 20);
+        sqstand = new TextureRegion(squirrelTexture,60,0,20,20);
         TextureRegion[] sqs = {squp, sqmid, sqdown};
         sqAnim = new Animation(1 / 16f, sqs);
         sqAnim.setPlayMode(Animation.PlayMode.NORMAL);
@@ -465,6 +483,13 @@ public class AssetHelper {
 
 
         //FX
+        warnings = new TextureRegion[8];
+        for (int i=0;i<warnings.length;i++){
+            warnings[i] = new TextureRegion(warningTexture,i*16,0,16,16);
+        }
+        warningAnim = new Animation(1/30f, warnings);
+        warningAnim.setPlayMode(Animation.PlayMode.NORMAL);
+
         explosion1 = new TextureRegion[6];
         for (int i = 0; i < 6; i++)
             explosion1[i] = new TextureRegion(limeexplosionTexture, i * 17, 0, 17, 17);
@@ -539,7 +564,7 @@ public class AssetHelper {
 
         waveheadParticle = new ParticleEffect();
         waveheadParticle.load(Gdx.files.internal("data/particles/wavehead.p"),Gdx.files.internal("data/"));
-        waveheadPool = new ParticleEffectPool(waveheadParticle,0,3);
+        waveheadPool = new ParticleEffectPool(waveheadParticle,0,5);
 
         smokeParticle = new ParticleEffect();
         smokeParticle.load(Gdx.files.internal("data/particles/smoke.p"),Gdx.files.internal("data/particles/"));
@@ -547,7 +572,11 @@ public class AssetHelper {
 
         fireParticle = new ParticleEffect();
         fireParticle.load(Gdx.files.internal("data/particles/firep.p"),Gdx.files.internal("data/particles/"));
-        firePool = new ParticleEffectPool(fireParticle,0,3);
+        firePool = new ParticleEffectPool(fireParticle,0,10);
+
+        thunderParticle = new ParticleEffect();
+        thunderParticle.load(Gdx.files.internal("data/particles/thunder.p"),Gdx.files.internal("data/particles"));
+        thunderPool = new ParticleEffectPool(thunderParticle,0,16);
     }
 
     private static void loadFonts() {

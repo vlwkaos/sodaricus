@@ -67,7 +67,7 @@ public class FirePropulsion extends GameEvent {
 
         //fire hits bomberboss
         if (isVISIBLE()) {
-            if (bomberBoss.getInvtime()>3.0f && Intersector.overlapConvexPolygons(bomberBoss.getHitbox(), getHitbox())) {
+            if (bomberBoss.getInvtime()>2.0f && Intersector.overlapConvexPolygons(bomberBoss.getHitbox(), getHitbox())) {
                 bomberBoss.hit();
             }
         }

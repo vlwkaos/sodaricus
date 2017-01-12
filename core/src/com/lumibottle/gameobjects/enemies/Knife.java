@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
+import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.gameobjects.Squirrel;
+import com.lumibottle.helper.FXHelper;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -66,7 +68,9 @@ public class Knife extends GameEvent {
     }
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()), 0, 0, 0);
+        float rand = MathUtils.random(GameScreen.gameHeight- getHeight());
+        FXHelper.getInstance().newFX(240-16,rand+getHeight()/2-8, FX.WARN);
+        super.reset(x, rand, 0, 0, 0);
         targetAquired=false;
     }
 

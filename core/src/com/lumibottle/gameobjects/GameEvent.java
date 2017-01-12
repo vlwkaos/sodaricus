@@ -149,8 +149,8 @@ public abstract class GameEvent {
     }
 
     public void bottleHitsEnemy(Bullet b) {
-        FXHelper.getInstance().newFX(b.getX(), b.getY(), FX.SODA_EXPLOSION);
-        hit();
+        if (getX()+getWidth()/2 <240)
+            hit();
         b.hit();
     }
 
@@ -205,6 +205,10 @@ public abstract class GameEvent {
     public void addTheta(float theta) {
         this.theta += theta;
     }
+
+    public int getHP(){return hitpoint;}
+
+    public int getMaxhp(){return maxhp;}
 
     public float getX() {
         return position.x;

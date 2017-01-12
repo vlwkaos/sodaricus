@@ -21,6 +21,7 @@ public class FX {
     public static final short BOMB_EXPLOSION = 3;
     public static final short QUANTUM_EXPLOSION = 4;
     public static final short POOF = 5;
+    public static final short WARN = 6;
 
 
 
@@ -99,8 +100,12 @@ public class FX {
             case 4:
                 myAnimation = AssetHelper.deadAnim;
                 break;
-            default:
-                //5,6,7 same but render, different size
+            case 5:
+                myAnimation = AssetHelper.cloudexplosionAnim;
+                break;
+            case 6:
+                myAnimation = AssetHelper.warningAnim;
+                break;
         }
 
     }
@@ -129,8 +134,10 @@ public class FX {
                 break;
             case 5:
                 myAnimation = AssetHelper.cloudexplosionAnim;
-            default:
-                //5,6,7 same but render, different size
+                break;
+            case 6:
+                myAnimation = AssetHelper.warningAnim;
+                break;
         }
 
     }

@@ -36,10 +36,16 @@ public class Item extends GameEvent {
         switch (type){
             case 0:
                 squirrel.incrementLife();
+                SoundManager.getInstance().play(SoundManager.ONEUP);
                 break;
+            case 1:
+                SoundManager.getInstance().stop(SoundManager.POW);
+                SoundManager.getInstance().play(SoundManager.POW);
+                squirrel.setRamseyThunder(true);
+
         }
 
-        SoundManager.getInstance().play(SoundManager.ONEUP);
+
         silentDead();
     }
 
@@ -48,7 +54,7 @@ public class Item extends GameEvent {
     }
 
     public void reset(float x, int type) {
-        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()) , -70, 0, 0);
+        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()) , -100, 0, 0);
         this.type = type;
     }
 

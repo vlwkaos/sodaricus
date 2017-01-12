@@ -26,7 +26,7 @@ public class Cowboy extends GameEvent {
 
 
     public Cowboy() {
-        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 1);
+        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 2);
     }
 
     @Override

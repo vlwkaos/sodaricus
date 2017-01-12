@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.lumibottle.gameobjects.Bullets.Bullet;
+import com.lumibottle.gameobjects.FX;
 import com.lumibottle.gameobjects.GameEvent;
 import com.lumibottle.helper.AssetHelper;
 import com.lumibottle.helper.FXHelper;
@@ -49,7 +50,7 @@ public class LaserCrayon extends GameEvent {
             if (getdX() > 0 && currentState == LaserCrayonState.INIT) {
                 currentState = LaserCrayonState.READYTOSHOOT;
                 setVelocity(0, 0);
-                FXHelper.getInstance().newFX(0 - (240 - getX()), getY() - 12f, (short) 1);
+                FXHelper.getInstance().newFX(0 - (240 - getX()), getY() - 12f, FX.LASER_LINE);
                 delay = 0;
             }
 
@@ -71,7 +72,7 @@ public class LaserCrayon extends GameEvent {
                         0, -10.5f,
                         -240, -10.5f});
                 //put fx
-                FXHelper.getInstance().newFX(0 - (240 - getX()), getY() - 12f, (short) 2);
+                FXHelper.getInstance().newFX(0 - (240 - getX()), getY() - 12f, FX.LASER_SHOT);
                 currentState = LaserCrayonState.SHOT;
                 delay = 0;
             }
@@ -91,7 +92,9 @@ public class LaserCrayon extends GameEvent {
 
 
     public void reset(float x) {
-        super.reset(x, MathUtils.random(GameScreen.gameHeight- getHeight()), -50, 0, 0);
+        float rand = MathUtils.random(GameScreen.gameHeight- getHeight());
+        FXHelper.getInstance().newFX(240-16,rand+getHeight()/2-8, FX.WARN);
+        super.reset(x, rand, -50, 0, 0);
         energyParticle = AssetHelper.energyPool.obtain();
         runTime = 0;
         delay = 0;

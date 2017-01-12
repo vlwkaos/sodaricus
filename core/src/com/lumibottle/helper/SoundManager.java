@@ -30,6 +30,10 @@ public class SoundManager {
     final public static int BOMB = 8;
     final public static int POWUP = 9;
     final public static int ONEUP = 10;
+    final public static int LASER_LINE = 11;
+    final public static int LASER_SHOT = 12;
+    final public static int WARN = 13;
+    final public static int POW = 14;
 
 
 
@@ -44,6 +48,10 @@ public class SoundManager {
     private static Sound bomb;
     private static Sound powup;
     private static Sound oneup;
+    private static Sound laserline;
+    private static Sound lasershot;
+    private static Sound warn;
+    private static Sound pow;
 
     private static Music bg;
 
@@ -78,6 +86,13 @@ public class SoundManager {
         bomb = Gdx.audio.newSound(Gdx.files.internal("data/sound/bomb.wav"));
         powup = Gdx.audio.newSound(Gdx.files.internal("data/sound/powerup.wav"));
         oneup = Gdx.audio.newSound(Gdx.files.internal("data/sound/1up.wav"));
+        pow = Gdx.audio.newSound(Gdx.files.internal("data/sound/thunder.wav"));
+
+        laserline = Gdx.audio.newSound(Gdx.files.internal("data/sound/laser_line.wav"));
+        lasershot = Gdx.audio.newSound(Gdx.files.internal("data/sound/laser_shot.wav"));
+
+        warn = Gdx.audio.newSound(Gdx.files.internal("data/sound/warn.wav"));
+
 
         bg = Gdx.audio.newMusic(Gdx.files.internal("data/sound/soda.wav"));
         bg.setLooping(true);
@@ -98,6 +113,12 @@ public class SoundManager {
         bomb.dispose();
         powup.dispose();
         oneup.dispose();
+        pow.dispose();
+
+        laserline.dispose();
+        lasershot.dispose();
+
+        warn.dispose();
 
         bg.dispose();
         Gdx.app.log("Sound","disposed");
@@ -128,8 +149,31 @@ public class SoundManager {
             case BOMB: bomb.play(mute); break;
             case POWUP: powup.play(mute); break;
             case ONEUP: oneup.play(mute); break;
+            case LASER_LINE: laserline.play(mute); break;
+            case LASER_SHOT: lasershot.play(mute); break;
+            case WARN: warn.play(mute); break;
+            case POW: pow.play(mute); break;
         }
+    }
 
+    public void stop(int id){
+        switch(id){
+            case KILL: kill.stop(); break;
+            case HIT: hit.stop(); break;
+            case JUMP: jump.stop(); break;
+            case DEAD: dead.stop(); break;
+            case HURT: hurt.stop(); break;
+            case SELECT: select.stop(); break;
+            case FIRE: fire.stop(); break;
+            case THRO: thro.stop(); break;
+            case BOMB: bomb.stop(); break;
+            case POWUP: powup.stop(); break;
+            case ONEUP: oneup.stop(); break;
+            case LASER_LINE: laserline.stop(); break;
+            case LASER_SHOT: lasershot.stop(); break;
+            case WARN: warn.stop(); break;
+            case POW: pow.stop(); break;
+        }
     }
 
     public void toggleMute(){

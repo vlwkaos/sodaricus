@@ -97,7 +97,11 @@ public class PangBoss extends GameEvent {
     @Override
     public void dead() {
         super.dead();
-        breeding = true;
+        if (generation < max_gen)
+            breeding = true;
+        else
+            breeding = false;
+
     }
 
     public void reset(float x, float y, int n) {

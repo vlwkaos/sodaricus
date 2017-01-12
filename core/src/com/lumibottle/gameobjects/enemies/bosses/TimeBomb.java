@@ -49,11 +49,10 @@ public class TimeBomb extends GameEvent {
                     addTheta(delta*720.0f);
                 }
                     break;
-                case TICK: if (timer > 2.0f){
+                case TICK: if (timer > 1.8f){
                     // 초후 폭발
                     currentState = TimeBombState.EXPLODE;
-                } else {
-
+                    setVelocity(getdX()/2,getdY()/2);
                 }
                     break;
             }
@@ -98,9 +97,8 @@ public class TimeBomb extends GameEvent {
     }
 
 
-    @Override
-    public void hit(){
-        currentState = TimeBombState.EXPLODE;
+    public void hit(Bullet b){
+        setVelocity(getdX()+b.getVelocity().x/2,getdY()+b.getVelocity().y/2);
         //체력 상관없다
     }
 
@@ -116,8 +114,7 @@ public class TimeBomb extends GameEvent {
         FXHelper.getInstance().newFX(b.getX(), b.getY(), FX.SODA_EXPLOSION);
 
         if (isTICKstate())
-            hit();
-
+            hit(b);
         b.hit();
 
     }

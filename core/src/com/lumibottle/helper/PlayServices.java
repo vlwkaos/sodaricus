@@ -5,11 +5,13 @@ package com.lumibottle.helper;
  */
 
 public interface PlayServices {
-    public void signIn();
-    public void signOut();
-    public void unlockAchievement(int num);
-    public void submitScore(int highScore);
-    public void showAchievement();
-    public void showScore();
-    public boolean isSignedIn();
+    void signIn();
+    void signOut();
+    void unlockAchievement(int num);
+    void submitScore(int highScore);
+    void showAchievement();
+    void showScore();
+    boolean isSignedIn();
+    void showAd();
+    void hideAd();
 }

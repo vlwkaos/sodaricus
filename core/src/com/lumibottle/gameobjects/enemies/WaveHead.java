@@ -13,7 +13,7 @@ import com.lumibottle.screen.GameScreen;
 /**
  * Created by MG on 2016-09-01.
  */
-public class WaveHead extends GameEvent {
+public class  WaveHead extends GameEvent {
 
 
 

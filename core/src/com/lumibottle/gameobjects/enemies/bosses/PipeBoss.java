@@ -26,7 +26,7 @@ public class PipeBoss extends GameEvent {
     private float hitAnimRunTime;
 
     public PipeBoss() {
-        super(32, 32, new Polygon(new float[]{4, 9, 4, 25, 25, 25, 25, 9}), 20); // render height is different
+        super(32, 32, new Polygon(new float[]{4, 9, 4, 25, 25, 25, 25, 9}), 22); // render height is different
         gotHit = false;
         hitAnimRunTime = 0;
         shootCount = 0;
@@ -85,7 +85,7 @@ public class PipeBoss extends GameEvent {
     }
 
     public void reset() {
-        super.reset(240, (GameScreen.gameHeight / 2.0f) - getHeight()/2, 0, 0, 0);
+        super.reset(260, (GameScreen.gameHeight / 2.0f) - getHeight()/2, 0, 0, 0);
     }
 
     @Override

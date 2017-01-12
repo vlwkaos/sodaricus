@@ -47,10 +47,18 @@ public class ScoreHelper {
     }
 
     public String getScore(){return String.format(Locale.getDefault(),"%06d",score);}
+
+    public int getIntScore() {return score;}
+
     public String getBest(){return String.format(Locale.getDefault(),"%06d",best);}
 
-    public void saveScore(){
+    public void saveScore(float runTime){
         //best,
+        if (score >(int)(runTime*100)) {
+            best = -1;
+            return;
+        }
+
         if (score > best) {
             best = score;
             preferences.putInteger("best", score);

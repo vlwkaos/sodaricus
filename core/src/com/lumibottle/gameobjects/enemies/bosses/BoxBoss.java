@@ -24,19 +24,23 @@ public class BoxBoss extends GameEvent {
     private float hitAnimRunTime;
     private float offsetHeight;
 
+    private float throwFrequency;
+
     private boolean gotHit;
 
     private Squirrel mySquirrel;
 
 
     public BoxBoss(Squirrel s) {
-        super((int) (GameScreen.gameHeight / 5), (int) (GameScreen.gameHeight / 5), new Polygon(new float[]{0, 0, (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5), (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5)}), 20);
+        super((int) (GameScreen.gameHeight / 5), (int) (GameScreen.gameHeight / 5), new Polygon(new float[]{0, 0, (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5), (GameScreen.gameHeight / 5), 0, (GameScreen.gameHeight / 5)}), 28);
         //dynamic size according to scren height
         runTime = 0;
         hitAnimRunTime = 0;
         mySquirrel = s;
         gotHit = false;
         currentState = BoxState.IDLE;
+
+        throwFrequency = 4.0f;
 
         offsetHeight = getHeight() - s.getHeight();
         offsetHeight /= 2.0f;
@@ -69,7 +73,10 @@ public class BoxBoss extends GameEvent {
                     if (getY() + getHeight() > GameScreen.gameHeight)
                         setY(GameScreen.gameHeight - getHeight());
 
-                    if (runTime > 4.0f) {
+                    if (getHP() < getMaxhp()/2f)
+                        throwFrequency= 3.5f;
+
+                    if (runTime > throwFrequency) {
                         currentState = BoxState.PREPARE;
                         runTime = 0;
                     }
@@ -118,7 +125,7 @@ public class BoxBoss extends GameEvent {
     }
 
     public void reset() {
-        super.reset(240, GameScreen.gameHeight / 2.0f - getHeight() / 2.0f, 0, 0, 0);
+        super.reset(260, GameScreen.gameHeight / 2.0f - getHeight() / 2.0f, 0, 0, 0);
         currentState = BoxState.IDLE;
         runTime = 0;
         gotHit = false;

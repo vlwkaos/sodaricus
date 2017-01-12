@@ -3,6 +3,7 @@ package com.lumibottle.gameobjects;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.lumibottle.gameobjects.Bullets.Bullet;
@@ -23,11 +24,13 @@ public class Squirrel {
     private SquirrelState currentState;
     private boolean isInvincible;
     private boolean isTransparent;
+    private boolean isRamseyThunder;
     private short life;
 
     private float runTime;
     private float animRunTime;
     private float invincTime;
+    private float thunderTime;
 
     //Vector Information
     private Vector2 position;
@@ -39,7 +42,7 @@ public class Squirrel {
     private int width, height;
     private float ceiling;
 
-    final private float shootFreq = 0.1f;
+    private float shootFreq = 0.1f;
     private Bullet[] bullets;// hold for optimum performance
     private ParticleEffect sodaburst;
 
@@ -57,7 +60,9 @@ public class Squirrel {
         invincTime = 0;
         isInvincible = true;// 나중에 바꿔 무적시간.
         isTransparent = false;
-        life = 1;//life
+        isRamseyThunder = false;
+        thunderTime = 0.0f;
+        life = -1;//life
 
         ceiling = GameScreen.gameHeight - getHeight() / 2.0f;// temporary
 
@@ -68,9 +73,9 @@ public class Squirrel {
 		/*
         init bullet
 		 */
-        bullets = new Bullet[12];
+        bullets = new Bullet[20];
         for (int i = 0; i < bullets.length; i++)
-            bullets[i] = new Bullet();
+            bullets[i] = new Bullet(this);
 
         runTime = 0;
         sodaburst = AssetHelper.sodaburstPool.obtain();
@@ -95,22 +100,25 @@ public class Squirrel {
 		/*
 		SHOOTING MECHANIC
 		 */
-                if (runTime > shootFreq && isIDLE()) {// shooting speed adjust
-                    runTime -= shootFreq;
-                    animRunTime = 0;
-                    currentState = SquirrelState.SHOOTING;
-                    for (com.lumibottle.gameobjects.Bullets.Bullet b : bullets) {
-                        if (b.isDEAD()) {
-                            SoundManager.getInstance().play(SoundManager.THRO);
-                            b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 250, rotation); // speed
-                            break;
-                        }
+                if (isRamseyThunder){
+                    thunderTime+=delta;
+                    shootFreq = 0.02f;
+                    if (thunderTime > 5.5f){
+                        thunderTime = 0.0f;
+                        isRamseyThunder = false;
+                        shootFreq = 0.1f;
                     }
-                    //shoot bullet
-                } else if (runTime > 0.2f && isSHOOTING()) {
-                    runTime -= 0.2f;
-                    currentState = SquirrelState.IDLE;
                 }
+
+                if (isRamseyThunder){
+                    if (thunderTime > 0.5f){
+                        shoot();
+                    }
+                } else {
+                    shoot();
+                }
+
+
 		/*
 		Position constraints
 		 */
@@ -182,6 +190,29 @@ public class Squirrel {
 
     }
 
+    private void shoot(){
+        if (runTime > shootFreq && isIDLE()) {// shooting speed adjust
+            runTime = 0;
+            animRunTime = 0;
+            currentState = SquirrelState.SHOOTING;
+            for (com.lumibottle.gameobjects.Bullets.Bullet b : bullets) {
+                if (b.isDEAD()) {
+                    if (!isRamseyThunder) {
+                        SoundManager.getInstance().play(SoundManager.THRO);
+                        b.reset(position.x + getWidth() / 2f, position.y + getHeight() / 2f, 250, 250, rotation, false); // speed
+                    }else
+                        b.reset(position.x + getWidth() / 2f + MathUtils.random(-30,30), GameScreen.gameHeight,0,-250,rotation,true);
+
+                    break;
+                }
+            }
+            //shoot bullet
+        } else if (runTime > shootFreq*2 && isSHOOTING()) {
+            runTime = 0;
+            currentState = SquirrelState.IDLE;
+        }
+    }
+
     public void onClick() {
 
         //change how respawn is handled later
@@ -195,6 +226,9 @@ public class Squirrel {
     }
 
     public void dead() {
+
+        SoundManager.getInstance().stop(SoundManager.POW);
+
         FXHelper.getInstance().newFX(getX() - 108 / 2f, getY() - 108 / 2f, FX.QUANTUM_EXPLOSION);
         AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
         rotation = 0;
@@ -202,18 +236,26 @@ public class Squirrel {
         position.set(-5.0f * width, GameScreen.midPointY);
         isInvincible = true;
         isTransparent = true;
+        isRamseyThunder = false;
+        thunderTime = 0.0f;
+
         invincTime = 0;
+        shootFreq = 0.1f;
         life--;
     }
 
     public void realDead(){
+        SoundManager.getInstance().stop(SoundManager.POW);
         AssetHelper.sodaburstPool.free((ParticleEffectPool.PooledEffect) sodaburst);
         rotation = 0;
         currentState = SquirrelState.SPAWNING;
         position.set(-5.0f * width, GameScreen.midPointY);
         isInvincible = true;
         isTransparent = true;
+        isRamseyThunder = false;
+        thunderTime = 0.0f;
         invincTime = 0;
+        shootFreq = 0.1f;
         life= -1;
     }
 
@@ -291,6 +333,12 @@ public class Squirrel {
 
     void incrementLife(){life++;}
 
+    void setRamseyThunder(boolean sw){
+        isRamseyThunder = sw;
+        thunderTime = 0.0f;
+    }
+
+    public boolean isRamseyThunder(){return isRamseyThunder;}
 
     public short getLife() {
             return life;}
