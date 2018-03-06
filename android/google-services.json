@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "344345669079",
+    "firebase_url": "https://sodaricus-88693439.firebaseio.com",
+    "project_id": "sodaricus-88693439",
+    "storage_bucket": "sodaricus-88693439.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344345669079:android:c1f47600509975a1",
+        "android_client_info": {
+          "package_name": "com.lumibottle.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344345669079-sr7gc6uevhrh3u1e6vlmd3icd7g3t84e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lumibottle.game",
+            "certificate_hash": "772D3229BEE65B21A04AEF68CC80C844C9634EBB"
+          }
+        },
+        {
+          "client_id": "344345669079-i4n50te8u64qnf6bomtgb9ac0smad0ei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lumibottle.game",
+            "certificate_hash": "CD19A95E7966FDE7C581651CE31BEB20CF90CA55"
+          }
+        },
+        {
+          "client_id": "344345669079-28r9hg2d5jpkudak8feobosoro17fhhv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZoX97ILnJMl6-dbjeGLaCQnCUuaa9J8w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344345669079-28r9hg2d5jpkudak8feobosoro17fhhv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,7 +26,7 @@ public class Cowboy extends GameEvent {
 
 
     public Cowboy() {
-        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 2);
+        super(32, 48, new Polygon(new float[]{6, 0, 26, 0, 26, 32, 6, 32}), 1);
     }
 
     @Override
@@ -41,8 +41,8 @@ public class Cowboy extends GameEvent {
             runTime += delta;
             switch (currentState) {
                 case IDLE:
-                    if (runTime >= 2.0f) {
-                        runTime -= 2.0f;
+                    if (runTime >= 3.0f) {
+                        runTime = 0.0f;
                         currentState = CowboyState.PREPARE; // animation starts
                     }
                     break;

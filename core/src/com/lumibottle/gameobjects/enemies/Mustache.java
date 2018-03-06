@@ -18,7 +18,7 @@ public class Mustache extends GameEvent {
 
     private ParticleEffect rainbowParticle;
 
-    final private int speed = 130;
+    final private int speed = 140;
     private float runTime;
 
     public Mustache() {
@@ -36,13 +36,13 @@ public class Mustache extends GameEvent {
 
 
             if (!doneMoving && runTime >= .4f) {
-                runTime -= .4f;
+                runTime = 0.0f;
                 doneMoving = true;
                 nextTheta();
             }
 
-            if (doneMoving && runTime >= 1.2f) { // resting
-                runTime -= 1.2f;
+            if (doneMoving && runTime >= 1.0f) { // resting
+                runTime = 0.0f;
                 doneMoving = false;
             }
 

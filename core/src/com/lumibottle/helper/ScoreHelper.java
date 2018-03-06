@@ -54,7 +54,7 @@ public class ScoreHelper {
 
     public void saveScore(float runTime){
         //best,
-        if (score >(int)(runTime*100)) {
+        if (score >(int)(runTime*200)) {
             best = -1;
             return;
         }

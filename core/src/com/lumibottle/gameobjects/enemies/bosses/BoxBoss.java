@@ -58,6 +58,11 @@ public class BoxBoss extends GameEvent {
             if (getX() < 240 - getWidth()) {// fully appeared
                 //count
                 runTime += delta;
+                if (mySquirrel.isSPAWNING()){
+                    currentState = BoxState.IDLE;
+                    runTime = 0.0f;
+                }
+
                 if (currentState == BoxState.IDLE) {
                     if ((getY() + offsetHeight) - mySquirrel.getY() > 1) { // box is upper
                         setVelocity(0, -50);

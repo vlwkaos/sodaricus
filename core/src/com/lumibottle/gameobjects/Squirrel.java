@@ -47,6 +47,7 @@ public class Squirrel {
     private ParticleEffect sodaburst;
 
 
+
     private Polygon hitbox;
 
     public Squirrel(int width, int height) {
@@ -226,6 +227,8 @@ public class Squirrel {
     }
 
     public void dead() {
+
+
 
         SoundManager.getInstance().stop(SoundManager.POW);
 

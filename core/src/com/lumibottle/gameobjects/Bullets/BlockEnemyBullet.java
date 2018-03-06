@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.lumibottle.gameobjects.Squirrel;
 import com.lumibottle.screen.GameScreen;
 
 /**
@@ -47,5 +48,11 @@ public class BlockEnemyBullet extends EnemyBullet {
 
     }
 
+    public void enemyHitsSquirrel(Squirrel squirrel) {
+        if (getX()==minPosX)
+            myBlockspace[(int) getY() / getHeight()] -= getWidth();
+        dead();
+        squirrel.dead();
+    }
 
 }

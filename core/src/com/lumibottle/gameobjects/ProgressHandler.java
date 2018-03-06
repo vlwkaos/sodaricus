@@ -115,10 +115,13 @@ public class ProgressHandler {
                 ScoreHelper.getInstance().incrementScore(1000);
                 spawnItem(0); // spawn life
             }
-            spawnTimer += delta;
-            hazardTimer += delta;
-            bossFrequency +=delta;
-            itemTimer += delta;
+
+            if (!mySquirrel.isSPAWNING()) {
+                spawnTimer += delta;
+                hazardTimer += delta;
+                bossFrequency += delta;
+                itemTimer += delta;
+            }
 
             spawnEnemy();
             spawnHazard();
@@ -166,7 +169,22 @@ public class ProgressHandler {
         } else if (progress == 45){
             changed = true;
             hazardFrequency-=0.5f;// 3.5 -> 3.0
+        } else if (progress == 50){
+            changed = true;
+            hazardFrequency-=0.5f;// 3.0 -> 2.5
+        } else if (progress == 55){
+            changed = true;
+            hazardFrequency-=0.1f;// 2.5 -> 2.4
+        } else if (progress == 60){
+            changed = true;
+            hazardFrequency-=0.1f;// 2.4 -> 2.3
+        } else if (progress == 65){
+            changed = true;
+            hazardFrequency-=0.1f;// 2.3 -> 2.2
         }
+
+
+
         if (changed)
             SoundManager.getInstance().play(SoundManager.POWUP);
 
@@ -257,10 +275,11 @@ public class ProgressHandler {
     //every 500
     private void spawnItem(){
         if (ScoreHelper.getInstance().getIntScore() > itemFrequency){
-            itemFrequency+=MathUtils.random(850,1000);
+            itemFrequency+=MathUtils.random(800,950);
             spawnItem(1);
         }
-        if (itemTimer > 20.0f){
+        if (itemTimer > 22.0f){
+            itemFrequency+=500;
             spawnItem(1);
             itemTimer = 0.0f;
         }
@@ -693,7 +712,7 @@ public class ProgressHandler {
             waveheads[i] = new WaveHead();
 
 
-        cowboys = new Cowboy[4];
+        cowboys = new Cowboy[3];
         for (int i = 0; i < cowboys.length; i++)
             cowboys[i] = new Cowboy();
 
@@ -731,7 +750,7 @@ public class ProgressHandler {
 
         Gdx.app.log("ProgressHandler", "Bullets created");
 
-        blackholes = new Blackhole[2];
+        blackholes = new Blackhole[1];
         for (int i = 0; i < blackholes.length; i++)
             blackholes[i] = new Blackhole();
 
@@ -840,9 +859,13 @@ public class ProgressHandler {
         mySquirrel.realDead();
     }
 
+
+
     public void restart() {
 
         killAll();
+
+
 
         pause = false;
 
