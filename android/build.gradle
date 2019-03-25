@@ -7,8 +7,7 @@ android {
             storePassword 'fruitknife'
         }
     }
-    buildToolsVersion '26.0.2'
-    compileSdkVersion 23
+    compileSdkVersion 26
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -20,14 +19,14 @@ android {
             jniLibs.srcDirs = ['libs']
         }
 
-        instrumentTest.setRoot('tests')
+        androidTest.setRoot('tests')
     }
 
 
     defaultConfig {
         applicationId "com.lumibottle.game"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         multiDexEnabled true
     }
     buildTypes {
@@ -135,8 +134,8 @@ idea {
 dependencies {
 
 
-    compile 'com.google.firebase:firebase-ads:10.0.1'
-    compile 'com.android.support:multidex:1.0.1'
+    implementation 'com.google.firebase:firebase-ads:10.0.1'
+    implementation 'com.android.support:multidex:1.0.1'
 
 }
 

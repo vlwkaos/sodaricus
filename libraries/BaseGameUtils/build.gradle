@@ -3,10 +3,11 @@ apply plugin: 'com.android.library'
 buildscript {
     repositories {
         jcenter()
+        google()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:3.3.2'
     }
 }
 
@@ -22,10 +23,10 @@ dependencies {
         ext.gms_library_version = '10.0.1'
     }
 
-    compile "com.android.support:appcompat-v7:${appcompat_library_version}"
-    compile "com.android.support:support-v4:${support_library_version}"
-    compile "com.google.android.gms:play-services-games:${gms_library_version}"
-    compile "com.google.android.gms:play-services-plus:${gms_library_version}"
+    implementation "com.android.support:appcompat-v7:${appcompat_library_version}"
+    implementation "com.android.support:support-v4:${support_library_version}"
+    implementation "com.google.android.gms:play-services-games:${gms_library_version}"
+    implementation "com.google.android.gms:play-services-plus:${gms_library_version}"
 }
 
 android {
@@ -46,7 +47,6 @@ android {
     }
 
     compileSdkVersion android_compile_version
-    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion android_min_version

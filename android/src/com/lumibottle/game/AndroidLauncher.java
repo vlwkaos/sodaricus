@@ -67,9 +67,6 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
         //add both views
         layout.addView(gameView);
 
-        showAd();
-        hideAd();
-
         Gdx.app.log("AndroidLauncher", "app started--");
         setContentView(layout);
 
@@ -212,64 +209,5 @@ public class AndroidLauncher extends AndroidApplication implements PlayServices 
     }
 
 
-    @Override
-    public void showAd() {
-        handler.sendEmptyMessage(SHOW_ADS);
-    }
-
-    @Override
-    public void hideAd() {
-        handler.sendEmptyMessage(HIDE_ADS);
-    }
-
-
-    private final int SHOW_ADS = 1;
-    private final int HIDE_ADS = 0;
-
-    protected Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SHOW_ADS: {
-                    _showAd();
-                    break;
-                }
-                case HIDE_ADS: {
-                    _hideAd();
-                    break;
-                }
-            }
-        }
-    };
-
-    private void _showAd() {
-        //setup adview
-        if (mAdView == null) {
-            mAdView = new AdView(this);
-            mAdView.setAdSize(AdSize.SMART_BANNER);
-            mAdView.setAdUnitId(getString(R.string.banner_ad_unit_id));
-        }
-        if (adRequestBuilder == null) {
-            adRequestBuilder = new AdRequest.Builder();
-            adRequestBuilder.addTestDevice("C59742048F1AC7428A402544237A1753");
-        }
-
-        RelativeLayout.LayoutParams adParams =
-                new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        adParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        adParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-
-        mAdView.loadAd(adRequestBuilder.build());
-        mAdView.setVisibility(View.VISIBLE);
-        layout.addView(mAdView, adParams);
-    }
-
-    private void _hideAd() {
-        if (mAdView != null) {
-            mAdView.setVisibility(View.GONE);
-            layout.removeView(mAdView);
-        }
-    }
 
 }

@@ -95,7 +95,6 @@ public class GameWorld {
                     runTime_2 = 0.0f;
 
                     myGameState = GameState.GAMEOVER;
-                    GameMain.playServices.showAd();
                 }
 
                 if (!myStage.getPause()) {
@@ -136,7 +135,6 @@ public class GameWorld {
             SoundManager.getInstance().toggleBGM();
         } else if (myGameState == GameState.GAMEOVER){
             if (runTime_2 > 2.0f){
-                GameMain.playServices.hideAd();
                 //to title
                 runTime = 0.0f;
                 runTime_2 = 0.0f;
@@ -195,7 +193,6 @@ public class GameWorld {
         } else if (myGameState == GameState.GAMEOVER) {
             if (runTime_2 > 2.0f) {
                 if (calcGameX(screenX) > 40 && calcGameX(screenX) < 80 && calcGameY(screenY) > GameScreen.gameHeight * 0.6f && calcGameY(screenY) < GameScreen.gameHeight * 0.8f ) {
-                    GameMain.playServices.hideAd();
                     //to title
                     runTime = 0.0f;
                     runTime_2 = 0.0f;
@@ -206,8 +203,7 @@ public class GameWorld {
                     //high score
                     GameMain.playServices.showScore();
                 } else if (calcGameX(screenX) > 160 && calcGameX(screenX) < 200  && calcGameY(screenY)>GameScreen.gameHeight*0.6f && calcGameY(screenY) < GameScreen.gameHeight * 0.8f ){
-                    GameMain.playServices.hideAd();
-                    //retry
+             //retry
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.PLAYING;
                     runTime = 0.0f;

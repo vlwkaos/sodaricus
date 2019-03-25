@@ -2,13 +2,14 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-        jcenter()
         google()
+        jcenter()
+
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
+        classpath 'com.google.gms:google-services:3.2.1'
     }
 }
 
@@ -39,10 +40,10 @@ project(":desktop") {
 
 
     dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        implementation project(":core")
+        implementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        implementation "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
     }
 }
 
@@ -52,18 +53,18 @@ project(":android") {
     configurations { natives }
 
     dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
+        implementation project(":core")
+        implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-x86"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-x86"
-        compile 'com.google.android.gms:play-services-games:10.0.1'
+        implementation 'com.google.android.gms:play-services-games:10.0.1'
         // 8.4 is the latest as of now, keep it updated
-        compile project(':BaseGameUtils')
+        implementation project(':BaseGameUtils')
     }
 }
 
@@ -72,15 +73,14 @@ project(":core") {
 
 
     dependencies {
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
+        implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
     }
 }
 
 tasks.eclipse.doLast {
     delete ".project"
 }
-
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '3.0'
 }

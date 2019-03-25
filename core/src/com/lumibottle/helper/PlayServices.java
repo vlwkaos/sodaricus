@@ -12,6 +12,4 @@ public interface PlayServices {
     void showAchievement();
     void showScore();
     boolean isSignedIn();
-    void showAd();
-    void hideAd();
 }
