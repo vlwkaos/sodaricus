@@ -20,7 +20,7 @@ Flappy bird-like game but not a clone. Made using libgdx back in the day.
 </p>
 
 <p align="center">
-   <img src="https://i.imgur.com/VQ4k3rt.png" width="480px"/>
+   <img src="https://i.imgur.com/rXoAR4w.png" width="480px"/>
    <br> Screenshot 2
 </p>
 
