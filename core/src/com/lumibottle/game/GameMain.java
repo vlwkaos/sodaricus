@@ -5,21 +5,12 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.lumibottle.helper.AssetHelper;
-import com.lumibottle.helper.PlayServices;
 import com.lumibottle.screen.GameScreen;
 
 
 public class GameMain extends Game implements ApplicationListener {
 
-    public static PlayServices playServices;
 
-    public GameMain(){
-
-    }
-
-    public GameMain(PlayServices playServices){
-        this.playServices = playServices;
-    }
 
     @Override
     public void create() {

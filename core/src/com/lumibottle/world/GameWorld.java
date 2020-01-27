@@ -166,7 +166,7 @@ public class GameWorld {
                     runTime = 0.0f;
                     runTime_2 = 0.0f;
                     myStage.restart();
-                } else if (calcGameX(screenX) > 200.0f && calcGameY(screenY)> 125.0f){
+                } else if (calcGameX(screenX) > 200.0f && calcGameY(screenY)> 100.0f){
                     SoundManager.getInstance().play(SoundManager.SELECT);
                     myGameState = GameState.ABOUT;
                 } else if (calcGameX(screenX) > 200.0f && calcGameY(screenY)<10.0f){
@@ -201,7 +201,7 @@ public class GameWorld {
 
                 } else if (calcGameX(screenX) > 100 && calcGameX(screenX) < 140 && calcGameY(screenY) > GameScreen.gameHeight * 0.6f && calcGameY(screenY) < GameScreen.gameHeight * 0.8f ) {
                     //high score
-                    GameMain.playServices.showScore();
+                 //   GameMain.playServices.showScore();
                 } else if (calcGameX(screenX) > 160 && calcGameX(screenX) < 200  && calcGameY(screenY)>GameScreen.gameHeight*0.6f && calcGameY(screenY) < GameScreen.gameHeight * 0.8f ){
              //retry
                     SoundManager.getInstance().play(SoundManager.SELECT);

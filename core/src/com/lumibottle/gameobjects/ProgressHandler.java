@@ -110,7 +110,6 @@ public class ProgressHandler {
         if (noBossAlive()) {
             if (bossStage != -1) { // after a boss fight
                 itemFrequency+=1000;
-                GameMain.playServices.unlockAchievement(bossStage);
                 bossStage = -1;
                 ScoreHelper.getInstance().incrementScore(1000);
                 spawnItem(0); // spawn life

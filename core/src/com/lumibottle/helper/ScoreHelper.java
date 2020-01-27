@@ -38,8 +38,6 @@ public class ScoreHelper {
 
     public void incrementScore(int add){
         score+=add;
-        if (score >= 5000)
-            GameMain.playServices.unlockAchievement(4);
     }
 
     public void resetScore(){
@@ -63,7 +61,6 @@ public class ScoreHelper {
             best = score;
             preferences.putInteger("best", score);
             getPrefs().flush();
-            GameMain.playServices.submitScore(score);
         }
     }
 

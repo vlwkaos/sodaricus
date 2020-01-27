@@ -422,7 +422,7 @@ public class GameRenderer {
 
     //TODO a
     private void drawAbout(){
-        String text = "SODARICUS v1.2.3";
+        String text = "SODARICUS v1.2.5";
         font.getData().setScale(0.16f);
         font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.85f);
 
@@ -459,10 +459,10 @@ public class GameRenderer {
             font.getData().setScale(0.16f);
             font.draw(spriteBatch, text, 60 - (text.length()*5.1f)/2, gameHeight*0.30f);
 
-            text = "High Scores";
+            /*text = "High Scores";
             font.getData().setScale(0.16f);
             font.draw(spriteBatch, text, 120 - (text.length()*5.1f)/2, gameHeight*0.30f);
-
+*/
             text = "Retry";
             font.getData().setScale(0.16f);
             font.draw(spriteBatch, text, 180 - (text.length()*5.1f)/2, gameHeight*0.30f);
