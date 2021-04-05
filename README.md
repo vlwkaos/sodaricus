@@ -37,7 +37,7 @@ Flappy bird-like game but not a clone. Made using libgdx back in the day.
 
 ### MIT License
 
-    Copyright (c) 2016 pizzakinggod/instandpood
+    Copyright (c) 2016. pizzakinggod/instandpood/vlwkaos
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
