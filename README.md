@@ -1,4 +1,7 @@
 # sodaricus
+
+[Google Play Link](https://play.google.com/store/apps/details?id=com.lumibottle.game&hl=en&gl=US)
+
 Flappy bird-like game but not a clone. Made using libgdx back in the day.
 
 **Features**
